@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 export default function Dashboard() {
     return (
         <div>
@@ -7,6 +9,11 @@ export default function Dashboard() {
                 This route should be protected. If your seeing this and not
                 logged in pls report bug
             </h1>
+            <br />
+            <h2>
+                Check out team page by clicking <Link to="/teamview">here</Link>{" "}
+                or in the navbar
+            </h2>
         </div>
     );
 }

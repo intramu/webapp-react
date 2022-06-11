@@ -10,6 +10,8 @@ import Auth from './layouts/Auth';
 import Profile from './profile/Profile';
 import Test from './Test';
 import CreateProfile from './profile/CreateProfile';
+import TeamView from './team/TeamView';
+import Network from './team/Network';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -19,6 +21,7 @@ root.render(
     domain="dev-5p-an07k.us.auth0.com"
     clientId="fSMneHc4uoLgAmfFZA9WUyHWULdXku4O"
     redirectUri="http://localhost:3000/dashboard"
+    audience='https://server-authorization/'
   >
     <BrowserRouter>
       <Routes>
@@ -27,13 +30,14 @@ root.render(
           <Route element={<PlayerLayout />}>
             <Route path='/dashboard' element={<Dashboard />} />
             <Route path='/profile' element={<Profile />} />
+            <Route path='/teamview' element={<TeamView />} />
+            <Route path='/team/network' element={<Network />} />
           </Route>
 
         </Route>
         <Route path='/createprofile' element={<CreateProfile />} />
         <Route path='/test' element={<Test />} />
-
-
+        <Route path='*' element={<main><p>There's nothing at this route. Sorry!</p></main>} />
 
       </Routes>
     </BrowserRouter>
