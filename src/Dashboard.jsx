@@ -11,8 +11,8 @@ export default function Dashboard() {
             </h1>
             <br />
             <h2>
-                Check out team page by clicking <Link to="/teamview">here</Link>{" "}
-                or in the navbar
+                Check out team page by clicking{" "}
+                <Link to="/team/team-view">here</Link> or in the navbar
             </h2>
         </div>
     );

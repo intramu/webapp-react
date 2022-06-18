@@ -1,92 +1,97 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { useEffect, useState } from "react";
-import TeamCard from "../components/TeamCard";
-import instance from "../endpoint";
+import { sort } from "../common/functions/sortRoster";
+import NetworkCard from "./components/NetworkCard";
+import { apiJoinTeam } from "../common/api.ts";
+import { apiShowAllTeams } from "../common/api.ts";
 
 export default function Network() {
     const [teamList, setTeamList] = useState([]);
+    const [responseMessage, setResponseMessage] = useState("");
     const { user, getAccessTokenSilently } = useAuth0();
+    const [filterOptions, setFilterOptions] = useState({
+        sport: "",
+        name: "",
+        visibility: "",
+    });
 
     const joinTeam = async (teamId) => {
-        let userJoinCredentials = { playerId: user.sub, teamId: teamId };
-        let accessToken = await getAccessTokenSilently();
+        try {
+            let token = await getAccessTokenSilently();
+            let response = apiJoinTeam(token, user.sub, teamId);
 
-        let joinResponse = await instance.post(
-            "/team/joinOpenTeam",
-            userJoinCredentials,
-            {
-                headers: {
-                    Authorization: `Bearer ${accessToken}`,
-                },
+            if (response.data.code < 1) throw Error("Couldnt join team");
+            for (let x = 0; x < teamList.length; x++) {
+                if (teamList[x].team_ID === 6) {
+                    let temp = { ...teamList };
+                    temp[x].VISIBILITY = "CLOSED";
+                    setTeamList(Object.values(temp));
+                }
             }
-        );
-
-        let j;
-
-        switch (joinResponse.data.code) {
-            case -1:
-                return <div>Network Error X(</div>;
-            case 0:
-                console.log("Team is at max size or closed");
-                break;
-            case 1:
-                console.log("Joined Team");
-                break;
+        } catch (error) {
+            console.log(error);
         }
+    };
+
+    const requestToJoinTeam = async (teamId) => {
+        //Needs to be implemented
+        console.log(teamId);
     };
 
     useEffect(() => {
         const showAllTeams = async () => {
-            let accessToken = await getAccessTokenSilently();
-            console.log(accessToken);
             try {
-                let response = await instance.post(
-                    "/team/showAllTeams",
-                    { message: "empty" },
-                    {
-                        headers: {
-                            "Content-Type": "application/json",
-                            Authorization: `Bearer ${accessToken}`,
-                        },
-                    }
-                );
+                let token = await getAccessTokenSilently();
+                let response = await apiShowAllTeams(token);
 
                 console.log(response);
-                console.log(response.message);
-                if (response.status !== 200) {
-                    console.log("Fetch error to /team/showAllTeams");
-                    return;
+                console.log(response.data.message);
+                if (response.data.code < 1) {
+                    throw new Error("Error getting all teams");
                 }
 
-                // Assigning just the result data to a variable
                 let data = response.data.dataPackage;
-                const test = ["Stevan", "Jacob", "Noah", "David"];
-                setTeamList(
-                    data.map((element, index) => {
-                        console.log(element);
-                        return (
-                            <TeamCard
-                                key={index}
-                                id={element.ID}
-                                name={element.NAME}
-                                wins={element.WINS}
-                                ties={element.TIES}
-                                losses={element.LOSSES}
-                                image={element.IMAGE}
-                                roster={test}
-                                visibility={element.VISIBILITY}
-                                dateCreated={element.DATE_CREATED}
-                                joinTeam={joinTeam}
-                            />
-                        );
-                    })
-                );
+                let sortedData = sort(data);
+                setTeamList(sortedData);
             } catch (error) {
-                console.log("Unknown Error");
+                console.log(error);
             }
         };
+
         showAllTeams();
     }, []);
 
-    return <main>{teamList}</main>;
+    // if()
+
+    return (
+        <main>
+            <h1>Network</h1>
+            <h3>Search through the network of teams and find one you like</h3>
+            {/* < */}
+            <h2>{responseMessage ? responseMessage : ""}</h2>
+            {teamList.length &&
+                teamList.map((element, index) => {
+                    return (
+                        <NetworkCard
+                            key={index}
+                            id={element.team_ID}
+                            sport={element.SPORT}
+                            name={element.NAME}
+                            wins={element.WINS}
+                            ties={element.TIES}
+                            losses={element.LOSSES}
+                            image={element.IMAGE}
+                            visibility={element.VISIBILITY}
+                            dateCreated={element.DATE_CREATED}
+                            currentTeamSize={element.CURRENT_TEAM_SIZE}
+                            maxTeamSize={element.MAX_TEAM_SIZE}
+                            roster={element.ROSTER}
+                            currentPlayerId={user.sub}
+                            joinTeam={joinTeam}
+                            requestToJoinTeam={requestToJoinTeam}
+                        />
+                    );
+                })}
+        </main>
+    );
 }

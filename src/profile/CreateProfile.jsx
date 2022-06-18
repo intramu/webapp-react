@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import instance from "../endpoint";
+// import instance from "../endpoint";
 import { useAuth0 } from "@auth0/auth0-react";
 import jwtDecode from "jwt-decode";
 
@@ -44,12 +44,12 @@ export default function CreateProfile() {
             let token = await getToken();
             setProfile((profile.id = token.sub));
 
-            const response = await instance.post("/createsecprofile", profile);
-            if (response.status === 200) {
-                console.log(response);
-                window.location.href = `https://dev-5p-an07k.us.auth0.com/continue?state=${state}`;
-            } else {
-            }
+            // const response = await instance.post("/createsecprofile", profile);
+            // if (response.status === 200) {
+            //     console.log(response);
+            //     window.location.href = `https://dev-5p-an07k.us.auth0.com/continue?state=${state}`;
+            // } else {
+            // }
         } catch (error) {
             console.log(error);
         }

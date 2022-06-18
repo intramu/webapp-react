@@ -38,7 +38,7 @@ export default function Navbar() {
                                 </Link>
                             </li>
                             <li className="nav-item">
-                                <Link to="/teamview" className="nav-link">
+                                <Link to="/team" className="nav-link">
                                     Team
                                 </Link>
                             </li>
