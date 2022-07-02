@@ -70,28 +70,15 @@ export default function Network() {
             {/* < */}
             <h2>{responseMessage ? responseMessage : ""}</h2>
             {teamList.length &&
-                teamList.map((element, index) => {
-                    return (
-                        <NetworkCard
-                            key={index}
-                            id={element.team_ID}
-                            sport={element.SPORT}
-                            name={element.NAME}
-                            wins={element.WINS}
-                            ties={element.TIES}
-                            losses={element.LOSSES}
-                            image={element.IMAGE}
-                            visibility={element.VISIBILITY}
-                            dateCreated={element.DATE_CREATED}
-                            currentTeamSize={element.CURRENT_TEAM_SIZE}
-                            maxTeamSize={element.MAX_TEAM_SIZE}
-                            roster={element.ROSTER}
-                            currentPlayerId={user.sub}
-                            joinTeam={joinTeam}
-                            requestToJoinTeam={requestToJoinTeam}
-                        />
-                    );
-                })}
+                teamList.map((team, index) => (
+                    <NetworkCard
+                        key={index}
+                        team={team}
+                        currentPlayerId={user.sub}
+                        joinTeam={joinTeam}
+                        requestToJoinTeam={requestToJoinTeam}
+                    />
+                ))}
         </main>
     );
 }

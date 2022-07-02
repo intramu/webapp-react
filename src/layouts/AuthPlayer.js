@@ -1,10 +1,8 @@
-import { useAuth0 } from "@auth0/auth0-react";
+import { useAuth0, } from "@auth0/auth0-react";
 import { useNavigate, useLocation, Outlet, Navigate } from "react-router-dom";
 
-export default function Auth() {
-    let location = useLocation();
-
-    const { isAuthenticated, loginWithRedirect, isLoading, error } = useAuth0();
+export default function AuthPlayer() {
+    const { isAuthenticated, loginWithRedirect, isLoading, error, user } = useAuth0();
 
     if (error) {
         return (
@@ -19,7 +17,6 @@ export default function Auth() {
     }
 
     if (!isAuthenticated) {
-        console.log('false');
         loginWithRedirect();
         return;
     }

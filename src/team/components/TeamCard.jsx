@@ -10,18 +10,18 @@ const useStyles = createUseStyles({
     },
 });
 
-export default function TeamCard(props) {
+export default function TeamCard({ team, ...props }) {
     const classes = useStyles();
     const [roster, setRoster] = useState([]);
     const [checkPassword, setCheckPassword] = useState(false);
 
     useEffect(() => {
         setRoster(
-            props.roster.map((element, index) => {
-                console.log(element);
+            team.roster.map((player, index) => {
+                console.log(player);
                 return (
-                    <option key={index} value={element}>
-                        {element.FIRST_NAME}
+                    <option key={index} value={player}>
+                        {player.FIRST_NAME}
                     </option>
                 );
             })
@@ -30,15 +30,15 @@ export default function TeamCard(props) {
 
     const confirmBox = () => {
         if (window.confirm("Are you sure you want to leave?"))
-            props.leaveTeam(props.teamId);
+            props.leaveTeam(team.teamId);
     };
 
     return (
         <div className={classes.container} onClick={() => console.log("click")}>
-            <h3>{props.sport}</h3>
-            <h1>{props.name}</h1>
+            <h3>{team.sport}</h3>
+            <h1>{team.name}</h1>
             <p>
-                Record- W: {props.wins} | T: {props.ties} | L: {props.losses}
+                Record- W: {team.wins} | T: {team.ties} | L: {team.losses}
             </p>
             <div>
                 <h4>Roster</h4>
@@ -64,10 +64,10 @@ export default function TeamCard(props) {
             <CheckPassword
                 toggleBlur={props.toggleBlur}
                 leaveTeam={props.leaveTeam}
-                teamId={props.teamId}
+                teamId={team.teamId}
             />
 
-            <button onClick={() => props.updateTeam(props.teamId)}>
+            <button onClick={() => props.updateTeam(team.teamId)}>
                 Update
             </button>
         </div>

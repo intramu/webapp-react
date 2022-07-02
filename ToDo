@@ -1,0 +1,10 @@
+# 1
+Admin layout flashes error in console about not being able to read an undefined property
+Need to fix because it lets a potential user know that some kind of check is being performed on the user.
+
+
+# 2
+Fix entire state mangement in competition creator
+
+# 3 
+try react-big-calender

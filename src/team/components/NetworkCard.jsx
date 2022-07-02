@@ -8,19 +8,19 @@ const useStyles = createUseStyles({
     },
 });
 
-export default function NetworkCard(props) {
+export default function NetworkCard({ team, ...props }) {
     const classes = useStyles();
     const [roster, setRoster] = useState([]);
     const [userStatus, setUserStatus] = useState(false);
 
     useEffect(() => {
         setRoster(
-            props.roster.map((element, index) => {
-                console.log(element);
-                isUserOnTeam(element.AUTH_ID);
+            props.roster.map((player, index) => {
+                console.log(player);
+                isUserOnTeam(player.AUTH_ID);
                 return (
-                    <option key={index} value={element}>
-                        {element.FIRST_NAME}
+                    <option key={index} value={player}>
+                        {player.FIRST_NAME}
                     </option>
                 );
             })
@@ -33,10 +33,10 @@ export default function NetworkCard(props) {
 
     return (
         <div className={classes.container} onClick={() => console.log("click")}>
-            <h3>{props.sport}</h3>
-            <h1>{props.name}</h1>
+            <h3>{team.sport}</h3>
+            <h1>{team.name}</h1>
             <p>
-                Record- W: {props.wins} | T: {props.ties} | L: {props.losses}
+                Record- W: {team.wins} | T: {team.ties} | L: {team.losses}
             </p>
             <div>
                 <h4>Roster</h4>
@@ -56,12 +56,12 @@ export default function NetworkCard(props) {
              * displayed. When this button is pressed it passes the id value
              * back up to the parent function
              */}
-            <span>{props.visibility}</span>
-            {props.visibility === "OPEN" && !userStatus && (
-                <button onClick={() => props.joinTeam(props.id)}>Join</button>
+            <span>{team.visibility}</span>
+            {team.visibility === "OPEN" && !userStatus && (
+                <button onClick={() => props.joinTeam(team.id)}>Join</button>
             )}
-            {props.visibility === "PRIVATE" && !userStatus && (
-                <button onClick={() => props.requestToJoinTeam(props.id)}>
+            {team.visibility === "PRIVATE" && !userStatus && (
+                <button onClick={() => props.requestToJoinTeam(team.id)}>
                     Request to Join
                 </button>
             )}

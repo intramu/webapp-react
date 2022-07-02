@@ -92,29 +92,16 @@ export default function Team() {
     return (
         <main className={blur ? classes.blurContainer : classes.container}>
             <h1>My Team(s)</h1>
-            {teams.map((element, index) => {
-                return (
-                    <TeamCard
-                        key={index}
-                        teamId={element.team_ID}
-                        sport={element.SPORT}
-                        name={element.NAME}
-                        wins={element.WINS}
-                        ties={element.TIES}
-                        losses={element.LOSSES}
-                        image={element.IMAGE}
-                        visibility={element.VISIBILITY}
-                        dateCreated={element.DATE_CREATED}
-                        currentTeamSize={element.CURRENT_TEAM_SIZE}
-                        maxTeamSize={element.MAX_TEAM_SIZE}
-                        roster={element.ROSTER}
-                        playerId={playerId}
-                        leaveTeam={leaveTeam}
-                        updateTeam={updateTeam}
-                        toggleBlur={toggleBlur}
-                    />
-                );
-            })}
+            {teams.map((team, index) => (
+                <TeamCard
+                    key={index}
+                    team={team}
+                    playerId={playerId}
+                    leaveTeam={leaveTeam}
+                    updateTeam={updateTeam}
+                    toggleBlur={toggleBlur}
+                />
+            ))}
 
             {/* {pageMessage ? <Popup /> : null} */}
 

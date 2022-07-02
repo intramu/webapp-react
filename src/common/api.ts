@@ -73,3 +73,24 @@ export async function apiUpdateTeam(
         },
     });
 }
+
+// export async function apiUpdateOrganization(
+//     token: string,
+//     competition: object
+// ){
+//     let body
+// }
+
+export async function apiCreateCompetition(
+    token: string,
+    adminId: string,
+    competition: object
+) {
+    let body = { adminId: adminId, competition: competition };
+    return await instance.post("/admin/createCompetition", body, {
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+        },
+    });
+}
