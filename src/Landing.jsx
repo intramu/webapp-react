@@ -15,6 +15,8 @@ function App() {
                 </p>
                 <LoginButton />
                 <Link to="/dashboard">Dashboard</Link>
+                <img src="/logo.png" alt="octopus" />
+                <p>wow</p>
             </header>
         </div>
     );

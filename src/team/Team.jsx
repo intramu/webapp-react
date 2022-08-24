@@ -3,8 +3,9 @@ import { useEffect, useState } from "react";
 import { createUseStyles } from "react-jss";
 import { Link, useNavigate } from "react-router-dom";
 import { apiLeaveTeam } from "../common/api.ts";
-import { apiShowAllPlayersTeams } from "../common/api.ts";
+import { apiShowAllPlayersTeams } from "../common/api";
 import { sort } from "../common/functions/sortRoster";
+import useApi from "../common/hooks/useApi";
 
 import TeamCard from "./components/TeamCard";
 
@@ -27,23 +28,27 @@ export default function Team() {
 
     const navigate = useNavigate();
 
+    const ApiShowAllPlayersTeams = useApi(apiShowAllPlayersTeams);
+
     useEffect(() => {
         const showAll = async () => {
-            try {
-                let token = await getAccessTokenSilently();
-                setPlayerId(user.sub);
+            let token = await getAccessTokenSilently();
+            ApiShowAllPlayersTeams.request(user.sub, token);
+            // try {
+            //
+            //     setPlayerId(user.sub);
 
-                let response = await apiShowAllPlayersTeams(user.sub, token);
-                console.log(response);
-                if (response.data.code < 1) {
-                    throw new Error("Error finding teams");
-                }
-                let sortedData = sort(response.data.dataPackage);
-                console.log(sortedData);
-                setTeams(sortedData);
-            } catch (error) {
-                console.log(error);
-            }
+            //     let response = await apiShowAllPlayersTeams(user.sub, token);
+            //     console.log(response);
+            //     if (response.data.code < 1) {
+            //         throw new Error("Error finding teams");
+            //     }
+            //     let sortedData = sort(response.data.dataPackage);
+            //     console.log(sortedData);
+            //     setTeams(sortedData);
+            // } catch (error) {
+            //     console.log(error);
+            // }
         };
         showAll();
     }, []);
@@ -74,25 +79,28 @@ export default function Team() {
         navigate("/team/update-team", { state: team });
     };
 
-    if (teams.length === 0) {
-        return (
-            <main>
-                <h3>
-                    It doesn't look like you belong to a team. Join or create
-                    one by clicking on the links below
-                </h3>
-                <h1>
-                    <Link to={"/network"}>Join</Link> or{" "}
-                    <Link to={"/team/create"}>Create</Link>
-                </h1>
-                <h3>** If this is incorrect please report bug **</h3>
-            </main>
-        );
-    }
+    if (ApiShowAllPlayersTeams.loading) return <h1>Loading</h1>;
+
+    if (ApiShowAllPlayersTeams.error) return <h1>Network Error </h1>;
+    // if (teams.length === 0) {
+    //     return (
+    //         <main>
+    //             <h3>
+    //                 It doesn't look like you belong to a team. Join or create
+    //                 one by clicking on the links below
+    //             </h3>
+    //             <h1>
+    //                 <Link to={"/network"}>Join</Link> or{" "}
+    //                 <Link to={"/team/create"}>Create</Link>
+    //             </h1>
+    //             <h3>** If this is incorrect please report bug **</h3>
+    //         </main>
+    //     );
+    // }
     return (
         <main className={blur ? classes.blurContainer : classes.container}>
             <h1>My Team(s)</h1>
-            {teams.map((team, index) => (
+            {ApiShowAllPlayersTeams.data?.map((team, index) => (
                 <TeamCard
                     key={index}
                     team={team}

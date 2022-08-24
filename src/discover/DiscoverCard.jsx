@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { createUseStyles } from "react-jss";
-import PlayerRoster from "./PlayerRoster";
+import PlayerRoster from "../team/components/PlayerRoster";
 
 const useStyles = createUseStyles({
     container: {
@@ -8,7 +8,7 @@ const useStyles = createUseStyles({
     },
 });
 
-export default function NetworkCard({ team, ...props }) {
+export default function DiscoverCard({ team, ...props }) {
     const classes = useStyles();
     const [roster, setRoster] = useState([]);
     const [userStatus, setUserStatus] = useState(false);

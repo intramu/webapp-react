@@ -94,3 +94,10 @@ export async function apiCreateCompetition(
         },
     });
 }
+
+export async function apiFindCompetitionTree(
+    token: string,
+    competitionId: number
+) {
+    return await instance.get("/discover");
+}

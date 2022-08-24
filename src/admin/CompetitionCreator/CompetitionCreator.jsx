@@ -57,7 +57,6 @@ export default function CompetitionCreator() {
                 will set up your event
             </p>
             <p>Please fill in all fields</p>
-            {/* <form> */}
 
             <h3>What will be the name of the this glorious competition?</h3>
             <span>What is a competition?</span>

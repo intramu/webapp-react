@@ -43,8 +43,18 @@ export default function Navbar() {
                                 </Link>
                             </li>
                             <li className="nav-item">
+                                <Link to="/team" className="nav-link">
+                                    League
+                                </Link>
+                            </li>
+                            <li className="nav-item">
                                 <Link to="/network" className="nav-link">
                                     Network
+                                </Link>
+                            </li>
+                            <li className="nav-item">
+                                <Link to="/administration" className="nav-link">
+                                    Admin
                                 </Link>
                             </li>
                             <li className="nav-item">

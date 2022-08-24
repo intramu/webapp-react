@@ -12,7 +12,7 @@ import Profile from './profile/Profile';
 import Test from './Test';
 import CreateProfile from './profile/CreateProfile';
 import Team from './team/Team';
-import Network from './team/Network';
+import Network from './discover/Discover';
 import CreateTeam from './team/CreateTeam';
 import UpdateTeam from './team/UpdateTeam';
 import Error404 from './Error404';
@@ -20,6 +20,7 @@ import AuthAdmin from './layouts/AuthAdmin';
 import Home from './admin/Home';
 import AdminLayout from './layouts/AdminLayout';
 import CompetitionCreator from './admin/CompetitionCreator/CompetitionCreator';
+import Fake from './admin/Fake';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -43,6 +44,7 @@ root.render(
                             <Route path='create' element={<CreateTeam />} />
                             <Route path='update' element={<UpdateTeam />} />
                         </Route>
+                        <Route path='/administration' element={<Fake />} />
                     </Route>
                 </Route>
                 <Route element={<AuthAdmin />}>

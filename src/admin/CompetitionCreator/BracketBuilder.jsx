@@ -5,9 +5,9 @@ import Bracket from "./Bracket";
 import Division from "./Division";
 import { LeagueModel } from "../models/League.ts";
 import League from "./League";
-import useApi from "../../common/useApi";
 import { apiCreateCompetition } from "../../common/api";
 import { useAuth0 } from "@auth0/auth0-react";
+import useApi from "../../common/hooks/useApi";
 
 const useStyles = createUseStyles({
     leagueBox: {
@@ -25,12 +25,17 @@ const useStyles = createUseStyles({
 });
 
 const BracketBuilder = (props) => {
-    const postCompetitionApi = useApi(apiCreateCompetition);
+    const createCompetitionApi = useApi(apiCreateCompetition);
     const classes = useStyles();
 
     const { user, getAccessTokenSilently } = useAuth0();
     const [newList, setNewList] = useState({
+        competitionName: "",
+        competitionVisibility: "",
+        competitionStatus: "",
+        competitionSport: "",
         competitionType: "",
+        leagueTournamentType: "",
         leagues: [],
     });
 
@@ -43,7 +48,8 @@ const BracketBuilder = (props) => {
 
     const handleSubmit = async () => {
         let token = await getAccessTokenSilently();
-        postCompetitionApi.request(token, user.sub, newList);
+        createCompetitionApi.request(token, user.sub, newList);
+        console.log("here");
     };
 
     const createLeague = () => {
@@ -101,7 +107,8 @@ const BracketBuilder = (props) => {
                 </div>
             ))}
 
-            <button onClick={() => handleSubmit}>Create</button>
+            <button onClick={handleSubmit}>Create</button>
+            {createCompetitionApi.error ? createCompetitionApi.error : null}
         </>
     );
 };

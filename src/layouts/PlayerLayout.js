@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { createUseStyles } from "react-jss";
 import { Outlet } from "react-router-dom";
 import Footer from "../components/Footer";
@@ -16,7 +17,9 @@ export default function PlayerLayout() {
     return (
         <div className={classes.mainContainer}>
             <Navbar />
+
             <Outlet />
+
             <Footer />
         </div>
     )
