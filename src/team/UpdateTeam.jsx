@@ -51,7 +51,8 @@ export default function UpdateTeam() {
                     value={updatedTeam.VISIBILITY}
                     name="VISIBILITY"
                     required
-                    onChange={handleInputChange}>
+                    onChange={handleInputChange}
+                >
                     <option value="PRIVATE">Private</option>
                     <option value="OPEN">Open</option>
                     <option value="CLOSED">Closed</option>

@@ -138,7 +138,8 @@ export default function CreateProfile() {
                     name="graduationTerm"
                     id="graduationTerm"
                     onChange={handleInputChange}
-                    required>
+                    required
+                >
                     <option value="fall2022">Fall 2022</option>
                     <option value="spring2023">Spring 2023</option>
                     <option value="fall2023">Fall 2023</option>
@@ -164,7 +165,8 @@ export default function CreateProfile() {
                     name="profileVisibility"
                     id="profileVisibility"
                     onChange={handleInputChange}
-                    required>
+                    required
+                >
                     <option value="public">Public</option>
                     <option value="private">Private</option>
                 </select>

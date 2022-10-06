@@ -63,7 +63,8 @@ function BracketBuilder(props) {
             <button
                 onClick={() => {
                     console.log(newList);
-                }}>
+                }}
+            >
                 Look
             </button>
             <button onClick={createLeague}>Add League</button>

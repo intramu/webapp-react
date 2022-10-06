@@ -29,7 +29,8 @@ root.render(
         domain="dev-5p-an07k.us.auth0.com"
         clientId="fSMneHc4uoLgAmfFZA9WUyHWULdXku4O"
         redirectUri="http://localhost:3000/dashboard"
-        audience="https://server-authorization/">
+        audience="https://server-authorization/"
+    >
         <BrowserRouter>
             <Routes>
                 <Route path="/" element={<Landing />} />

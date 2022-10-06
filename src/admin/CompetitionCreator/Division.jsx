@@ -35,7 +35,8 @@ function Division({ leagueIndex, divisionIndex, newList, setNewList, ...props })
             <label>Division Type: </label>
             <select
                 name="divisionType"
-                onChange={(e) => handleDivisionChange(e, leagueIndex, divisionIndex)}>
+                onChange={(e) => handleDivisionChange(e, leagueIndex, divisionIndex)}
+            >
                 <option value="mens">Mens</option>
                 <option value="womens">Womens</option>
                 <option value="coed">Coed</option>
@@ -44,7 +45,8 @@ function Division({ leagueIndex, divisionIndex, newList, setNewList, ...props })
             <label>Division Level: </label>
             <select
                 name="divisionLevel"
-                onChange={(e) => handleDivisionChange(e, leagueIndex, divisionIndex)}>
+                onChange={(e) => handleDivisionChange(e, leagueIndex, divisionIndex)}
+            >
                 <option value="a">A</option>
                 <option value="b">B</option>
                 <option value="c">C</option>
