@@ -19,8 +19,8 @@ export default function UpdateTeam() {
 
     const handleSubmit = async () => {
         console.log("test");
-        let token = await getAccessTokenSilently();
-        let response = await apiUpdateTeam(token, user.sub, updatedTeam);
+        const token = await getAccessTokenSilently();
+        const response = await apiUpdateTeam(token, user.sub, updatedTeam);
         console.log(response);
     };
 
@@ -51,8 +51,7 @@ export default function UpdateTeam() {
                     value={updatedTeam.VISIBILITY}
                     name="VISIBILITY"
                     required
-                    onChange={handleInputChange}
-                >
+                    onChange={handleInputChange}>
                     <option value="PRIVATE">Private</option>
                     <option value="OPEN">Open</option>
                     <option value="CLOSED">Closed</option>

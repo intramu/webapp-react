@@ -5,7 +5,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import jwtDecode from "jwt-decode";
 
 export default function CreateProfile() {
-    let initialState = {
+    const initialState = {
         id: "",
         firstName: "",
         lastName: "",
@@ -21,10 +21,10 @@ export default function CreateProfile() {
     const state = urlParams.get("state");
     const token = urlParams.get("token");
 
-    let navigate = useNavigate();
+    const navigate = useNavigate();
 
     const getToken = async () => {
-        let decoded = jwtDecode(token);
+        const decoded = jwtDecode(token);
         return decoded;
     };
 
@@ -41,7 +41,7 @@ export default function CreateProfile() {
 
     const handleFormSubmit = async () => {
         try {
-            let token = await getToken();
+            const token = await getToken();
             setProfile((profile.id = token.sub));
 
             // const response = await instance.post("/createsecprofile", profile);
@@ -125,12 +125,7 @@ export default function CreateProfile() {
 
                 {/* Language Input */}
                 <label htmlFor="">Language:</label>
-                <select
-                    name="language"
-                    id="language"
-                    onChange={handleInputChange}
-                    required
-                >
+                <select name="language" id="language" onChange={handleInputChange} required>
                     <option value="english">English</option>
                     <option value="spanish">Spanish</option>
                     <option value="nigerian">Nigerian</option>
@@ -143,8 +138,7 @@ export default function CreateProfile() {
                     name="graduationTerm"
                     id="graduationTerm"
                     onChange={handleInputChange}
-                    required
-                >
+                    required>
                     <option value="fall2022">Fall 2022</option>
                     <option value="spring2023">Spring 2023</option>
                     <option value="fall2023">Fall 2023</option>
@@ -170,8 +164,7 @@ export default function CreateProfile() {
                     name="profileVisibility"
                     id="profileVisibility"
                     onChange={handleInputChange}
-                    required
-                >
+                    required>
                     <option value="public">Public</option>
                     <option value="private">Private</option>
                 </select>

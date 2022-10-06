@@ -1,16 +1,8 @@
 import { createUseStyles } from "react-jss";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { Collapse, Nav, Navbar, NavbarBrand, NavbarText, NavItem, NavLink } from "reactstrap";
 import LogoutButton from "./LogoutButton";
-import {
-    Collapse,
-    Nav,
-    Navbar,
-    NavbarBrand,
-    NavbarText,
-    NavItem,
-    NavLink,
-} from "reactstrap";
 
 const useStyles = createUseStyles({
     nav: {
@@ -64,10 +56,7 @@ export default function NavbarAdmin() {
                         </Link>
                     </NavItem>
                     <NavItem>
-                        <Link
-                            to="/admin/competition-creator"
-                            className="nav-link"
-                        >
+                        <Link to="/admin/competition-creator" className="nav-link">
                             Competition Creator
                         </Link>
                     </NavItem>

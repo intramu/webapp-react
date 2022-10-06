@@ -6,4 +6,4 @@ export const dayChoices = [
     { Friday: false },
     { Saturday: false },
     { Sunday: false },
-]
+];

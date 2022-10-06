@@ -53,8 +53,8 @@ export default function CompetitionCreator() {
         <main id="adminMain">
             <h1>Competition Creator</h1>
             <p>
-                The competition creator will walk through a number inputs that
-                will set up your event
+                The competition creator will walk through a number inputs that will set up your
+                event
             </p>
             <p>Please fill in all fields</p>
 
@@ -63,20 +63,14 @@ export default function CompetitionCreator() {
             <div className={classes.toolTip} id="tooltip">
                 <img src="/informationIcon.png" alt="Info" />
                 <span id="toolTipText" className={classes.toolTipText}>
-                    A competition is the main container for all sporting events
-                    that will occur in your organization. You will more than
-                    likely only ever need one of these for intramural sports.
-                    This supports the option to host separate tournaments
-                    outside of the intramural sports network and for private
-                    competitions.
+                    A competition is the main container for all sporting events that will occur in
+                    your organization. You will more than likely only ever need one of these for
+                    intramural sports. This supports the option to host separate tournaments outside
+                    of the intramural sports network and for private competitions.
                 </span>
             </div>
             <br />
-            <input
-                type="text"
-                name="competitionName"
-                placeholder="GCU-intramural-league"
-            />
+            <input type="text" name="competitionName" placeholder="GCU-intramural-league" />
             <br />
             <h3>What type of competition will this event be?</h3>
             <label htmlFor="tournament">Tournament: </label>
@@ -90,8 +84,7 @@ export default function CompetitionCreator() {
             <div className={classes.toolTip} id="tooltip">
                 <img src="/informationIcon.png" alt="Info" />
                 <span id="toolTipText" className={classes.toolTipText}>
-                    Will be a traditional style tournament with random or
-                    selected seeding.
+                    Will be a traditional style tournament with random or selected seeding.
                 </span>
             </div>
             <br />
@@ -106,9 +99,8 @@ export default function CompetitionCreator() {
             <div className={classes.toolTip} id="tooltip">
                 <img src="/informationIcon.png" alt="Info" />
                 <span id="toolTipText" className={classes.toolTipText}>
-                    Normal league competition with games in varying durations
-                    for a selected time duration. There is no playoffs at the
-                    end of this competition.
+                    Normal league competition with games in varying durations for a selected time
+                    duration. There is no playoffs at the end of this competition.
                 </span>
             </div>
             <br />
@@ -123,8 +115,8 @@ export default function CompetitionCreator() {
             <div className={classes.toolTip} id="tooltip">
                 <img src="/informationIcon.png" alt="Info" />
                 <span id="toolTipText" className={classes.toolTipText}>
-                    This will be the most likely choice for all users. This
-                    supports league play with a playoff/ tournament at the end.
+                    This will be the most likely choice for all users. This supports league play
+                    with a playoff/ tournament at the end.
                 </span>
             </div>
             <br />
