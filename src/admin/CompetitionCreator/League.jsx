@@ -1,27 +1,26 @@
 import { LeagueModel } from "../models/League.ts";
 
-const League = ({ setNewList, newList, leagueIndex, ...props }) => {
+function League({ setNewList, newList, leagueIndex, ...props }) {
     const addLeague = (e) => {
-        let temp = { ...newList };
+        const temp = { ...newList };
         temp.leagues.push(new LeagueModel());
         setNewList(temp);
     };
 
     const handleLeagueChange = (e, leagueI) => {
-        let temp = { ...newList };
+        const temp = { ...newList };
         temp.leagues[leagueI][e.target.name] = e.target.value;
         setNewList(temp);
     };
 
     const handleLeagueCheck = (leagueI) => {
-        let temp = { ...newList };
-        temp.leagues[leagueI].leagueSetsDates =
-            !newList.leagues[leagueI].leagueSetsDates;
+        const temp = { ...newList };
+        temp.leagues[leagueI].leagueSetsDates = !newList.leagues[leagueI].leagueSetsDates;
         setNewList(temp);
     };
 
     const removeLeague = (leagueI) => {
-        let temp = { ...newList };
+        const temp = { ...newList };
         temp.leagues.splice(leagueI, 1);
         setNewList(temp);
     };
@@ -74,9 +73,7 @@ const League = ({ setNewList, newList, leagueIndex, ...props }) => {
                 onChange={(e) => handleLeagueChange(e, leagueIndex)}
                 value={props.league.leagueLinks}
             />
-            <label htmlFor="leagueSetsDates">
-                Does the league set dates for every division?
-            </label>
+            <label htmlFor="leagueSetsDates">Does the league set dates for every division?</label>
             <input
                 type="checkbox"
                 name="leagueSetsDates"
@@ -89,6 +86,6 @@ const League = ({ setNewList, newList, leagueIndex, ...props }) => {
             <button onClick={() => removeLeague(leagueIndex)}>Remove</button>
         </div>
     );
-};
+}
 
 export default League;

@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { apiCreateTeam } from "../common/api.ts";
 
 export default function CreateTeam() {
-    let initialState = {
+    const initialState = {
         name: "",
         image: "",
         visibility: "PRIVATE",
@@ -15,7 +15,7 @@ export default function CreateTeam() {
     const [team, setTeam] = useState(initialState);
     const [responseMessage, setResponseMessage] = useState("");
     const { getAccessTokenSilently, user } = useAuth0();
-    let navigate = useNavigate();
+    const navigate = useNavigate();
 
     const handleInputChange = (e) => {
         setTeam({
@@ -26,10 +26,10 @@ export default function CreateTeam() {
 
     const handleSubmit = async () => {
         try {
-            let token = await getAccessTokenSilently();
+            const token = await getAccessTokenSilently();
             team.playerId = user.sub;
-            //api call
-            let response = await apiCreateTeam(token, team);
+            // api call
+            const response = await apiCreateTeam(token, team);
             if (response.data.code < 1) {
                 setResponseMessage("Error creating team");
                 throw new Error("Error creating team");
@@ -82,15 +82,15 @@ export default function CreateTeam() {
                 />
                 <br />
                 <label>
-                    There should be a option here to choose a league just not
-                    sure how to display that
+                    There should be a option here to choose a league just not sure how to display
+                    that
                 </label>
                 <br />
             </form>
 
             <button onClick={handleSubmit}>Create</button>
 
-            <h1>{responseMessage ? responseMessage : ""}</h1>
+            <h1>{responseMessage || ""}</h1>
         </main>
     );
 }

@@ -20,15 +20,12 @@ export default function Navbar() {
                         aria-expanded="false"
                         aria-label="Toggle navigation"
                     >
-                        <span className="navbar-toggler-icon"></span>
+                        <span className="navbar-toggler-icon" />
                     </button>
                     <div className="collapse navbar-collapse" id="navbarNav">
                         <ul className="navbar-nav">
                             <li className="nav-item">
-                                <Link
-                                    to="/dashboard"
-                                    className="nav-link active"
-                                >
+                                <Link to="/dashboard" className="nav-link active">
                                     Dashboard
                                 </Link>
                             </li>
@@ -61,9 +58,7 @@ export default function Navbar() {
                                 <LogoutButton />
                             </li>
                             <li className="nav-item">
-                                <label className="nav-link disabled">
-                                    Welcome {user.name}
-                                </label>
+                                <label className="nav-link disabled">Welcome {user.name}</label>
                             </li>
                         </ul>
                     </div>

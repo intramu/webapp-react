@@ -6,10 +6,10 @@ import Navbar from "../components/Navbar";
 
 const useStyles = createUseStyles({
     mainContainer: {
-        minHeight: '100vh',
-        position: 'relative'
-    }
-})
+        minHeight: "100vh",
+        position: "relative",
+    },
+});
 
 export default function PlayerLayout() {
     const classes = useStyles();
@@ -22,5 +22,5 @@ export default function PlayerLayout() {
 
             <Footer />
         </div>
-    )
+    );
 }

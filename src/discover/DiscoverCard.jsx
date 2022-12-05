@@ -61,9 +61,7 @@ export default function DiscoverCard({ team, ...props }) {
                 <button onClick={() => props.joinTeam(team.id)}>Join</button>
             )}
             {team.visibility === "PRIVATE" && !userStatus && (
-                <button onClick={() => props.requestToJoinTeam(team.id)}>
-                    Request to Join
-                </button>
+                <button onClick={() => props.requestToJoinTeam(team.id)}>Request to Join</button>
             )}
         </div>
     );

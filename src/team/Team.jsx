@@ -2,8 +2,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { useEffect, useState } from "react";
 import { createUseStyles } from "react-jss";
 import { Link, useNavigate } from "react-router-dom";
-import { apiLeaveTeam } from "../common/api.ts";
-import { apiShowAllPlayersTeams } from "../common/api";
+import { apiLeaveTeam, apiShowAllPlayersTeams } from "../common/api.ts";
 import { sort } from "../common/functions/sortRoster";
 import useApi from "../common/hooks/useApi";
 
@@ -32,7 +31,7 @@ export default function Team() {
 
     useEffect(() => {
         const showAll = async () => {
-            let token = await getAccessTokenSilently();
+            const token = await getAccessTokenSilently();
             ApiShowAllPlayersTeams.request(user.sub, token);
             // try {
             //
@@ -57,8 +56,8 @@ export default function Team() {
 
     const leaveTeam = async (teamId) => {
         try {
-            let token = await getAccessTokenSilently();
-            let response = await apiLeaveTeam(token, playerId, teamId);
+            const token = await getAccessTokenSilently();
+            const response = await apiLeaveTeam(token, playerId, teamId);
             console.log(response);
             if (response.data.code < 1) throw new Error("Error leaving team");
 
@@ -75,7 +74,7 @@ export default function Team() {
 
     const updateTeam = async (teamId) => {
         console.log("test");
-        let team = teams.find((x) => x.team_ID === teamId);
+        const team = teams.find((x) => x.team_ID === teamId);
         navigate("/team/update-team", { state: team });
     };
 
@@ -113,7 +112,7 @@ export default function Team() {
 
             {/* {pageMessage ? <Popup /> : null} */}
 
-            <Link to={"/team/create-team"}>Create Team</Link>
+            <Link to="/team/create-team">Create Team</Link>
         </main>
     );
 }

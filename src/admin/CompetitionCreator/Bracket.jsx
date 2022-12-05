@@ -2,19 +2,11 @@ import { dayChoices } from "../../common/DayChoices";
 import { BracketModel } from "../models/Bracket.ts";
 import Timeslot from "./Timeslot";
 
-const Bracket = ({
-    leagueIndex,
-    divisionIndex,
-    bracketIndex,
-    newList,
-    setNewList,
-    ...props
-}) => {
+function Bracket({ leagueIndex, divisionIndex, bracketIndex, newList, setNewList, ...props }) {
     const handleBracketChange = (e) => {
-        let temp = { ...newList };
-        temp.leagues[leagueIndex].divisions[divisionIndex].brackets[
-            bracketIndex
-        ][e.target.name] = e.target.value;
+        const temp = { ...newList };
+        temp.leagues[leagueIndex].divisions[divisionIndex].brackets[bracketIndex][e.target.name] =
+            e.target.value;
         setNewList(temp);
     };
 
@@ -33,21 +25,19 @@ const Bracket = ({
 
     const addBracket = (e, leagueI, divisionI) => {
         // setNewList({...newList,
-        let temp = { ...newList };
-        temp.leagues[leagueI].divisions[divisionI].brackets.push(
-            new BracketModel()
-        );
+        const temp = { ...newList };
+        temp.leagues[leagueI].divisions[divisionI].brackets.push(new BracketModel());
         setNewList(temp);
     };
 
     const removeBracket = (leagueI, divisionI, bracketI) => {
-        let temp = { ...newList };
+        const temp = { ...newList };
         temp.leagues[leagueI].divisions[divisionI].brackets.splice(bracketI, 1);
         setNewList(temp);
     };
 
     const addTimeslot = () => {
-        let temp = { ...newList };
+        const temp = { ...newList };
         temp.leagues[leagueIndex].divisions[divisionIndex].brackets[
             bracketIndex
         ].bracketTimeSlots.push({ startTime: "", endTime: "" });
@@ -55,25 +45,19 @@ const Bracket = ({
     };
 
     const handleTimeslotChange = (e, timeslotIndex) => {
-        let temp = { ...newList };
-        temp.leagues[leagueIndex].divisions[divisionIndex].brackets[
-            bracketIndex
-        ].bracketTimeSlots[timeslotIndex][e.target.name] = e.target.value;
+        const temp = { ...newList };
+        temp.leagues[leagueIndex].divisions[divisionIndex].brackets[bracketIndex].bracketTimeSlots[
+            timeslotIndex
+        ][e.target.name] = e.target.value;
         setNewList(temp);
     };
 
     return (
         <div>
             <div className={props.className}>
-                <span style={{ fontSize: "18px" }}>
-                    Bracket {bracketIndex + 1}:{" "}
-                </span>
+                <span style={{ fontSize: "18px" }}>Bracket {bracketIndex + 1}: </span>
                 <label>Day Choices</label>
-                <input
-                    type="text"
-                    value={props.bracket.bracketDayChoices}
-                    disabled
-                />
+                <input type="text" value={props.bracket.bracketDayChoices} disabled />
                 {/* {dayChoices.map((result, index) => {
                     let day = Object.values(result);
                     return (
@@ -119,21 +103,15 @@ const Bracket = ({
                     value={props.bracket.bracketMaxSize}
                 />
                 <br />
-                <button
-                    onClick={(e) => addBracket(e, leagueIndex, divisionIndex)}
-                >
+                <button onClick={(e) => addBracket(e, leagueIndex, divisionIndex)}>
                     Add Bracket
                 </button>
-                <button
-                    onClick={() =>
-                        removeBracket(leagueIndex, divisionIndex, bracketIndex)
-                    }
-                >
+                <button onClick={() => removeBracket(leagueIndex, divisionIndex, bracketIndex)}>
                     Remove
                 </button>
             </div>
         </div>
     );
-};
+}
 
 export default Bracket;

@@ -2,8 +2,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { useEffect, useState } from "react";
 import { sort } from "../common/functions/sortRoster";
 
-import { apiJoinTeam } from "../common/api.ts";
-import { apiShowAllTeams } from "../common/api.ts";
+import { apiJoinTeam, apiShowAllTeams } from "../common/api.ts";
 
 export default function Network() {
     const [teamList, setTeamList] = useState([]);
@@ -68,7 +67,7 @@ export default function Network() {
             <h1>Discover</h1>
             <h3>Discover new sports and teams to join</h3>
             {/* < */}
-            <h2>{responseMessage ? responseMessage : ""}</h2>
+            <h2>{responseMessage || ""}</h2>
             {teamList.length &&
                 teamList.map((team, index) => (
                     <NetworkCard

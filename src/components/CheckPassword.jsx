@@ -38,7 +38,7 @@ const useStyles = createUseStyles({
     },
 });
 
-const CheckPassword = ({ toggleBlur, leaveTeam, teamId }) => {
+function CheckPassword({ toggleBlur, leaveTeam, teamId }) {
     const [open, setOpen] = useState(false);
     const closeModal = () => setOpen(false);
     const classes = useStyles();
@@ -60,18 +60,13 @@ const CheckPassword = ({ toggleBlur, leaveTeam, teamId }) => {
                     <button className={classes.close} onClick={closeFunc}>
                         &times;
                     </button>
-                    <div className={classes.header}></div>
-                    <div className={classes.content}>
-                        Are you sure you want to leave the team?
-                    </div>
+                    <div className={classes.header} />
+                    <div className={classes.content}>Are you sure you want to leave the team?</div>
                     <div className={classes.actions}>
                         <button className={classes.button} onClick={closeFunc}>
                             Nevermind
                         </button>
-                        <button
-                            className={classes.button}
-                            onClick={() => leaveTeam(teamId)}
-                        >
+                        <button className={classes.button} onClick={() => leaveTeam(teamId)}>
                             Yes
                         </button>
                     </div>
@@ -79,6 +74,6 @@ const CheckPassword = ({ toggleBlur, leaveTeam, teamId }) => {
             </Popup>
         </div>
     );
-};
+}
 
 export default CheckPassword;
