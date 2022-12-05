@@ -15,7 +15,7 @@ export default function Test() {
     }
     return (
         <div>
-            <p>{"Email :" + user.email}</p>
+            <p>{`Email :${user.email}`}</p>
         </div>
     );
 }

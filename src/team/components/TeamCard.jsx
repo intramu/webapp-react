@@ -29,8 +29,7 @@ export default function TeamCard({ team, ...props }) {
     }, []);
 
     const confirmBox = () => {
-        if (window.confirm("Are you sure you want to leave?"))
-            props.leaveTeam(team.teamId);
+        if (window.confirm("Are you sure you want to leave?")) props.leaveTeam(team.teamId);
     };
 
     return (
@@ -67,9 +66,7 @@ export default function TeamCard({ team, ...props }) {
                 teamId={team.teamId}
             />
 
-            <button onClick={() => props.updateTeam(team.teamId)}>
-                Update
-            </button>
+            <button onClick={() => props.updateTeam(team.teamId)}>Update</button>
         </div>
     );
 }

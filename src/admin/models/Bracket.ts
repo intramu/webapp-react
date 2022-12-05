@@ -2,7 +2,9 @@ import { dayChoices } from "../../common/DayChoices";
 
 export class BracketModel {
     bracketDayChoices: string[];
+
     bracketTimeSlots: Object[];
+
     bracketMaxSize: number;
 
     constructor() {

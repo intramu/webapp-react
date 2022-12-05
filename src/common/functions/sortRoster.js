@@ -49,47 +49,45 @@
 
 function sort(data) {
     console.log(data);
-    let list = [];
+    const list = [];
     let roster = [];
     let team;
-    let currentTeamId = data[0].team_ID
-    data.forEach(element => {
+    let currentTeamId = data[0].team_ID;
+    data.forEach((element) => {
         if (currentTeamId !== element.team_ID) {
-            list.push(team)
+            list.push(team);
             roster = [];
             team = {};
-            currentTeamId = element.team_ID
+            currentTeamId = element.team_ID;
         }
         team = {
-            "team_ID": element.team_ID,
-            "NAME": element.NAME,
-            "WINS": element.WINS,
-            "TIES": element.TIES,
-            "LOSSES": element.LOSSES,
-            "IMAGE": element.IMAGE,
-            "VISIBILITY": element.VISIBILITY,
-            "SPORT": element.SPORT,
-            "DATE_CREATED": element.DATE_CREATED,
-            "CURRENT_TEAM_SIZE": element.CURRENT_TEAM_SIZE,
-            "MAX_TEAM_SIZE": element.MAX_TEAM_SIZE,
-            "ROSTER": roster
-        }
-        roster.push(
-            {
-                "AUTH_ID": element.AUTH_ID,
-                "FIRST_NAME": element.FIRST_NAME,
-                "LAST_NAME": element.LAST_NAME,
-                "GENDER": element.GENDER,
-                "ROLE": element.ROLE
-            }
-        )
+            team_ID: element.team_ID,
+            NAME: element.NAME,
+            WINS: element.WINS,
+            TIES: element.TIES,
+            LOSSES: element.LOSSES,
+            IMAGE: element.IMAGE,
+            VISIBILITY: element.VISIBILITY,
+            SPORT: element.SPORT,
+            DATE_CREATED: element.DATE_CREATED,
+            CURRENT_TEAM_SIZE: element.CURRENT_TEAM_SIZE,
+            MAX_TEAM_SIZE: element.MAX_TEAM_SIZE,
+            ROSTER: roster,
+        };
+        roster.push({
+            AUTH_ID: element.AUTH_ID,
+            FIRST_NAME: element.FIRST_NAME,
+            LAST_NAME: element.LAST_NAME,
+            GENDER: element.GENDER,
+            ROLE: element.ROLE,
+        });
     });
-    list.push(team)
-    return list
+    list.push(team);
+    return list;
 }
 
 module.exports = {
-    sort
-}
+    sort,
+};
 
 // SELECT team.ID as team_ID, team.NAME, team.WINS, team.TIES, team.LOSSES, tr.player_AUTH_ID, player.FIRST_NAME, player.GENDER, player.ROLE FROM team team JOIN team_roster tr on (team.ID = tr.team_ID) JOIN player player on (tr.player_AUTH_ID = player.AUTH_ID) WHERE team.ID = 6

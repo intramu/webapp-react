@@ -1,12 +1,11 @@
-import React, { useEffect } from "react";
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { createUseStyles } from "react-jss";
+import { useAuth0 } from "@auth0/auth0-react";
 import Bracket from "./Bracket";
 import Division from "./Division";
 import { LeagueModel } from "../models/League.ts";
 import League from "./League";
 import { apiCreateCompetition } from "../../common/api";
-import { useAuth0 } from "@auth0/auth0-react";
 import useApi from "../../common/hooks/useApi";
 
 const useStyles = createUseStyles({
@@ -24,7 +23,7 @@ const useStyles = createUseStyles({
     },
 });
 
-const BracketBuilder = (props) => {
+function BracketBuilder(props) {
     const createCompetitionApi = useApi(apiCreateCompetition);
     const classes = useStyles();
 
@@ -47,7 +46,7 @@ const BracketBuilder = (props) => {
     }, [props.competitionType]);
 
     const handleSubmit = async () => {
-        let token = await getAccessTokenSilently();
+        const token = await getAccessTokenSilently();
         createCompetitionApi.request(token, user.sub, newList);
         console.log("here");
     };
@@ -111,6 +110,6 @@ const BracketBuilder = (props) => {
             {createCompetitionApi.error ? createCompetitionApi.error : null}
         </>
     );
-};
+}
 
 export default BracketBuilder;
