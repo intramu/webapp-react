@@ -14,6 +14,7 @@ module.exports = {
     plugins: ["react"],
     rules: {
         "no-unused-vars": "off",
+        "@typescript-eslint/no-use-before-define": "off",
         "@typescript-eslint/no-unused-vars": [
             "warn",
             {
@@ -22,5 +23,6 @@ module.exports = {
                 caughtErrorsIgnorePattern: "^_",
             },
         ],
+        "no-console": "off",
     },
 };
