@@ -34,7 +34,7 @@ export default function Navbar() {
                                     Settings
                                 </Link>
                             </li>
-                            <li className="nav-item">
+                            {/* <li className="nav-item">
                                 <Link to="/team" className="nav-link">
                                     Team
                                 </Link>
@@ -53,7 +53,7 @@ export default function Navbar() {
                                 <Link to="/administration" className="nav-link">
                                     Admin
                                 </Link>
-                            </li>
+                            </li> */}
                             <li className="nav-item">
                                 <LogoutButton />
                             </li>

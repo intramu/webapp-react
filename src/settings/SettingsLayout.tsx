@@ -1,5 +1,6 @@
 import React from "react";
 import { createUseStyles } from "react-jss";
+import Preferences from "./Preferences";
 import Profile from "./Profile";
 
 const useStyles = createUseStyles({
@@ -19,6 +20,7 @@ function SettingsLayout() {
             </span>
 
             <Profile />
+            <Preferences />
         </div>
     );
 }
