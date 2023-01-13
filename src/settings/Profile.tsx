@@ -1,5 +1,6 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import React, { useEffect, useState } from "react";
+import { Formik } from "formik";
 
 export default function Profile() {
     const { user, getAccessTokenSilently } = useAuth0();
@@ -13,13 +14,20 @@ export default function Profile() {
         getToken();
     });
 
+    const editProfile = () => {        
+    }
+
     if (!user) {
         return <div />;
     }
 
     return (
         <div>
-            <h1>Profile</h1>
+            <h5>
+                <u>Profile</u>
+            </h5>
+            <Formik
+                />
             <p>Here are all the current details we have</p>
             <ul>
                 <li>Birthday: {user.birthdate}</li>

@@ -30,8 +30,8 @@ export default function Navbar() {
                                 </Link>
                             </li>
                             <li className="nav-item">
-                                <Link to="/profile" className="nav-link">
-                                    Profile
+                                <Link to="/settings" className="nav-link">
+                                    Settings
                                 </Link>
                             </li>
                             <li className="nav-item">

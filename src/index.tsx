@@ -8,7 +8,6 @@ import Dashboard from "./Dashboard";
 import PlayerLayout from "./layouts/PlayerLayout";
 import TeamLayout from "./layouts/TeamLayout";
 import AuthPlayer from "./layouts/AuthPlayer";
-import Profile from "./profile/Profile";
 import Test from "./Test";
 import CreateProfile from "./profile/CreateProfile";
 import Team from "./team/Team";
@@ -21,6 +20,7 @@ import Home from "./admin/Home";
 import AdminLayout from "./layouts/AdminLayout";
 import CompetitionCreator from "./admin/CompetitionCreator/CompetitionCreator";
 import Fake from "./admin/Fake";
+import SettingsLayout from "./settings/SettingsLayout";
 
 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 const root = ReactDOM.createRoot(document.getElementById("root")!);
@@ -37,8 +37,8 @@ root.render(
                 <Route element={<AuthPlayer />}>
                     <Route element={<PlayerLayout />}>
                         <Route path="/dashboard" element={<Dashboard />} />
-                        <Route path="/profile" element={<Profile />} />
                         <Route path="/network" element={<Network />} />
+                        <Route path="/settings" element={<SettingsLayout />} />
                         <Route path="team" element={<TeamLayout />}>
                             <Route index element={<Team />} />
                             <Route path="create" element={<CreateTeam />} />
