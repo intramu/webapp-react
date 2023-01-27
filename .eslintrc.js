@@ -31,12 +31,12 @@ module.exports = {
         "react/no-array-index-key": "off",
         "jsx-a11y/label-has-associated-control": "off",
         "jsx-a11y/click-events-have-key-events": "off",
-        "prettier/prettier":[
-            'error',
+        "prettier/prettier": [
+            "error",
             {
-                'endOfLine': 'auto'
-            }
+                endOfLine: "auto",
+            },
         ],
-        "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+        "react/jsx-filename-extension": [1, { extensions: [".js", ".jsx", ".tsx"] }],
     },
 };

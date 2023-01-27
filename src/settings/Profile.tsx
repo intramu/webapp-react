@@ -2,7 +2,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import React, { useEffect, useState } from "react";
 import { Formik, Form } from "formik";
 import { profileEdit } from "../common/validationSchemas";
-import TextInput from "../common/inputs";
+import { TextInputBootstrap } from "../common/inputs";
 
 const dummyProfileData = {
     firstName: "Noah",
@@ -55,20 +55,20 @@ function Profile() {
                 }}>
                 <Form>
                     <div style={{ display: "flex", width: "50%" }}>
-                        <TextInput label="First Name" name="firstName" type="text" />
-                        <TextInput label="Last Name" name="lastName" type="text" />
+                        <TextInputBootstrap label="First Name" name="firstName" type="text" />
+                        <TextInputBootstrap label="Last Name" name="lastName" type="text" />
                     </div>
                     <div style={{ display: "flex", width: "50%" }}>
                         <img src="/logo192.png" alt="other" />
                         <button style={{ height: "40px", margin: "auto" }}>Change Image</button>
                     </div>
                     <div style={{ display: "flex", width: "50%" }}>
-                        <TextInput label="Email" name="email" type="email" />
-                        <TextInput label="Gender" name="gender" type="text" />
+                        <TextInputBootstrap label="Email" name="email" type="email" />
+                        <TextInputBootstrap label="Gender" name="gender" type="text" />
                     </div>
                     <div style={{ display: "flex", width: "50%" }}>
-                        <TextInput label="Language" name="language" type="text" />
-                        <TextInput label="Date of Birth" name="dob" type="date" />
+                        <TextInputBootstrap label="Language" name="language" type="text" />
+                        <TextInputBootstrap label="Date of Birth" name="dob" type="date" />
                     </div>
 
                     <div style={{ display: "flex", width: "50%" }}>

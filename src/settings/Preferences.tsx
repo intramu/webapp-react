@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Formik, Form } from "formik";
-import TextInput from "../common/inputs";
+import { TextInputBootstrap } from "../common/inputs";
 
 function Preferences() {
     const [darkMode, setDarkMode] = useState("OFF");

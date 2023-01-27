@@ -34,22 +34,22 @@ export default function Navbar() {
                                     Settings
                                 </Link>
                             </li>
-                            {/* <li className="nav-item">
+                            <li className="nav-item">
                                 <Link to="/team" className="nav-link">
                                     Team
                                 </Link>
                             </li>
-                            <li className="nav-item">
+                            {/* <li className="nav-item">
                                 <Link to="/team" className="nav-link">
                                     League
                                 </Link>
-                            </li>
+                            </li> */}
                             <li className="nav-item">
-                                <Link to="/network" className="nav-link">
-                                    Network
+                                <Link to="/discover" className="nav-link">
+                                    Discover
                                 </Link>
                             </li>
-                            <li className="nav-item">
+                            {/* <li className="nav-item">
                                 <Link to="/administration" className="nav-link">
                                     Admin
                                 </Link>
