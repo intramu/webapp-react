@@ -1,48 +1,59 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-// import instance from "../endpoint";
-import jwtDecode from "jwt-decode";
-import { Field, Form, Formik } from "formik";
-import { Col, Container, FormFeedback, FormGroup, FormText, Input, Label, Row } from "reactstrap";
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth0 } from "@auth0/auth0-react";
+import { Form, Formik } from "formik";
+import { Col, FormGroup, FormText, Label, Row } from "reactstrap";
 import { MySelect, TextInputBootstrap } from "../common/inputs";
+import { apiCreatePlayer, apiGetOrganizationList } from "../common/api";
+import { Language, Status, Visibility } from "../common/enums";
+import { IsLoadingHOC } from "../common/hoc/IsLoadingHOC";
 
-export default function CreateProfile() {
-    const tempOrgList = [
-        { name: "Grand Canyon University", id: "uniqueuuid1" },
-        { name: "Arizona State University", id: "uniqueuuid2" },
-    ];
-
-    const [organizationList, setOrganizationList] = useState(tempOrgList);
-    const urlParams = new URLSearchParams(window.location.search);
-    // const state = urlParams.get("state");
-    const urlToken = urlParams.get("token");
-
+function CreateProfile(props: any) {
+    const { getAccessTokenSilently } = useAuth0();
+    const { setLoading } = props;
     const navigate = useNavigate();
 
-    // ! REVISIT
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const getToken = async (): Promise<any> => {
-        if (!urlToken) {
-            throw new Error("No token");
-        }
-        const decoded = jwtDecode(urlToken);
-        return decoded;
-    };
+    const [organizationList, setOrganizationList] = useState([{ id: "", name: "" }]);
 
-    const getOrganizationList = () => {
-        // perform api call here to grab the list
-    };
-
-    const handleFormSubmit = async () => {
+    const handleFormSubmit = async (values: {
+        firstName: string;
+        lastName: string;
+        gender: string;
+        language: Language;
+        graduationTerm: string;
+        organizationId: string;
+        dateOfBirth: string;
+        visibility: Visibility;
+        status: Status;
+    }) => {
         // call the api endpoint that creates the player profile and assigns there auth0 id
         // to an organization
+
+        setLoading(true);
+
+        const token = await getAccessTokenSilently();
+        const response = await apiCreatePlayer(token, values);
+        if (response.status === 200) {
+            navigate("/dashboard");
+        }
+
+        console.log(response.data);
+        setLoading(false);
     };
 
-    const handleSkipSubmit = () => {
-        console.log("skipping");
-        navigate("/dashboard");
-    };
+    useEffect(() => {
+        const getOrganizationList = async () => {
+            const token = await getAccessTokenSilently();
+            const response = await apiGetOrganizationList(token);
 
+            setOrganizationList(response.data);
+        };
+
+        getOrganizationList();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    // todo: validation schema for this form
     return (
         <div style={{ padding: "10px" }}>
             <h1>Create Profile</h1>
@@ -54,35 +65,26 @@ export default function CreateProfile() {
             <hr />
             <Formik
                 initialValues={{
-                    id: "",
                     firstName: "",
                     lastName: "",
-                    gender: "male",
-                    language: "english",
+                    emailAddress: "",
+                    gender: "MALE",
+                    language: "ENGLISH",
                     graduationTerm: "",
+                    organizationId: "",
                     dateOfBirth: "",
-                    profileVisibility: "private",
-                    profileCompletionStatus: "Incomplete",
+                    visibility: "PRIVATE",
+                    status: "Incomplete",
                 }}
                 onSubmit={(values: any) => {
                     console.log(values);
-
+                    handleFormSubmit(values);
                     // alert(values);
                     // eslint-disable-next-line react/jsx-no-comment-textnodes
                 }}>
                 <Form>
                     <Row>
                         <Col md={6}>
-                            {/* <Label htmlFor="firstName">First Name:</Label>
-                                <Input
-                                    type="text"
-                                    name="firstName"
-                                    id="firstName"
-                                    value={profile.firstName}
-                                    onChange={handleInputChange}
-                                    required
-                                    placeholder="Noah"
-                                /> */}
                             <TextInputBootstrap
                                 label="First Name"
                                 name="firstName"
@@ -96,14 +98,23 @@ export default function CreateProfile() {
                                 placeholder="Roerig"
                             />
 
+                            {/* Keep this for now. Will remove later by grabbing email from auth key */}
+                            <TextInputBootstrap
+                                label="Email Address"
+                                name="emailAddress"
+                                type="text"
+                                placeholder="...@my.gcu.edu"
+                            />
+                            <FormText>Same as the one you signed up with.</FormText>
+
                             <FormGroup row>
                                 <Label sm={3}>Gender</Label>
                                 <Col sm={4}>
                                     <MySelect name="gender" label="Gender">
-                                        <option defaultChecked value="male">
+                                        <option defaultChecked value="MALE">
                                             Male
                                         </option>
-                                        <option value="female">Female</option>
+                                        <option value="FEMALE">Female</option>
                                     </MySelect>
                                 </Col>
                             </FormGroup>
@@ -112,11 +123,11 @@ export default function CreateProfile() {
                                 <Label sm={3}>Language</Label>
                                 <Col sm={4}>
                                     <MySelect name="language" label="Language">
-                                        <option defaultChecked value="english">
+                                        <option defaultChecked value="ENGLISH">
                                             English
                                         </option>
-                                        <option value="spanish">Spanish</option>
-                                        <option value="nigerian">Nigerian</option>
+                                        <option value="SPANISH">Spanish</option>
+                                        <option value="NIGERIAN">Nigerian</option>
                                     </MySelect>
                                 </Col>
                             </FormGroup>
@@ -128,22 +139,28 @@ export default function CreateProfile() {
                                         <option defaultChecked value="fall2022">
                                             Fall 2022
                                         </option>
-                                        <option value="spring2023">Spring 2023</option>
-                                        <option value="fall2023">Fall 2023</option>
+                                        <option value="SPRING-2023">Spring 2023</option>
+                                        <option value="FALL-2023">Fall 2023</option>
+                                        <option value="SPRING-2023">Spring 2023</option>
+                                        <option value="FALL-2024">Fall 2024</option>
                                     </MySelect>
                                 </Col>
                             </FormGroup>
 
-                            <TextInputBootstrap label="Date of Birth" name="dob" type="date" />
+                            <TextInputBootstrap
+                                label="Date of Birth"
+                                name="dateOfBirth"
+                                type="date"
+                            />
                             <FormGroup row>
                                 <Label sm={3}>Profile Visibility</Label>
                                 <Col sm={4}>
                                     <MySelect name="visibility" label="Profile Visibility">
-                                        <option value="open">Open</option>
-                                        <option defaultChecked value="private">
+                                        <option value="OPEN">Open</option>
+                                        <option defaultChecked value="PRIVATE">
                                             Private
                                         </option>
-                                        <option value="closed">Closed</option>
+                                        <option value="CLOSED">Closed</option>
                                     </MySelect>
                                 </Col>
                             </FormGroup>
@@ -151,7 +168,8 @@ export default function CreateProfile() {
                             <FormGroup row>
                                 <Label sm={3}>Organizations</Label>
                                 <Col sm={8}>
-                                    <MySelect name="organization" label="Organizations">
+                                    <MySelect name="organizationId" label="Organizations">
+                                        <option defaultChecked> </option>
                                         {organizationList.map((org, index) => (
                                             <option key={index} value={org.id}>
                                                 {org.name}
@@ -167,18 +185,13 @@ export default function CreateProfile() {
                     </Row>
 
                     <button type="submit">Save</button>
+                    <button>
+                        <Link to="/dashboard">Skip</Link>
+                    </button>
                 </Form>
             </Formik>
-
-            {/* // ! REVISIT - property type doesn't exist on profile */}
-            {/* <label>Profile Status: {profile.profileStatus}</label> */}
-            {/* </form> */}
-            {/* <button id="finishButton" onClick={handleFormSubmit}>
-                Finish
-            </button>
-            <button id="skipButton" onClick={handleSkipSubmit}>
-                Skip
-            </button> */}
         </div>
     );
 }
+
+export default IsLoadingHOC(CreateProfile, "Please wait while he hit this nae nae");

@@ -6,8 +6,26 @@ const instance = axios.create({
 
 // ! REVISIT
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export async function apiCreateTeam(token: string, team: any) {
-    return instance.post("/team/createTeam", team, {
+export function apiCreateTeam(token: string, team: any) {
+    return instance.post("/api/team", team, {
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+        },
+    });
+}
+
+export function apiGetPlayerInfo(token: string) {
+    return instance.get("/api/player", {
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+        },
+    });
+}
+
+export async function apiCreatePlayer(token: string, values: any) {
+    return instance.patch("/api/player/finish", values, {
         headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
@@ -26,7 +44,7 @@ export async function apiShowAllTeams(token: string) {
 
 export async function apiJoinTeam(token: string, playerId: string, teamId: number) {
     const body = { playerId, teamId };
-    return instance.post("/team/joinOpenTeam", body, {
+    return instance.post("/team/request", body, {
         headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
@@ -37,6 +55,15 @@ export async function apiJoinTeam(token: string, playerId: string, teamId: numbe
 export async function apiShowAllPlayersTeams(playerId: string, token: string) {
     const body = { playerId };
     return instance.post("/team/showAllPlayersTeams", body, {
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+        },
+    });
+}
+
+export async function apiGetOrganizationList(token: string) {
+    return instance.get("/api/organization", {
         headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,

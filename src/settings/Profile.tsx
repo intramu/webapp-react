@@ -1,13 +1,15 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import React, { useEffect, useState } from "react";
 import { Formik, Form } from "formik";
+import { Button, Col, FormGroup, Label, Row } from "reactstrap";
 import { profileEdit } from "../common/validationSchemas";
-import { TextInputBootstrap } from "../common/inputs";
+import { MySelect, TextInputBootstrap } from "../common/inputs";
+import { apiGetPlayerInfo } from "../common/api";
 
 const dummyProfileData = {
-    firstName: "Noah",
-    lastName: "Roerig",
-    email: "NRoerig@my.gcu.edu",
+    firstName: "",
+    lastName: "",
+    email: "",
     gender: "MALE",
     language: "ENGLISH",
     dob: "02/21/2001",
@@ -16,31 +18,43 @@ const dummyProfileData = {
 };
 
 function Profile() {
-    const { user, getAccessTokenSilently } = useAuth0();
-    const [token, setToken] = useState<string>();
-    const [profile, setProfile] = useState(dummyProfileData);
+    const { getAccessTokenSilently } = useAuth0();
+    // const [token, setToken] = useState<string>();
+    const [profile, setProfile] = useState({
+        firstName: "",
+        lastName: "",
+        email: "",
+        gender: "",
+        language: "",
+        dob: "",
+        graduationTerm: "",
+        visibility: "",
+    });
 
     useEffect(() => {
-        console.log("Profile Fetch");
+        const getProfileInfo = async () => {
+            // todo: perform api request to fetch user data
+            const token = await getAccessTokenSilently();
+            const response = await apiGetPlayerInfo(token);
 
-        const getToken = async () => {
-            setToken(await getAccessTokenSilently());
+            console.log(response);
+
+            if (response.status === 200) {
+                setProfile(response.data);
+            } else {
+                console.log("error");
+            }
         };
 
-        // const getProfileInfo = async () => {
-        //     //todo: perform api request to fetch user data
-
-        // };
-
-        // getToken();
-        // getProfileInfo();
-    });
+        getProfileInfo();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     // const editProfile = () => {};
 
-    if (!user) {
-        return <div />;
-    }
+    // if (!user) {
+    //     return <div>Loading...</div>;
+    // }
 
     return (
         <div>
@@ -49,48 +63,110 @@ function Profile() {
             </h5>
             <Formik
                 initialValues={profile}
+                enableReinitialize
                 validationSchema={profileEdit}
                 onSubmit={(values, { setSubmitting }) => {
                     alert(values);
                 }}>
-                <Form>
-                    <div style={{ display: "flex", width: "50%" }}>
-                        <TextInputBootstrap label="First Name" name="firstName" type="text" />
-                        <TextInputBootstrap label="Last Name" name="lastName" type="text" />
-                    </div>
-                    <div style={{ display: "flex", width: "50%" }}>
-                        <img src="/logo192.png" alt="other" />
-                        <button style={{ height: "40px", margin: "auto" }}>Change Image</button>
-                    </div>
-                    <div style={{ display: "flex", width: "50%" }}>
-                        <TextInputBootstrap label="Email" name="email" type="email" />
-                        <TextInputBootstrap label="Gender" name="gender" type="text" />
-                    </div>
-                    <div style={{ display: "flex", width: "50%" }}>
-                        <TextInputBootstrap label="Language" name="language" type="text" />
-                        <TextInputBootstrap label="Date of Birth" name="dob" type="date" />
-                    </div>
-
-                    <div style={{ display: "flex", width: "50%" }}>
-                        <h6 style={{ flex: 1 }}>Graduation Term:</h6>
-                        <p style={{ flex: 1 }}>{profile.graduationTerm}</p>
-                    </div>
-
-                    <div style={{ display: "flex", width: "50%" }}>
-                        <h6 style={{ flex: 1 }}>Visibility: </h6>
-                        <p style={{ flex: 1 }}>{profile.visibility}</p>
-                    </div>
-                    <button type="submit">Save</button>
+                <Form style={{ width: "50%" }}>
+                    <Row>
+                        <Col md={6}>
+                            <FormGroup>
+                                <TextInputBootstrap
+                                    label="First Name"
+                                    name="firstName"
+                                    type="text"
+                                />
+                            </FormGroup>
+                        </Col>
+                        <Col md={6}>
+                            <FormGroup>
+                                <TextInputBootstrap label="Last Name" name="lastName" type="text" />
+                            </FormGroup>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col md={6} style={{ margin: "auto" }}>
+                            <FormGroup>
+                                <img src="/logo192.png" alt="other" />
+                            </FormGroup>
+                        </Col>
+                        <Col md={6} style={{ margin: "auto" }}>
+                            <FormGroup>
+                                <button style={{ width: "100%" }}>Change Image</button>
+                            </FormGroup>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col md={6}>
+                            <FormGroup>
+                                <TextInputBootstrap
+                                    label="Email"
+                                    name="emailAddress"
+                                    type="email"
+                                />
+                            </FormGroup>
+                        </Col>
+                        <Col md={6}>
+                            <FormGroup>
+                                <Label>Language</Label>
+                                <MySelect label="Gender" name="gender">
+                                    <option value="MALE">Male</option>
+                                    <option value="FEMALE">Female</option>
+                                </MySelect>
+                            </FormGroup>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col md={6}>
+                            <FormGroup>
+                                <Label>Language</Label>
+                                <MySelect label="Language" name="language">
+                                    <option value="ENGLISH">English</option>
+                                    <option value="SPANISH">Spanish</option>
+                                    <option value="NIGERIAN">Nigerian</option>
+                                </MySelect>
+                            </FormGroup>
+                        </Col>
+                        <Col md={6}>
+                            <FormGroup>
+                                <TextInputBootstrap label="Date of Birth" name="dob" type="date" />
+                            </FormGroup>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col md={6}>
+                            <FormGroup>
+                                <Label>Graduation Term:</Label>
+                            </FormGroup>
+                        </Col>
+                        <Col md={6}>
+                            <FormGroup>
+                                <p>{profile.graduationTerm}</p>
+                            </FormGroup>
+                        </Col>
+                    </Row>
+                    <FormGroup row>
+                        <Label sm={2}>Visibility:</Label>
+                        <Col sm={4}>
+                            <MySelect label="Visibility" name="visibility">
+                                <option value="PRIVATE">Private</option>
+                                <option value="OPEN">Open</option>
+                                <option value="CLOSED">Closed</option>
+                            </MySelect>
+                        </Col>
+                    </FormGroup>
+                    <Button type="submit">Save</Button>
                 </Form>
             </Formik>
 
-            {/* <p>Here are all the current details we have</p>
+            <p>Here are all the current details we have</p>
             <ul>
-                <li>Birthday: {user.birthdate}</li>
+                {/* <li>Birthday: {user.birthdate}</li>
                 <li>Name: {user.name}</li>
-                <li>Email: {user.email}</li>
-                <li>Token: {token}</li>
-            </ul> */}
+                <li>Email: {user.email}</li> */}
+                {/* <li>Token: {token}</li> */}
+            </ul>
         </div>
     );
 }

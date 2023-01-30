@@ -8,7 +8,7 @@ export function TextInputBootstrap(props) {
     const { id, name, label } = props;
     return (
         <>
-            <Label htmlFor={id || name}>{label}</Label>
+            {/* <Label htmlFor={id || name}>{label}</Label> */}
             <Input className="text-input" {...field} {...props} />
             {meta.touched && meta.error ? <div className="error">{meta.error}</div> : null}
         </>
@@ -19,12 +19,12 @@ export function MySelect(props) {
     const [field, meta] = useField(props);
     const { id, name, label } = props;
     return (
-        <div>
+        <>
             {/* <Label htmlFor={id || name}>{label}</Label> */}
 
             <Input type="select" {...field} {...props} />
 
             {meta.touched && meta.error ? <div className="error">{meta.error}</div> : null}
-        </div>
+        </>
     );
 }

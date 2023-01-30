@@ -30,31 +30,31 @@ root.render(
     <Auth0Provider
         domain="dev-5p-an07k.us.auth0.com"
         clientId="fSMneHc4uoLgAmfFZA9WUyHWULdXku4O"
-        redirectUri="http://localhost:3000/dashboard"
+        redirectUri="http://localhost:3000/createprofile"
         audience="https://server-authorization/">
         <BrowserRouter>
             <Routes>
                 <Route path="/" element={<Landing />} />
-                {/* <Route element={<AuthPlayer />}> */}
-                <Route element={<PlayerLayout />}>
-                    <Route path="/dashboard" element={<Dashboard />} />
-                    <Route path="/discover" element={<Discover />} />
-                    <Route path="/settings" element={<SettingsLayout />} />
-                    <Route path="team" element={<TeamLayout />}>
-                        <Route index element={<NewTeam />} />
-                        <Route path="create" element={<CreateTeam />} />
-                        <Route path="update" element={<UpdateTeam />} />
+                <Route element={<AuthPlayer />}>
+                    <Route element={<PlayerLayout />}>
+                        <Route path="/createprofile" element={<CreateProfile />} />
+                        <Route path="/dashboard" element={<Dashboard />} />
+                        <Route path="/discover" element={<Discover />} />
+                        <Route path="/settings" element={<SettingsLayout />} />
+                        <Route path="team" element={<TeamLayout />}>
+                            <Route index element={<NewTeam />} />
+                            <Route path="create" element={<CreateTeam />} />
+                            <Route path="update" element={<UpdateTeam />} />
+                        </Route>
+                        <Route path="/administration" element={<Fake />} />
                     </Route>
-                    <Route path="/administration" element={<Fake />} />
                 </Route>
-                {/* </Route> */}
                 <Route element={<AuthAdmin />}>
                     <Route path="admin" element={<AdminLayout />}>
                         <Route index element={<Home />} />
                         <Route path="competition-creator" element={<CompetitionCreator />} />
                     </Route>
                 </Route>
-                <Route path="/createprofile" element={<CreateProfile />} />
 
                 <Route path="/test" element={<Test />} />
                 <Route path="*" element={<Error404 />} />

@@ -1,45 +1,35 @@
 import React, { useState } from "react";
 import { Formik, Form } from "formik";
+import { FormGroup, Input, Label } from "reactstrap";
+
 import { TextInputBootstrap } from "../common/inputs";
 
 function Preferences() {
-    const [darkMode, setDarkMode] = useState("OFF");
+    const [darkMode, setDarkMode] = useState(true);
 
     return (
-        <div>
+        <div style={{ marginTop: "20px" }}>
             <h5>
                 <u>Preferences</u>
             </h5>
 
+            {/* formik is here in case more preferences get added */}
             <Formik
                 initialValues={{
                     darkMode: "off",
                 }}
                 onSubmit={(values) => {
-                    alert(values);
+                    // alert(values);
                 }}>
                 <Form>
-                    <div style={{ display: "flex", width: "50%" }}>
-                        <h6>Dark Mode</h6>
-
-                        <label>Off</label>
-                        <input
-                            name="darkMode"
-                            type="radio"
-                            value="Off"
-                            checked={darkMode === "OFF"}
-                            onChange={() => setDarkMode("OFF")}
+                    <FormGroup switch>
+                        <Input
+                            type="switch"
+                            checked={darkMode}
+                            onClick={() => setDarkMode((v) => !v)}
                         />
-
-                        <label>On</label>
-                        <input
-                            name="darkMode"
-                            type="radio"
-                            value="ON"
-                            checked={darkMode === "ON"}
-                            onChange={() => setDarkMode("ON")}
-                        />
-                    </div>
+                        <Label>Dark Mode</Label>
+                    </FormGroup>
                 </Form>
             </Formik>
         </div>
