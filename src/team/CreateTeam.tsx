@@ -1,7 +1,11 @@
 import { useAuth0 } from "@auth0/auth0-react";
+import { Formik, Form } from "formik";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Button, Col, FormGroup, Input, Label } from "reactstrap";
 import { apiCreateTeam } from "../common/api";
+import { Visibility } from "../common/enums";
+import { MySelect, TextInputBootstrap } from "../common/inputs";
 
 export default function CreateTeam() {
     const initialState = {
@@ -17,27 +21,14 @@ export default function CreateTeam() {
     const { getAccessTokenSilently, user } = useAuth0();
     const navigate = useNavigate();
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const handleInputChange = (e: any) => {
-        setTeam({
-            ...team,
-            [e.target.name]: e.target.value,
-        });
-    };
-
-    const handleSubmit = async () => {
+    const handleSubmit = async (values: any) => {
         try {
             const token = await getAccessTokenSilently();
-            if (!user) {
-                throw new Error("User not defined");
-            }
-            // ! REVISIT - determine how to handle no sub
-            team.playerId = user.sub ?? "";
-            // api call
-            const response = await apiCreateTeam(token, team);
+            const response = await apiCreateTeam(token, values);
             if (response.data.code < 1) {
                 setResponseMessage("Error creating team");
-                throw new Error("Error creating team");
+                console.log("Error creating team");
+                return;
             }
         } catch (error) {
             console.log(error);
@@ -49,53 +40,79 @@ export default function CreateTeam() {
     };
 
     return (
-        <main>
+        <div>
             <h1>Team Creator</h1>
-            <form>
-                <label>Name</label>
-                <input
-                    name="name"
-                    type="text"
-                    required
-                    value={team.name}
-                    onChange={handleInputChange}
-                />
-                <br />
-                <label>Image</label>
-                <input
-                    name="image"
-                    type="text"
-                    required
-                    value={team.image}
-                    onChange={handleInputChange}
-                />
-                <br />
-                <label>Visbility</label>
-                <select name="visibility" required onChange={handleInputChange}>
-                    <option value="PRIVATE">Private</option>
-                    <option value="OPEN">Open</option>
-                    <option value="CLOSED">Closed</option>
-                </select>
-                <br />
-                <label>Sport</label>
-                <input
-                    name="sport"
-                    type="text"
-                    required
-                    value={team.sport}
-                    onChange={handleInputChange}
-                />
-                <br />
-                <label>
-                    There should be a option here to choose a league just not sure how to display
-                    that
-                </label>
-                <br />
-            </form>
+            <hr />
+            <Formik
+                initialValues={{
+                    name: "",
+                    image: "",
+                    visibility: "",
+                    sport: "",
+                }}
+                onSubmit={(values: any) => {
+                    handleSubmit(values);
+                }}>
+                <Form>
+                    <FormGroup row>
+                        <Label for="name" sm={2}>
+                            Name
+                        </Label>
+                        <Col sm={10}>
+                            <TextInputBootstrap
+                                id="name"
+                                name="name"
+                                placeholder="Team Name"
+                                type="text"
+                            />
+                        </Col>
+                    </FormGroup>
+                    <FormGroup row>
+                        <Label for="image" sm={2}>
+                            File
+                        </Label>
+                        <Col sm={10}>
+                            <TextInputBootstrap id="image" name="image" type="file" />
+                        </Col>
+                    </FormGroup>
+                    <FormGroup row>
+                        <Label for="visibility" sm={2}>
+                            Visibility
+                        </Label>
+                        <Col sm={10}>
+                            <MySelect id="visibility" name="visibility">
+                                <option value={Visibility.CLOSED}>Closed</option>
+                                <option value={Visibility.OPEN}>Open</option>
+                                <option defaultChecked value={Visibility.PRIVATE}>
+                                    Private
+                                </option>
+                            </MySelect>
+                        </Col>
+                    </FormGroup>
+                    <FormGroup row>
+                        <Label for="sport" sm={2}>
+                            Visibility
+                        </Label>
+                        <Col sm={10}>
+                            <MySelect id="sport" name="sport">
+                                <option> </option>
+                                <option value="SOCCER">Soccer</option>
+                                <option value="BASKETBALL">Basketball</option>
+                            </MySelect>
+                        </Col>
+                    </FormGroup>
 
-            <button onClick={handleSubmit}>Create</button>
+                    <FormGroup row>
+                        <Col>
+                            <Button type="submit">Create</Button>
+                        </Col>
 
-            <h1>{responseMessage || ""}</h1>
-        </main>
+                        <Col sm={10}>
+                            <p>{responseMessage}</p>
+                        </Col>
+                    </FormGroup>
+                </Form>
+            </Formik>
+        </div>
     );
 }

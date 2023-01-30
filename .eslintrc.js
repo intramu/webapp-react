@@ -31,5 +31,12 @@ module.exports = {
         "react/no-array-index-key": "off",
         "jsx-a11y/label-has-associated-control": "off",
         "jsx-a11y/click-events-have-key-events": "off",
+        "prettier/prettier": [
+            "error",
+            {
+                endOfLine: "auto",
+            },
+        ],
+        "react/jsx-filename-extension": [1, { extensions: [".js", ".jsx", ".tsx"] }],
     },
 };

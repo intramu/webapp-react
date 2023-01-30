@@ -1,13 +1,70 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { Row } from "reactstrap";
+import DiscoverCard from "./DiscoverCard";
 
-export default function Network() {
+export default function Discover() {
+    const tempTeamList = [
+        {
+            id: "someId1",
+            name: "Affordable Christians",
+            sport: "Soccer",
+            wins: 12,
+            ties: 2,
+            losses: 1,
+            roster: [
+                {
+                    authId: "fdsafsd",
+                    firstName: "Noah",
+                    lastName: "Roerig",
+                    role: "CAPTAIN",
+                    gender: "MALE",
+                    status: "ACTIVE",
+                    image: "https://solepurpose-images.s3.us-west-2.amazonaws.com/sharkProfile.png",
+                },
+                {
+                    authId: "fdsafsd",
+                    firstName: "Stevan",
+                    lastName: "Perrino",
+                    role: "PLAYER",
+                    gender: "MALE",
+                    status: "ACTIVE",
+                    image: "https://solepurpose-images.s3.us-west-2.amazonaws.com/sharkProfile.png",
+                },
+            ],
+            visibility: "PRIVATE",
+            image: "https://solepurpose-images.s3.us-west-2.amazonaws.com/sharkProfile.png",
+            sportsmanshipScore: "4.0",
+            status: "ACTIVE",
+        },
+        {
+            id: "someId1",
+            name: "Affordable Christians",
+            sport: "Soccer",
+            wins: 12,
+            ties: 2,
+            losses: 1,
+            roster: [
+                {
+                    authId: "fdsafsd",
+                    firstName: "Noah",
+                    lastName: "Roerig",
+                    role: "CAPTAIN",
+                    gender: "MALE",
+                    status: "ACTIVE",
+                    image: "https://solepurpose-images.s3.us-west-2.amazonaws.com/sharkProfile.png",
+                },
+            ],
+            visibility: "PRIVATE",
+            image: "https://solepurpose-images.s3.us-west-2.amazonaws.com/sharkProfile.png",
+            sportsmanshipScore: "4.0",
+            status: "ACTIVE",
+        },
+    ];
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [teamList, setTeamList] = useState([]);
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [responseMessage, setResponseMessage] = useState("");
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { user, getAccessTokenSilently } = useAuth0();
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [filterOptions, setFilterOptions] = useState({
         sport: "",
@@ -15,71 +72,19 @@ export default function Network() {
         visibility: "",
     });
 
-    // const joinTeam = async (teamId) => {
-    //     try {
-    //         let token = await getAccessTokenSilently();
-    //         let response = apiJoinTeam(token, user.sub, teamId);
-
-    //         if (response.data.code < 1) throw Error("Couldnt join team");
-    //         for (let x = 0; x < teamList.length; x++) {
-    //             if (teamList[x].team_ID === 6) {
-    //                 let temp = { ...teamList };
-    //                 temp[x].VISIBILITY = "CLOSED";
-    //                 setTeamList(Object.values(temp));
-    //             }
-    //         }
-    //     } catch (error) {
-    //         console.log(error);
-    //     }
-    // };
-
-    // const requestToJoinTeam = async (teamId) => {
-    //     //Needs to be implemented
-    //     console.log(teamId);
-    // };
-
-    // useEffect(() => {
-    //     const showAllTeams = async () => {
-    //         try {
-    //             let token = await getAccessTokenSilently();
-    //             let response = await apiShowAllTeams(token);
-
-    //             console.log(response);
-    //             console.log(response.data.message);
-    //             if (response.data.code < 1) {
-    //                 throw new Error("Error getting all teams");
-    //             }
-
-    //             let data = response.data.dataPackage;
-    //             let sortedData = sort(data);
-    //             setTeamList(sortedData);
-    //         } catch (error) {
-    //             console.log(error);
-    //         }
-    //     };
-
-    //     showAllTeams();
-    // }, []);
-
-    // if()
+    useEffect(() => {
+        // get list of active teams from organization
+    });
 
     return (
-        <main>
+        <div style={{ padding: "10px" }}>
             <h1>Discover</h1>
             <h3>Discover new sports and teams to join</h3>
-            {/* < */}
-            <h2>{responseMessage || ""}</h2>
-            {/* // ! REVISIT - Network card is not defined */}
-            {/* {teamList.length &&
-                teamList.map((team, index) => (
-                    <NetworkCard
-                        key={index}
-                        team={team}
-                        currentPlayerId={user.sub}
-                        joinTeam={joinTeam}
-                        requestToJoinTeam={requestToJoinTeam}
-                    />
-                ))} */}
-        </main>
+            <Row>
+                {tempTeamList.map((team, index) => (
+                    <DiscoverCard key={index} team={team} />
+                ))}
+            </Row>
+        </div>
     );
 }

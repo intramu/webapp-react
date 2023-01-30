@@ -30,8 +30,8 @@ export default function Navbar() {
                                 </Link>
                             </li>
                             <li className="nav-item">
-                                <Link to="/profile" className="nav-link">
-                                    Profile
+                                <Link to="/settings" className="nav-link">
+                                    Settings
                                 </Link>
                             </li>
                             <li className="nav-item">
@@ -39,21 +39,21 @@ export default function Navbar() {
                                     Team
                                 </Link>
                             </li>
-                            <li className="nav-item">
+                            {/* <li className="nav-item">
                                 <Link to="/team" className="nav-link">
                                     League
                                 </Link>
-                            </li>
+                            </li> */}
                             <li className="nav-item">
-                                <Link to="/network" className="nav-link">
-                                    Network
+                                <Link to="/discover" className="nav-link">
+                                    Discover
                                 </Link>
                             </li>
-                            <li className="nav-item">
+                            {/* <li className="nav-item">
                                 <Link to="/administration" className="nav-link">
                                     Admin
                                 </Link>
-                            </li>
+                            </li> */}
                             <li className="nav-item">
                                 <LogoutButton />
                             </li>

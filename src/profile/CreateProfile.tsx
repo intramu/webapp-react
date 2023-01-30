@@ -1,190 +1,197 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-// import instance from "../endpoint";
-import jwtDecode from "jwt-decode";
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth0 } from "@auth0/auth0-react";
+import { Form, Formik } from "formik";
+import { Col, FormGroup, FormText, Label, Row } from "reactstrap";
+import { MySelect, TextInputBootstrap } from "../common/inputs";
+import { apiCreatePlayer, apiGetOrganizationList } from "../common/api";
+import { Language, Status, Visibility } from "../common/enums";
+import { IsLoadingHOC } from "../common/hoc/IsLoadingHOC";
 
-export default function CreateProfile() {
-    const initialState = {
-        id: "",
-        firstName: "",
-        lastName: "",
-        gender: "male",
-        language: "english",
-        graduationTerm: "",
-        dateOfBirth: "",
-        profileVisibility: "private",
-        profileCompletionStatus: "Incomplete",
-    };
-    const [profile, setProfile] = useState(initialState);
-    const urlParams = new URLSearchParams(window.location.search);
-    // const state = urlParams.get("state");
-    const urlToken = urlParams.get("token");
-
+function CreateProfile(props: any) {
+    const { getAccessTokenSilently } = useAuth0();
+    const { setLoading } = props;
     const navigate = useNavigate();
 
-    // ! REVISIT
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const getToken = async (): Promise<any> => {
-        if (!urlToken) {
-            throw new Error("No token");
+    const [organizationList, setOrganizationList] = useState([{ id: "", name: "" }]);
+
+    const handleFormSubmit = async (values: {
+        firstName: string;
+        lastName: string;
+        gender: string;
+        language: Language;
+        graduationTerm: string;
+        organizationId: string;
+        dateOfBirth: string;
+        visibility: Visibility;
+        status: Status;
+    }) => {
+        // call the api endpoint that creates the player profile and assigns there auth0 id
+        // to an organization
+
+        setLoading(true);
+
+        const token = await getAccessTokenSilently();
+        const response = await apiCreatePlayer(token, values);
+        if (response.status === 200) {
+            navigate("/dashboard");
         }
-        const decoded = jwtDecode(urlToken);
-        return decoded;
+
+        console.log(response.data);
+        setLoading(false);
     };
 
-    // ! REVISIT
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const handleInputChange = (e: { target: { name: any; value: any } }) => {
-        const { name, value } = e.target;
+    useEffect(() => {
+        const getOrganizationList = async () => {
+            const token = await getAccessTokenSilently();
+            const response = await apiGetOrganizationList(token);
 
-        // console.log(profile);
-        // console.log(value);
-        setProfile({
-            ...profile,
-            [name]: value,
-        });
-    };
+            setOrganizationList(response.data);
+        };
 
-    const handleFormSubmit = async () => {
-        try {
-            const token = await getToken();
-            setProfile((profile.id = token.sub));
+        getOrganizationList();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
-            // const response = await instance.post("/createsecprofile", profile);
-            // if (response.status === 200) {
-            //     console.log(response);
-            //     window.location.href = `https://dev-5p-an07k.us.auth0.com/continue?state=${state}`;
-            // } else {
-            // }
-        } catch (error) {
-            console.log(error);
-        }
-    };
-
-    const handleSkipSubmit = () => {
-        console.log("skipping");
-        navigate("/dashboard");
-    };
-
+    // todo: validation schema for this form
     return (
-        <div>
+        <div style={{ padding: "10px" }}>
             <h1>Create Profile</h1>
             <h3>Make sure to finish creating your profile</h3>
-            <form>
-                {/* First Name Input */}
-                <label htmlFor="firstName">First Name:</label>
-                <input
-                    type="text"
-                    name="firstName"
-                    id="firstName"
-                    value={profile.firstName}
-                    onChange={handleInputChange}
-                    required
-                    placeholder="Noah"
-                />
-                <br />
+            <p>
+                You will be allowed to explore your organization without creating your profile, but
+                you will not be able to partake in any Intramural activities until it is finished.
+            </p>
+            <hr />
+            <Formik
+                initialValues={{
+                    firstName: "",
+                    lastName: "",
+                    emailAddress: "",
+                    gender: "MALE",
+                    language: "ENGLISH",
+                    graduationTerm: "",
+                    organizationId: "",
+                    dateOfBirth: "",
+                    visibility: "PRIVATE",
+                    status: "Incomplete",
+                }}
+                onSubmit={(values: any) => {
+                    console.log(values);
+                    handleFormSubmit(values);
+                    // alert(values);
+                    // eslint-disable-next-line react/jsx-no-comment-textnodes
+                }}>
+                <Form>
+                    <Row>
+                        <Col md={6}>
+                            <TextInputBootstrap
+                                label="First Name"
+                                name="firstName"
+                                type="text"
+                                placeholder="Noah"
+                            />
+                            <TextInputBootstrap
+                                label="Last Name"
+                                name="lastName"
+                                type="text"
+                                placeholder="Roerig"
+                            />
 
-                {/* Last Name Input */}
-                <label htmlFor="lastName">Last Name:</label>
-                <input
-                    type="text"
-                    name="lastName"
-                    id="lastName"
-                    value={profile.lastName}
-                    onChange={handleInputChange}
-                    required
-                    placeholder="Roerig"
-                />
-                <br />
+                            {/* Keep this for now. Will remove later by grabbing email from auth key */}
+                            <TextInputBootstrap
+                                label="Email Address"
+                                name="emailAddress"
+                                type="text"
+                                placeholder="...@my.gcu.edu"
+                            />
+                            <FormText>Same as the one you signed up with.</FormText>
 
-                {/* Gender Input */}
-                <label>Gender:</label>
-                <label htmlFor="male">Male </label>
-                <input
-                    type="radio"
-                    name="gender"
-                    id="male"
-                    value="male"
-                    checked={profile.gender === "male"}
-                    onChange={handleInputChange}
-                />
+                            <FormGroup row>
+                                <Label sm={3}>Gender</Label>
+                                <Col sm={4}>
+                                    <MySelect name="gender" label="Gender">
+                                        <option defaultChecked value="MALE">
+                                            Male
+                                        </option>
+                                        <option value="FEMALE">Female</option>
+                                    </MySelect>
+                                </Col>
+                            </FormGroup>
 
-                <label htmlFor="female">Female </label>
-                <input
-                    type="radio"
-                    name="gender"
-                    id="female"
-                    value="female"
-                    checked={profile.gender === "female"}
-                    onChange={handleInputChange}
-                />
-                <label htmlFor="apachehelicopter">Apache Helicopter </label>
-                <input
-                    type="radio"
-                    name="gender"
-                    id="apachehelicopter"
-                    value="apachehelicopter"
-                    checked={profile.gender === "apachehelicopter"}
-                    onChange={handleInputChange}
-                />
-                <br />
+                            <FormGroup row>
+                                <Label sm={3}>Language</Label>
+                                <Col sm={4}>
+                                    <MySelect name="language" label="Language">
+                                        <option defaultChecked value="ENGLISH">
+                                            English
+                                        </option>
+                                        <option value="SPANISH">Spanish</option>
+                                        <option value="NIGERIAN">Nigerian</option>
+                                    </MySelect>
+                                </Col>
+                            </FormGroup>
 
-                {/* Language Input */}
-                <label htmlFor="">Language:</label>
-                <select name="language" id="language" onChange={handleInputChange} required>
-                    <option value="english">English</option>
-                    <option value="spanish">Spanish</option>
-                    <option value="nigerian">Nigerian</option>
-                </select>
-                <br />
+                            <FormGroup row>
+                                <Label sm={3}>Graduation Term</Label>
+                                <Col sm={4}>
+                                    <MySelect name="graduationTerm" label="Graduation Term">
+                                        <option defaultChecked value="fall2022">
+                                            Fall 2022
+                                        </option>
+                                        <option value="SPRING-2023">Spring 2023</option>
+                                        <option value="FALL-2023">Fall 2023</option>
+                                        <option value="SPRING-2023">Spring 2023</option>
+                                        <option value="FALL-2024">Fall 2024</option>
+                                    </MySelect>
+                                </Col>
+                            </FormGroup>
 
-                {/* Graduation Input */}
-                <label htmlFor="">Graduation Term:</label>
-                <select
-                    name="graduationTerm"
-                    id="graduationTerm"
-                    onChange={handleInputChange}
-                    required>
-                    <option value="fall2022">Fall 2022</option>
-                    <option value="spring2023">Spring 2023</option>
-                    <option value="fall2023">Fall 2023</option>
-                </select>
-                <br />
+                            <TextInputBootstrap
+                                label="Date of Birth"
+                                name="dateOfBirth"
+                                type="date"
+                            />
+                            <FormGroup row>
+                                <Label sm={3}>Profile Visibility</Label>
+                                <Col sm={4}>
+                                    <MySelect name="visibility" label="Profile Visibility">
+                                        <option value="OPEN">Open</option>
+                                        <option defaultChecked value="PRIVATE">
+                                            Private
+                                        </option>
+                                        <option value="CLOSED">Closed</option>
+                                    </MySelect>
+                                </Col>
+                            </FormGroup>
 
-                {/* Date of Birth Input */}
-                <label htmlFor="dateOfBirth">Date Of Birth: </label>
-                <input
-                    type="date"
-                    name="dateOfBirth"
-                    id="dateOfBirth"
-                    value={profile.dateOfBirth}
-                    onChange={handleInputChange}
-                    required
-                    placeholder="02/21/2001"
-                />
-                <br />
+                            <FormGroup row>
+                                <Label sm={3}>Organizations</Label>
+                                <Col sm={8}>
+                                    <MySelect name="organizationId" label="Organizations">
+                                        <option defaultChecked> </option>
+                                        {organizationList.map((org, index) => (
+                                            <option key={index} value={org.id}>
+                                                {org.name}
+                                            </option>
+                                        ))}
+                                    </MySelect>
+                                    <FormText>
+                                        Please select the organization your email belongs too.
+                                    </FormText>
+                                </Col>
+                            </FormGroup>
+                        </Col>
+                    </Row>
 
-                {/* Profile Visibility Input */}
-                <label htmlFor="profileVisibility">Profile Visibility: </label>
-                <select
-                    name="profileVisibility"
-                    id="profileVisibility"
-                    onChange={handleInputChange}
-                    required>
-                    <option value="public">Public</option>
-                    <option value="private">Private</option>
-                </select>
-                <br />
-
-                {/* // ! REVISIT - property type doesn't exist on profile */}
-                {/* <label>Profile Status: {profile.profileStatus}</label> */}
-            </form>
-            <button id="finishButton" onClick={handleFormSubmit}>
-                Finish
-            </button>
-            <button id="skipButton" onClick={handleSkipSubmit}>
-                Skip
-            </button>
+                    <button type="submit">Save</button>
+                    <button>
+                        <Link to="/dashboard">Skip</Link>
+                    </button>
+                </Form>
+            </Formik>
         </div>
     );
 }
+
+export default IsLoadingHOC(CreateProfile, "Please wait while he hit this nae nae");
