@@ -27,18 +27,18 @@ export enum Status {
     INCOMPLETE = "INCOMPLETE",
     BANNED = "BANNED",
     GRADUATED = "GRADUATED",
+    WAITING = "WAITING",
 }
 
 export enum TournamentType {
     SINGLE = "SINGLE",
     DOUBLE = "DOUBLE",
     ROUNDROBIN = "ROUND",
-    RANDOM = "RANDOM",
+    PICKFORME = "PICKFORME",
 }
 
 export enum TournamentSeedType {
     POINTS = "POINTS",
-    RANKING = "RANKING",
     RANDOM = "RANDOM",
 }
 
@@ -52,4 +52,13 @@ export enum TournamentStatus {
     WEATHER = "WEATHER",
     RESCHEDULED = "RESCHEDULED",
     OTHER = "OTHER",
+}
+
+export enum ContestType {
+    POINTS = "POINTS",
+}
+
+export enum PlayoffSeedingType {
+    CROSS = "CROSS",
+    INDEPENDENT = "INDEPENDENT",
 }
