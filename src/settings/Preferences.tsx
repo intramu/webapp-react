@@ -14,7 +14,7 @@ function Preferences() {
             </h5>
 
             {/* formik is here in case more preferences get added */}
-            <Formik
+            {/* <Formik
                 initialValues={{
                     darkMode: "off",
                 }}
@@ -31,7 +31,7 @@ function Preferences() {
                         <Label>Dark Mode</Label>
                     </FormGroup>
                 </Form>
-            </Formik>
+            </Formik> */}
         </div>
     );
 }

@@ -7,6 +7,12 @@ export enum Language {
     ENGLISH = "ENGLISH",
 }
 
+export enum Sport {
+    SOCCER = "SOCCER",
+    BASKETBALL = "BASKETBALL",
+    FLAGFOOTBALL = "FLAGFOOTBALL",
+}
+
 export enum Role {
     CAPTAIN = "CAPTAIN",
     COCAPTAIN = "COCAPTAIN",
@@ -36,7 +42,6 @@ export enum TournamentType {
     ROUNDROBIN = "ROUND",
     PICKFORME = "PICKFORME",
 }
-
 export enum TournamentSeedType {
     POINTS = "POINTS",
     RANDOM = "RANDOM",
@@ -61,4 +66,17 @@ export enum ContestType {
 export enum PlayoffSeedingType {
     CROSS = "CROSS",
     INDEPENDENT = "INDEPENDENT",
+}
+
+export enum DivisionType {
+    MENS = "MENS",
+    WOMENS = "WOMENS",
+    COED = "COED",
+}
+
+export enum DivisionLevel {
+    A = "A",
+    B = "B",
+    C = "C",
+    D = "D",
 }

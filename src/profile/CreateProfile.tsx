@@ -85,12 +85,15 @@ function CreateProfile(props: any) {
                 <Form>
                     <Row>
                         <Col md={6}>
+                            <Label sm={3}>First Name</Label>
                             <TextInputBootstrap
                                 label="First Name"
                                 name="firstName"
                                 type="text"
                                 placeholder="Noah"
                             />
+
+                            <Label sm={3}>Last Name</Label>
                             <TextInputBootstrap
                                 label="Last Name"
                                 name="lastName"
@@ -99,6 +102,7 @@ function CreateProfile(props: any) {
                             />
 
                             {/* Keep this for now. Will remove later by grabbing email from auth key */}
+                            <Label sm={3}>Email Address</Label>
                             <TextInputBootstrap
                                 label="Email Address"
                                 name="emailAddress"
@@ -147,6 +151,7 @@ function CreateProfile(props: any) {
                                 </Col>
                             </FormGroup>
 
+                            <Label sm={3}>Date of Birth</Label>
                             <TextInputBootstrap
                                 label="Date of Birth"
                                 name="dateOfBirth"
