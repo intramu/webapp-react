@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import { Formik, Form } from "formik";
-import { FormGroup, Input, Label } from "reactstrap";
+import { Formik } from "formik";
+import { Form as ReactForm, FormGroup, Input, Label } from "reactstrap";
 
 import { TextInputBootstrap } from "../common/inputs";
 
 function Preferences() {
-    const [darkMode, setDarkMode] = useState(true);
+    const [developer, setDeveloper] = useState(false);
 
     return (
         <div style={{ marginTop: "20px" }}>
@@ -16,22 +16,36 @@ function Preferences() {
             {/* formik is here in case more preferences get added */}
             {/* <Formik
                 initialValues={{
-                    darkMode: "off",
+                    darkMode: true,
                 }}
                 onSubmit={(values) => {
                     // alert(values);
                 }}>
                 <Form>
                     <FormGroup switch>
-                        <Input
-                            type="switch"
-                            checked={darkMode}
-                            onClick={() => setDarkMode((v) => !v)}
-                        />
+                        <Input type="switch" name="darkMode" />
                         <Label>Dark Mode</Label>
                     </FormGroup>
                 </Form>
             </Formik> */}
+
+            <ReactForm>
+                <FormGroup switch>
+                    <Input
+                        type="switch"
+                        checked={developer}
+                        onChange={() => setDeveloper(!developer)}
+                        // onClick={() => setDeveloper(!developer)}
+                    />
+                    <Label>Developer Mode</Label>
+                </FormGroup>
+            </ReactForm>
+
+            {developer && (
+                <div>
+                    <h6>Developer Mode</h6>
+                </div>
+            )}
         </div>
     );
 }

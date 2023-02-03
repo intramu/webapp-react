@@ -16,3 +16,25 @@ export interface Player {
     dateCreated: Date | null;
     organizationId: string;
 }
+
+export interface PlayerEdit {
+    authId: string;
+    firstName: string;
+    lastName: string;
+    emailAddress: string;
+    gender: string;
+    language: string;
+    dob: string;
+    graduationTerm: string;
+    visibility: string;
+}
+
+export interface PlayerTeam {
+    authId: string;
+    role: string;
+    firstName: string;
+    lastName: string;
+    gender: string;
+    status: string;
+    image: string;
+}

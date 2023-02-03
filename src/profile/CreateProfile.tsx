@@ -6,7 +6,7 @@ import { Col, FormGroup, FormText, Label, Row } from "reactstrap";
 import { MySelect, TextInputBootstrap } from "../common/inputs";
 import { apiCreatePlayer, apiGetOrganizationList } from "../common/api";
 import { Language, Status, Visibility } from "../common/enums";
-import { IsLoadingHOC } from "../common/hoc/IsLoadingHOC";
+// import { IsLoadingHOC } from "../common/hoc/IsLoadingHOC";
 
 function CreateProfile(props: any) {
     const { getAccessTokenSilently } = useAuth0();
@@ -199,4 +199,5 @@ function CreateProfile(props: any) {
     );
 }
 
-export default IsLoadingHOC(CreateProfile, "Please wait while he hit this nae nae");
+// export default IsLoadingHOC(CreateProfile, "Please wait while he hit this nae nae");
+export default CreateProfile;

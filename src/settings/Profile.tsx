@@ -6,9 +6,10 @@ import { profileEdit } from "../common/validationSchemas";
 import { MySelect, TextInputBootstrap } from "../common/inputs";
 import { isErrorResponse } from "../interfaces/ErrorResponse";
 import useAxios from "../common/hooks/useAxios";
-import { Player } from "../interfaces/Player";
+import { PlayerEdit } from "../interfaces/Player";
 
 const initialState = {
+    authId: "",
     firstName: "",
     lastName: "",
     emailAddress: "",
@@ -21,30 +22,38 @@ const initialState = {
 
 function Profile() {
     const { getRequest } = useAxios();
-    const [profile, setProfile] = useState<Player>();
+
+    const [profile, setProfile] = useState<PlayerEdit>();
     const [error, setError] = useState<string>();
+    const [isLoading, setLoading] = useState(false);
 
     useEffect(() => {
         const getProfile = async () => {
-            const response = await getRequest<Player>("/api/player");
+            setLoading(true);
+            const response = await getRequest<PlayerEdit>("/api/player");
             if (isErrorResponse(response)) {
                 setError(response.errorMessage);
+                setLoading(false);
                 return;
             }
-            console.log(response);
 
             setProfile(response);
+            setLoading(false);
         };
 
         getProfile();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    // const editProfile = () => {};
+    // This function will update the profile when the button is clicked
+    const editProfile = (values: PlayerEdit) => {
+        console.log("Needs to be updated");
+        console.log(values);
+    };
 
-    // if (!user) {
-    //     return <div>Loading...</div>;
-    // }
+    if (isLoading) {
+        return <div>Loading...</div>;
+    }
 
     if (error) {
         return <div>Error sorry :(</div>;
@@ -62,7 +71,7 @@ function Profile() {
                     emailAddress: Yup.string().email("Invalid emailAddress"),
                 })}
                 onSubmit={(values, { setSubmitting }) => {
-                    alert(JSON.stringify(values, null, 2));
+                    editProfile(values);
                 }}>
                 {(formik) => (
                     <Form style={{ width: "50%" }}>

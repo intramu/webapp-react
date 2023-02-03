@@ -8,7 +8,7 @@ function TeamCard({ team }: any) {
             <Card body>
                 <CardTitle tag="h5">{team.name}</CardTitle>
                 <CardText>{team.sport}</CardText>
-                <Button>Join Team</Button>
+                <Button>Leave Team</Button>
             </Card>
         </Col>
     );
