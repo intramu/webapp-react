@@ -1,4 +1,4 @@
-import { Visibility } from "../common/enums";
+import { Sport, Visibility } from "../common/enums";
 import { PlayerTeam } from "./Player";
 
 export interface Team {
@@ -17,4 +17,11 @@ export interface Team {
     players: PlayerTeam[];
     organizationId: string;
     bracketId: number;
+}
+
+export interface TeamNew {
+    name: string;
+    image: string;
+    visibility: Visibility;
+    sport: Sport;
 }

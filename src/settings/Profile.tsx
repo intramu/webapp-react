@@ -30,6 +30,7 @@ function Profile() {
     useEffect(() => {
         const getProfile = async () => {
             setLoading(true);
+            // change base url in useAxios to remove the /api path section
             const response = await getRequest<PlayerEdit>("/api/player");
             if (isErrorResponse(response)) {
                 setError(response.errorMessage);
@@ -180,14 +181,6 @@ function Profile() {
                     </Form>
                 )}
             </Formik>
-
-            <p>Here are all the current details we have</p>
-            <ul>
-                {/* <li>Birthday: {user.birthdate}</li>
-                <li>Name: {user.name}</li>
-                <li>Email: {user.email}</li> */}
-                {/* <li>Token: {token}</li> */}
-            </ul>
         </div>
     );
 }

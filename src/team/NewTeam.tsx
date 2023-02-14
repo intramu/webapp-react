@@ -5,20 +5,50 @@ import useAxios from "../common/hooks/useAxios";
 import { isErrorResponse } from "../interfaces/ErrorResponse";
 import { Team } from "../interfaces/Team";
 import InviteMembers from "./components/InviteMembers";
-import TeamCard from "./components/TeamCard";
+import TeamCard from "./components/NewTeamCard";
 import CreateTeam from "./CreateTeam";
+
+const teamList = [
+    {
+        id: 1,
+        name: "Affordable Christians",
+        wins: 2,
+        ties: 0,
+        losses: 0,
+        image: "",
+        visibility: "PRIVATE",
+        sport: "SOCCER",
+        dateCreated: new Date(),
+        sportsmanshipScore: 4.0,
+        status: "ACTIVE",
+        maxTeamSize: 12,
+        players: [
+            {
+                authId: "player1",
+                role: "CAPTAIN",
+                firstName: "Noah",
+                lastName: "Roerig",
+                gender: "MALE",
+                status: "ACTIVE",
+                image: "",
+            },
+        ],
+        organizationId: "dd",
+        bracketId: 1,
+    },
+];
 
 function NewTeam() {
     const { getRequest } = useAxios();
 
-    const [teams, setTeams] = useState<Team[]>();
+    const [teams, setTeams] = useState<Team[]>(teamList);
     const [error, setError] = useState<string>();
     const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
         const showAll = async () => {
             setIsLoading(true);
-            const response = await getRequest<Team[]>("/api/team");
+            const response = await getRequest<Team[]>("/api/team/");
             if (isErrorResponse(response)) {
                 setError(response.errorMessage);
                 setIsLoading(true);
@@ -26,25 +56,37 @@ function NewTeam() {
             }
 
             setTeams(response);
+            setIsLoading(false);
         };
         showAll();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    if (isLoading) {
-        return <div>Loading... </div>;
-    }
+    // if (error) {
+    //     return <div>Error</div>;
+    // }
+    // if (isLoading) {
+    //     return <div>Loading... </div>;
+    // }
 
     return (
         <div>
             <h1>Team</h1>
 
-            {teams?.map((team, index) => {
-                <TeamCard
-            })}
+            {teams.length === 0 && <p>Your not on a team</p>}
+
+            {teams?.map((team, index) => (
+                <TeamCard key={index} team={team} />
+            ))}
 
             <Button>
                 <Link style={{ textDecoration: "none", color: "white" }} to="/team/create">
                     New Team
+                </Link>
+            </Button>
+            <Button>
+                <Link style={{ textDecoration: "none", color: "white" }} to="/team/create">
+                    Join Team
                 </Link>
             </Button>
             {/* <InviteMembers /> */}
