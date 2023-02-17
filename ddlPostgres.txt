@@ -263,6 +263,7 @@ CREATE TABLE IF NOT EXISTS division(
 CREATE TABLE IF NOT EXISTS bracket(
 	ID SERIAL NOT NULL,
 	DAY_CHOICES VARCHAR(50)[] NOT NULL,
+	TIME_CHOICES trange[]
 	MAX_TEAM_AMOUNT INTEGER NOT NULL,
 	division_ID INTEGER NOT NULL,
 	PRIMARY KEY(ID),
@@ -283,6 +284,18 @@ CREATE TABLE IF NOT EXISTS bracket_time_slots(
 		REFERENCES bracket(ID)
 		ON DELETE CASCADE
 );
+
+CREATE TABLE test_bracket(
+	ID SERIAL NOT NULL,
+	TIME_CHOICES tmultirange NOT NULL
+);
+
+CREATE TABLE test_bracket_two(
+	ID SERIAL NOT NULL,
+	TIME_CHOICES tsmultirange NOT NULL
+);
+
+CREATE TYPE trange AS RANGE (subtype = time, multirange_type_name = tmultirange);
 
 with new_organization as (
 	INSERT INTO organization (NAME, IMAGE, INFO, MAIN_COLOR) 
