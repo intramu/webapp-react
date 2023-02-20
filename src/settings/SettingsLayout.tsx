@@ -1,4 +1,5 @@
-import React from "react";
+import { useAuth0 } from "@auth0/auth0-react";
+import React, { useEffect, useState } from "react";
 import { createUseStyles } from "react-jss";
 import Preferences from "./Preferences";
 import Profile from "./Profile";
@@ -11,6 +12,16 @@ const useStyles = createUseStyles({
 
 function SettingsLayout() {
     const classes = useStyles();
+    const { getAccessTokenSilently } = useAuth0();
+    const [token, setToken] = useState<string>("");
+
+    useEffect(() => {
+        const getToken = async () => {
+            setToken(await getAccessTokenSilently());
+        };
+        getToken();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     return (
         <div>
@@ -21,6 +32,7 @@ function SettingsLayout() {
 
             <Profile />
             <Preferences />
+            <h4>{token}</h4>
         </div>
     );
 }
