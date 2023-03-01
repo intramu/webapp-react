@@ -1,4 +1,6 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
+import { ErrorResponse } from "../interfaces/ErrorResponse";
+import { Player } from "../interfaces/Player";
 
 const instance = axios.create({
     baseURL: "http://localhost:8080/",
@@ -15,17 +17,33 @@ export function apiCreateTeam(token: string, team: any) {
     });
 }
 
-export function apiGetPlayerInfo(token: string) {
-    return instance.get("/api/player", {
-        headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-        },
-    });
+export function apiFindPlayerProfile<T>(token: string): Promise<T | ErrorResponse> {
+    return instance
+        .get<T>("/api/playr", {
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+        })
+        .then((res) => {
+            return res.data;
+        })
+        .catch((err) => {
+            const error = err as AxiosError;
+
+            const errno: ErrorResponse = {
+                statusCode: error.status || "500",
+                errorMessage: error.message || "Internal Server Error",
+            };
+
+            console.log(err);
+
+            return errno;
+        });
 }
 
 export async function apiCreatePlayer(token: string, values: any) {
-    return instance.patch("/api/player/finish", values, {
+    return instance.post("/api/player/", values, {
         headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,

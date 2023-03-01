@@ -4,39 +4,30 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button, Col, FormGroup, Input, Label } from "reactstrap";
 import { apiCreateTeam } from "../common/api";
-import { Visibility } from "../common/enums";
+import { Sport, Visibility } from "../common/enums";
+import useAxios from "../common/hooks/useAxios";
 import { MySelect, TextInputBootstrap } from "../common/inputs";
+import { isErrorResponse } from "../interfaces/ErrorResponse";
+import { Team, TeamNew } from "../interfaces/Team";
 
 export default function CreateTeam() {
-    const initialState = {
-        name: "",
-        image: "",
-        visibility: "PRIVATE",
-        sport: "",
-        playerId: "",
-    };
+    const [error, setError] = useState<string>();
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [isSuccess, setIsSuccess] = useState<boolean>(true);
 
-    const [team, setTeam] = useState(initialState);
-    const [responseMessage, setResponseMessage] = useState("");
-    const { getAccessTokenSilently, user } = useAuth0();
     const navigate = useNavigate();
+    const { postRequest } = useAxios();
 
-    const handleSubmit = async (values: any) => {
-        try {
-            const token = await getAccessTokenSilently();
-            const response = await apiCreateTeam(token, values);
-            if (response.data.code < 1) {
-                setResponseMessage("Error creating team");
-                console.log("Error creating team");
-                return;
-            }
-        } catch (error) {
-            console.log(error);
+    const handleSubmit = async (team: TeamNew) => {
+        setIsLoading(true);
+        const response = await postRequest<Team, TeamNew>("/api/team", team);
+        if (isErrorResponse(response)) {
+            setError(response.errorMessage);
+            setIsLoading(false);
         }
-        setResponseMessage("Team was created successfully");
-        setTimeout(() => {
-            navigate("/team");
-        }, 2000);
+
+        setIsSuccess(true);
+        setIsLoading(false);
     };
 
     return (
@@ -47,10 +38,10 @@ export default function CreateTeam() {
                 initialValues={{
                     name: "",
                     image: "",
-                    visibility: "",
-                    sport: "",
+                    visibility: Visibility.PRIVATE,
+                    sport: Sport.SOCCER,
                 }}
-                onSubmit={(values: any) => {
+                onSubmit={(values: TeamNew) => {
                     handleSubmit(values);
                 }}>
                 <Form>
@@ -108,7 +99,8 @@ export default function CreateTeam() {
                         </Col>
 
                         <Col sm={10}>
-                            <p>{responseMessage}</p>
+                            <p>{error}</p>
+                            <p>{isSuccess && "Team Created!"}</p>
                         </Col>
                     </FormGroup>
                 </Form>

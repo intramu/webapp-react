@@ -6,7 +6,7 @@ import { Col, FormGroup, FormText, Label, Row } from "reactstrap";
 import { MySelect, TextInputBootstrap } from "../common/inputs";
 import { apiCreatePlayer, apiGetOrganizationList } from "../common/api";
 import { Language, Status, Visibility } from "../common/enums";
-import { IsLoadingHOC } from "../common/hoc/IsLoadingHOC";
+// import { IsLoadingHOC } from "../common/hoc/IsLoadingHOC";
 
 function CreateProfile(props: any) {
     const { getAccessTokenSilently } = useAuth0();
@@ -85,12 +85,15 @@ function CreateProfile(props: any) {
                 <Form>
                     <Row>
                         <Col md={6}>
+                            <Label sm={3}>First Name</Label>
                             <TextInputBootstrap
                                 label="First Name"
                                 name="firstName"
                                 type="text"
                                 placeholder="Noah"
                             />
+
+                            <Label sm={3}>Last Name</Label>
                             <TextInputBootstrap
                                 label="Last Name"
                                 name="lastName"
@@ -99,6 +102,7 @@ function CreateProfile(props: any) {
                             />
 
                             {/* Keep this for now. Will remove later by grabbing email from auth key */}
+                            <Label sm={3}>Email Address</Label>
                             <TextInputBootstrap
                                 label="Email Address"
                                 name="emailAddress"
@@ -147,6 +151,7 @@ function CreateProfile(props: any) {
                                 </Col>
                             </FormGroup>
 
+                            <Label sm={3}>Date of Birth</Label>
                             <TextInputBootstrap
                                 label="Date of Birth"
                                 name="dateOfBirth"
@@ -194,4 +199,5 @@ function CreateProfile(props: any) {
     );
 }
 
-export default IsLoadingHOC(CreateProfile, "Please wait while he hit this nae nae");
+// export default IsLoadingHOC(CreateProfile, "Please wait while he hit this nae nae");
+export default CreateProfile;

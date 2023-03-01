@@ -20,7 +20,7 @@ export default function PlayerLayout() {
 
             <Outlet />
 
-            <Footer />
+            {/* <Footer /> */}
         </div>
     );
 }
