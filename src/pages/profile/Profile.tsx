@@ -3,11 +3,11 @@ import { Formik, Form } from "formik";
 import { Button, Col, FormGroup, Label, Row } from "reactstrap";
 import * as Yup from "yup";
 import { IPlayer } from "../../interfaces/IPlayer";
-import useSWR from "../../common/hooks/useSWR";
 import useAxios from "../../common/hooks/useAxios";
 import { Gender, Language, Status, Visibility } from "../../common/enums";
 import { SelectInput, TextInput } from "../../common/inputs";
 import { isErrorResponse } from "../../interfaces/ErrorResponse";
+import { IsLoadingHOC } from "../../common/hoc/IsLoadingHOC";
 
 const initialState = {
     authId: "",
@@ -24,7 +24,11 @@ const initialState = {
     dateCreated: new Date(),
 };
 
-function Profile() {
+interface IProfile {
+    setLoading(setLoading: boolean): void;
+}
+
+function Profile({ setLoading }: IProfile) {
     const [player, setPlayer] = useState<IPlayer>(initialState);
     const [error, setError] = useState<string>();
     const [isLoading, setIsLoading] = useState<boolean>();
@@ -40,14 +44,21 @@ function Profile() {
 
     useEffect(() => {
         const fetch = async () => {
+            // setLoading(true);
             const response = await getRequest<IPlayer>("/players");
+            console.log(response);
+
             if (isErrorResponse(response)) {
-                // handle error
+                console.log("test");
+
+                setError(response.errorMessage);
+                setLoading(false);
                 return;
             }
 
             response.dob = convertDate(response.dob);
             setPlayer(response);
+            setLoading(false);
         };
         fetch();
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -58,12 +69,12 @@ function Profile() {
         return newDate.toLocaleDateString("sv-SE");
     };
 
-    if (isLoading) {
-        return <div>Loading...</div>;
-    }
     if (error) {
         return <div>Error sorry :(</div>;
     }
+    // if (isLoading) {
+    //     return <div>Loading...</div>;
+    // }
     return (
         <div>
             <h5>
@@ -192,4 +203,4 @@ function Profile() {
     );
 }
 
-export default Profile;
+export default IsLoadingHOC(Profile, "Loading");

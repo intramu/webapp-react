@@ -2,31 +2,24 @@
 import React, { useEffect, useState } from "react";
 import { Spinner } from "reactstrap";
 
+// im havin an issue here
+// export const IsLoadingHOC = (WrappedComponent: React.FunctionComponent, loadingMessage: string) => {
 export const IsLoadingHOC = (WrappedComponent: any, loadingMessage: string) => {
     function HOC(props: any) {
-        const [isLoading, setIsLoading] = useState(false);
+        const [isLoading, setIsLoading] = useState<boolean>(true);
+        const [error, setError] = useState<string>();
 
         const setLoadingState = (isComponentLoading: boolean) => {
             setIsLoading(isComponentLoading);
         };
 
-        useEffect(() => {
-            console.log("here");
-
-            if (isLoading) {
-                setTimeout(() => {
-                    setIsLoading(false);
-                }, 3000);
-            }
-        }, [isLoading]);
-
-        if (isLoading) {
-            return <Spinner color="primary">Loading</Spinner>;
+        if (error) {
+            return <div>{error}</div>;
         }
 
         return (
             <>
-                {/* {isLoading && (
+                {isLoading && (
                     <div
                         style={{
                             position: "absolute",
@@ -41,10 +34,16 @@ export const IsLoadingHOC = (WrappedComponent: any, loadingMessage: string) => {
                             alignContent: "center",
                             flexDirection: "column",
                         }}>
-                        {loadingMessage}
+                        <Spinner>{loadingMessage}</Spinner>
                     </div>
-                )} */}
-                <WrappedComponent {...props} setLoading={setLoadingState} />
+                )}
+                {/* Do you think this is a good idea?
+                The wrapped component has to be rendered or else the request in useEffect
+                will not run. So I hide the component until the loading state resolves
+                back to false */}
+                <div style={{ display: isLoading ? "none" : "initial" }}>
+                    <WrappedComponent {...props} setLoading={setLoadingState} setError={setError} />
+                </div>
             </>
         );
     }
