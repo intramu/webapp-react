@@ -1,5 +1,6 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { Spinner } from "reactstrap";
 
 export const IsLoadingHOC = (WrappedComponent: any, loadingMessage: string) => {
     function HOC(props: any) {
@@ -9,9 +10,23 @@ export const IsLoadingHOC = (WrappedComponent: any, loadingMessage: string) => {
             setIsLoading(isComponentLoading);
         };
 
+        useEffect(() => {
+            console.log("here");
+
+            if (isLoading) {
+                setTimeout(() => {
+                    setIsLoading(false);
+                }, 3000);
+            }
+        }, [isLoading]);
+
+        if (isLoading) {
+            return <Spinner color="primary">Loading</Spinner>;
+        }
+
         return (
             <>
-                {isLoading && (
+                {/* {isLoading && (
                     <div
                         style={{
                             position: "absolute",
@@ -28,7 +43,7 @@ export const IsLoadingHOC = (WrappedComponent: any, loadingMessage: string) => {
                         }}>
                         {loadingMessage}
                     </div>
-                )}
+                )} */}
                 <WrappedComponent {...props} setLoading={setLoadingState} />
             </>
         );

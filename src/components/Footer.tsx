@@ -13,12 +13,13 @@ const useStyles = createUseStyles({
 export default function Footer() {
     const classes = useStyles();
     return (
-        <footer className={classes.footerContainer}>
-            <ul>
-                <li>API</li>
-                <li>Terms and Conditions</li>
-                <li>Careers</li>
-            </ul>
+        <footer>
+            <div>
+                <span>
+                    <img src="/logo192.png" alt="logo" />
+                    @2023 INTRAMU LLC, All Rights Reserved
+                </span>
+            </div>
         </footer>
     );
 }

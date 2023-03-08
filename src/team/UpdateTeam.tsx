@@ -1,7 +1,7 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
-import { apiUpdateTeam } from "../common/api";
+// import { apiUpdateTeam } from "../common/api";
 
 export default function UpdateTeam() {
     const { state } = useLocation();
@@ -20,14 +20,14 @@ export default function UpdateTeam() {
     };
 
     const handleSubmit = async () => {
-        console.log("test");
-        if (!user) {
-            throw new Error("No user defined");
-        }
-        const token = await getAccessTokenSilently();
-        // ! REVISIT - determine how to handle no sub
-        const response = await apiUpdateTeam(token, user.sub ?? "", updatedTeam);
-        console.log(response);
+        // console.log("test");
+        // if (!user) {
+        //     throw new Error("No user defined");
+        // }
+        // const token = await getAccessTokenSilently();
+        // // ! REVISIT - determine how to handle no sub
+        // const response = await apiUpdateTeam(token, user.sub ?? "", updatedTeam);
+        // console.log(response);
     };
 
     return (

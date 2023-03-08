@@ -2,7 +2,9 @@ import React from "react";
 import { createUseStyles } from "react-jss";
 import { Outlet } from "react-router-dom";
 import Footer from "../components/Footer";
-import Navbar from "../components/Navbar";
+import Navbar from "../components/navbar/NavbarDashboard";
+import Sidebar from "../components/Sidebar";
+import "../styles/scss/main.scss";
 
 const useStyles = createUseStyles({
     mainContainer: {
@@ -15,12 +17,18 @@ export default function PlayerLayout() {
     const classes = useStyles();
 
     return (
-        <div className={classes.mainContainer}>
+        <main id="player">
             <Navbar />
 
-            <Outlet />
+            <div id="main-page">
+                <Sidebar />
 
-            {/* <Footer /> */}
-        </div>
+                <div id="content">
+                    <Outlet />
+                </div>
+            </div>
+
+            <Footer />
+        </main>
     );
 }

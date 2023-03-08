@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { createUseStyles } from "react-jss";
 import { Link, useNavigate } from "react-router-dom";
 import { apiLeaveTeam, apiShowAllPlayersTeams } from "../common/api";
-import useApi from "../common/hooks/useApi";
+import useApi from "../common/hooks/useSWR";
 
 import TeamCard from "./components/TeamCard";
 
@@ -30,7 +30,7 @@ export default function Team() {
 
     const navigate = useNavigate();
 
-    const ApiShowAllPlayersTeams = useApi(apiShowAllPlayersTeams);
+    // const ApiShowAllPlayersTeams = useApi(apiShowAllPlayersTeams);
 
     useEffect(() => {
         const showAll = async () => {
@@ -38,7 +38,7 @@ export default function Team() {
             if (!user) {
                 throw new Error("User is not defined");
             }
-            ApiShowAllPlayersTeams.request(user.sub, token);
+            // ApiShowAllPlayersTeams.request(user.sub, token);
             // try {
             //
             //     setPlayerId(user.sub);
@@ -95,9 +95,9 @@ export default function Team() {
         navigate("/team/update-team", { state: team });
     };
 
-    if (ApiShowAllPlayersTeams.loading) return <h1>Loading</h1>;
+    // if (ApiShowAllPlayersTeams.loading) return <h1>Loading</h1>;
 
-    if (ApiShowAllPlayersTeams.error) return <h1>Network Error </h1>;
+    // if (ApiShowAllPlayersTeams.error) return <h1>Network Error </h1>;
     // if (teams.length === 0) {
     //     return (
     //         <main>
@@ -116,7 +116,7 @@ export default function Team() {
     return (
         <main className={blur ? classes.blurContainer : classes.container}>
             <h1>My Team(s)</h1>
-            {ApiShowAllPlayersTeams.data?.map((team, index) => (
+            {/* {ApiShowAllPlayersTeams.data?.map((team, index) => (
                 <TeamCard
                     key={index}
                     team={team}
@@ -125,7 +125,7 @@ export default function Team() {
                     updateTeam={updateTeam}
                     toggleBlur={toggleBlur}
                 />
-            ))}
+            ))} */}
 
             {/* {pageMessage ? <Popup /> : null} */}
 

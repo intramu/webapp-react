@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Form, Formik } from "formik";
 import { Col, FormGroup, FormText, Label, Row } from "reactstrap";
-import { MySelect, TextInputBootstrap } from "../common/inputs";
+import { SelectInput, TextInput } from "../common/inputs";
 import { apiCreatePlayer, apiGetOrganizationList } from "../common/api";
 import { Language, Status, Visibility } from "../common/enums";
 // import { IsLoadingHOC } from "../common/hoc/IsLoadingHOC";
@@ -86,7 +86,7 @@ function CreateProfile(props: any) {
                     <Row>
                         <Col md={6}>
                             <Label sm={3}>First Name</Label>
-                            <TextInputBootstrap
+                            <TextInput
                                 label="First Name"
                                 name="firstName"
                                 type="text"
@@ -94,7 +94,7 @@ function CreateProfile(props: any) {
                             />
 
                             <Label sm={3}>Last Name</Label>
-                            <TextInputBootstrap
+                            <TextInput
                                 label="Last Name"
                                 name="lastName"
                                 type="text"
@@ -103,7 +103,7 @@ function CreateProfile(props: any) {
 
                             {/* Keep this for now. Will remove later by grabbing email from auth key */}
                             <Label sm={3}>Email Address</Label>
-                            <TextInputBootstrap
+                            <TextInput
                                 label="Email Address"
                                 name="emailAddress"
                                 type="text"
@@ -114,32 +114,34 @@ function CreateProfile(props: any) {
                             <FormGroup row>
                                 <Label sm={3}>Gender</Label>
                                 <Col sm={4}>
-                                    <MySelect name="gender" label="Gender">
+                                    <SelectInput TextInput="gender" label="Gender">
                                         <option defaultChecked value="MALE">
                                             Male
                                         </option>
                                         <option value="FEMALE">Female</option>
-                                    </MySelect>
+                                    </SelectInput>
+                                    TextInput{" "}
                                 </Col>
                             </FormGroup>
 
                             <FormGroup row>
                                 <Label sm={3}>Language</Label>
                                 <Col sm={4}>
-                                    <MySelect name="language" label="Language">
+                                    <SelectInput TextInput="language" label="Language">
                                         <option defaultChecked value="ENGLISH">
                                             English
                                         </option>
                                         <option value="SPANISH">Spanish</option>
                                         <option value="NIGERIAN">Nigerian</option>
-                                    </MySelect>
+                                    </SelectInput>
+                                    TextInput{" "}
                                 </Col>
                             </FormGroup>
 
                             <FormGroup row>
                                 <Label sm={3}>Graduation Term</Label>
                                 <Col sm={4}>
-                                    <MySelect name="graduationTerm" label="Graduation Term">
+                                    <SelectInput TextInput="graduationTerm" label="Graduation Term">
                                         <option defaultChecked value="fall2022">
                                             Fall 2022
                                         </option>
@@ -147,40 +149,39 @@ function CreateProfile(props: any) {
                                         <option value="FALL-2023">Fall 2023</option>
                                         <option value="SPRING-2023">Spring 2023</option>
                                         <option value="FALL-2024">Fall 2024</option>
-                                    </MySelect>
+                                    </SelectInput>
+                                    TextInput{" "}
                                 </Col>
                             </FormGroup>
 
                             <Label sm={3}>Date of Birth</Label>
-                            <TextInputBootstrap
-                                label="Date of Birth"
-                                name="dateOfBirth"
-                                type="date"
-                            />
+                            <TextInput label="Date of Birth" name="dateOfBirth" type="date" />
                             <FormGroup row>
                                 <Label sm={3}>Profile Visibility</Label>
                                 <Col sm={4}>
-                                    <MySelect name="visibility" label="Profile Visibility">
+                                    <SelectInput TextInput="visibility" label="Profile Visibility">
                                         <option value="OPEN">Open</option>
                                         <option defaultChecked value="PRIVATE">
                                             Private
                                         </option>
                                         <option value="CLOSED">Closed</option>
-                                    </MySelect>
+                                    </SelectInput>
+                                    TextInput{" "}
                                 </Col>
                             </FormGroup>
 
                             <FormGroup row>
                                 <Label sm={3}>Organizations</Label>
                                 <Col sm={8}>
-                                    <MySelect name="organizationId" label="Organizations">
+                                    <SelectInput TextInput="organizationId" label="Organizations">
                                         <option defaultChecked> </option>
                                         {organizationList.map((org, index) => (
                                             <option key={index} value={org.id}>
                                                 {org.name}
                                             </option>
                                         ))}
-                                    </MySelect>
+                                    </SelectInput>
+                                    TextInput{" "}
                                     <FormText>
                                         Please select the organization your email belongs too.
                                     </FormText>

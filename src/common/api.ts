@@ -1,6 +1,5 @@
 import axios, { AxiosError } from "axios";
 import { ErrorResponse } from "../interfaces/ErrorResponse";
-import { Player } from "../interfaces/Player";
 
 const instance = axios.create({
     baseURL: "http://localhost:8080/",

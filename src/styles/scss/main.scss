@@ -1,0 +1,28 @@
+@use './player/network';
+@use './player/layout.scss';
+
+*{
+    padding: 0;
+    margin: 0;
+    // color: #BE3434;
+    // color
+}
+
+body, html, #root{
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+a {
+    font-size: .90em;
+}
+
+#loading-container{
+    background-color: green;
+    color: white;
+}
+
+
+
+

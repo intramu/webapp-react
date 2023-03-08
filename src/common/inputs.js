@@ -3,7 +3,7 @@ import React from "react";
 import { Input, Label } from "reactstrap";
 
 /* eslint-disable react/jsx-props-no-spreading */
-export function TextInputBootstrap(props) {
+export function TextInput(props) {
     const [field, meta] = useField(props);
     const { id, name, label } = props;
     return (
@@ -15,7 +15,7 @@ export function TextInputBootstrap(props) {
     );
 }
 
-export function MySelect(props) {
+export function SelectInput(props) {
     const [field, meta] = useField(props);
     const { id, name, label } = props;
     return (

@@ -7,7 +7,7 @@ import Division from "./Division";
 import { LeagueModel } from "../models/League";
 import League from "./League";
 import { apiCreateCompetition } from "../../common/api";
-import useApi from "../../common/hooks/useApi";
+import useApi from "../../common/hooks/useSWR";
 
 const useStyles = createUseStyles({
     leagueBox: {
@@ -26,7 +26,7 @@ const useStyles = createUseStyles({
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function BracketBuilder(props: any) {
-    const createCompetitionApi = useApi(apiCreateCompetition);
+    // const createCompetitionApi = useApi(apiCreateCompetition);
     const classes = useStyles();
 
     const { user, getAccessTokenSilently } = useAuth0();
@@ -55,7 +55,7 @@ function BracketBuilder(props: any) {
         if (!user) {
             throw new Error("User not defined");
         }
-        createCompetitionApi.request(token, user.sub, newList);
+        // createCompetitionApi.request(token, user.sub, newList);
         console.log("here");
     };
 
@@ -116,7 +116,7 @@ function BracketBuilder(props: any) {
             ))}
 
             <button onClick={handleSubmit}>Create</button>
-            {createCompetitionApi.error ? createCompetitionApi.error : null}
+            {/* {createCompetitionApi.error ? createCompetitionApi.error : null} */}
         </>
     );
 }

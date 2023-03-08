@@ -3,9 +3,9 @@ import { Link } from "react-router-dom";
 import { Button } from "reactstrap";
 import useAxios from "../common/hooks/useAxios";
 import { isErrorResponse } from "../interfaces/ErrorResponse";
-import { Team } from "../interfaces/Team";
+import { ITeam } from "../interfaces/ITeam";
 import InviteMembers from "./components/InviteMembers";
-import TeamCard from "./components/NewTeamCard";
+// import TeamCard from "./components/NewTeamCard";
 import CreateTeam from "./CreateTeam";
 
 const teamList = [
@@ -41,14 +41,14 @@ const teamList = [
 function NewTeam() {
     const { getRequest } = useAxios();
 
-    const [teams, setTeams] = useState<Team[]>(teamList);
+    const [teams, setTeams] = useState<ITeam[]>(teamList);
     const [error, setError] = useState<string>();
     const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
         const showAll = async () => {
             setIsLoading(true);
-            const response = await getRequest<Team[]>("/api/team/");
+            const response = await getRequest<ITeam[]>("/api/team/");
             if (isErrorResponse(response)) {
                 setError(response.errorMessage);
                 setIsLoading(true);
@@ -75,9 +75,9 @@ function NewTeam() {
 
             {teams.length === 0 && <p>Your not on a team</p>}
 
-            {teams?.map((team, index) => (
+            {/* {teams?.map((team, index) => (
                 <TeamCard key={index} team={team} />
-            ))}
+            ))} */}
 
             <Button>
                 <Link style={{ textDecoration: "none", color: "white" }} to="/team/create">

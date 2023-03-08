@@ -1,32 +1,63 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import "./styles/index.css";
 import { Auth0Provider } from "@auth0/auth0-react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Landing from "./Landing";
-import Dashboard from "./Dashboard";
+import Landing from "./pages/Landing";
 import PlayerLayout from "./layouts/PlayerLayout";
 import TeamLayout from "./layouts/TeamLayout";
+import Dashboard from "./pages/Dashboard";
+import OneTeam from "./pages/teams/[teamId]";
+import NewTeam from "./pages/teams/newTeam";
+import Network from "./pages/network";
+import ProfileSettings from "./pages/profile";
+import Help from "./pages/Help";
 import AuthPlayer from "./layouts/AuthPlayer";
-import Test from "./Test";
-import CreateProfile from "./profile/CreateProfile";
-import Team from "./team/Team";
-import CreateTeam from "./team/CreateTeam";
-import UpdateTeam from "./team/UpdateTeam";
-import Error404 from "./Error404";
-import AuthAdmin from "./layouts/AuthAdmin";
-import Home from "./admin/Home";
-import AdminLayout from "./layouts/AdminLayout";
-import CompetitionCreator from "./admin/CompetitionCreator/CompetitionCreator";
-import Fake from "./admin/Fake";
-import SettingsLayout from "./settings/SettingsLayout";
-import Discover from "./discover/Discover";
-import NewTeam from "./team/NewTeam";
+
+import OnePlayer from "./pages/players/[userId]";
+import Home from "./pages/landing/home";
+import LandingLayout from "./layouts/LandingLayout";
+import Holder from "./pages/holder";
 
 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 const root = ReactDOM.createRoot(document.getElementById("root")!);
 root.render(
     // <React.StrictMode>
+    // <Auth0Provider
+    //     domain="dev-5p-an07k.us.auth0.com"
+    //     clientId="fSMneHc4uoLgAmfFZA9WUyHWULdXku4O"
+    //     redirectUri="http://localhost:3000/dashboard"
+    //     audience="https://server-authorization/">
+    // <BrowserRouter>
+    // <Routes>
+    // <Route path="/" element={<Landing />} />
+    //             <Route element={<AuthPlayer />}>
+    //                 <Route element={<PlayerLayout />}>
+    //                     <Route path="/createprofile" element={<CreateProfile />} />
+    //                     <Route path="/dashboard" element={<Dashboard />} />
+    //                     <Route path="/discover" element={<Discover />} />
+    //                     <Route path="/settings" element={<SettingsLayout />} />
+    //                     <Route path="team" element={<TeamLayout />}>
+    //                         <Route index element={<NewTeam />} />
+    //                         <Route path="create" element={<CreateTeam />} />
+    //                         <Route path="update" element={<UpdateTeam />} />
+    //                     </Route>
+    //                     <Route path="/administration" element={<Fake />} />
+    //                 </Route>
+    //             </Route>
+    //             <Route element={<AuthAdmin />}>
+    //                 <Route path="admin" element={<AdminLayout />}>
+    //                     <Route index element={<Home />} />
+    //                     <Route path="competition-creator" element={<CompetitionCreator />} />
+    //                 </Route>
+    //             </Route>
+
+    //             <Route path="/test" element={<Test />} />
+    //             <Route path="*" element={<Error404 />} />
+    //         </Routes>
+    //     </BrowserRouter>
+    // </Auth0Provider>
+    // </React.StrictMode>
+
     <Auth0Provider
         domain="dev-5p-an07k.us.auth0.com"
         clientId="fSMneHc4uoLgAmfFZA9WUyHWULdXku4O"
@@ -34,34 +65,30 @@ root.render(
         audience="https://server-authorization/">
         <BrowserRouter>
             <Routes>
-                <Route path="/" element={<Landing />} />
                 <Route element={<AuthPlayer />}>
                     <Route element={<PlayerLayout />}>
-                        <Route path="/createprofile" element={<CreateProfile />} />
+                        {/* Sidebar routes */}
                         <Route path="/dashboard" element={<Dashboard />} />
-                        <Route path="/discover" element={<Discover />} />
-                        <Route path="/settings" element={<SettingsLayout />} />
-                        <Route path="team" element={<TeamLayout />}>
-                            <Route index element={<NewTeam />} />
-                            <Route path="create" element={<CreateTeam />} />
-                            <Route path="update" element={<UpdateTeam />} />
+                        <Route path="/test" element={<Holder />} />
+                        <Route path="teams" element={<TeamLayout />}>
+                            <Route path=":teamId" element={<OneTeam />} />
+                            <Route path="new" element={<NewTeam />} />
                         </Route>
-                        <Route path="/administration" element={<Fake />} />
+                        <Route path="/network" element={<Network />} />
+                        <Route path="/help" element={<Help />} />
+                        <Route path="/profile" element={<ProfileSettings />} />
+                        <Route path="/players/:userId" element={<OnePlayer />} />
                     </Route>
                 </Route>
-                <Route element={<AuthAdmin />}>
-                    <Route path="admin" element={<AdminLayout />}>
-                        <Route index element={<Home />} />
-                        <Route path="competition-creator" element={<CompetitionCreator />} />
-                    </Route>
+                <Route element={<LandingLayout />}>
+                    <Route path="/" element={<Home />} />
                 </Route>
 
-                <Route path="/test" element={<Test />} />
-                <Route path="*" element={<Error404 />} />
+                {/* <Route path="/landing/test.html" /> */}
+                {/* <Route path="/test" element={<Navigate to={"/landing/test.html"} /> */}
             </Routes>
         </BrowserRouter>
     </Auth0Provider>
-    // </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function

@@ -6,9 +6,9 @@ import { Button, Col, FormGroup, Input, Label } from "reactstrap";
 import { apiCreateTeam } from "../common/api";
 import { Sport, Visibility } from "../common/enums";
 import useAxios from "../common/hooks/useAxios";
-import { MySelect, TextInputBootstrap } from "../common/inputs";
+import { SelectInput, TextInput } from "../common/inputs";
 import { isErrorResponse } from "../interfaces/ErrorResponse";
-import { Team, TeamNew } from "../interfaces/Team";
+import { ITeam, ITeamNew } from "../interfaces/ITeam";
 
 export default function CreateTeam() {
     const [error, setError] = useState<string>();
@@ -18,9 +18,9 @@ export default function CreateTeam() {
     const navigate = useNavigate();
     const { postRequest } = useAxios();
 
-    const handleSubmit = async (team: TeamNew) => {
+    const handleSubmit = async (team: ITeamNew) => {
         setIsLoading(true);
-        const response = await postRequest<Team, TeamNew>("/api/team", team);
+        const response = await postRequest<ITeam, ITeamNew>("/api/team", team);
         if (isErrorResponse(response)) {
             setError(response.errorMessage);
             setIsLoading(false);
@@ -41,7 +41,7 @@ export default function CreateTeam() {
                     visibility: Visibility.PRIVATE,
                     sport: Sport.SOCCER,
                 }}
-                onSubmit={(values: TeamNew) => {
+                onSubmit={(values: ITeamNew) => {
                     handleSubmit(values);
                 }}>
                 <Form>
@@ -50,12 +50,7 @@ export default function CreateTeam() {
                             Name
                         </Label>
                         <Col sm={10}>
-                            <TextInputBootstrap
-                                id="name"
-                                name="name"
-                                placeholder="Team Name"
-                                type="text"
-                            />
+                            <TextInput id="name" name="name" placeholder="Team Name" type="text" />
                         </Col>
                     </FormGroup>
                     <FormGroup row>
@@ -63,7 +58,7 @@ export default function CreateTeam() {
                             File
                         </Label>
                         <Col sm={10}>
-                            <TextInputBootstrap id="image" name="image" type="file" />
+                            <TextInput id="image" name="image" type="file" />
                         </Col>
                     </FormGroup>
                     <FormGroup row>
@@ -71,13 +66,13 @@ export default function CreateTeam() {
                             Visibility
                         </Label>
                         <Col sm={10}>
-                            <MySelect id="visibility" name="visibility">
+                            <SelectInput id="visibility" name="visibility">
                                 <option value={Visibility.CLOSED}>Closed</option>
                                 <option value={Visibility.OPEN}>Open</option>
                                 <option defaultChecked value={Visibility.PRIVATE}>
                                     Private
                                 </option>
-                            </MySelect>
+                            </SelectInput>
                         </Col>
                     </FormGroup>
                     <FormGroup row>
@@ -85,11 +80,11 @@ export default function CreateTeam() {
                             Visibility
                         </Label>
                         <Col sm={10}>
-                            <MySelect id="sport" name="sport">
+                            <SelectInput id="sport" name="sport">
                                 <option> </option>
                                 <option value="SOCCER">Soccer</option>
                                 <option value="BASKETBALL">Basketball</option>
-                            </MySelect>
+                            </SelectInput>
                         </Col>
                     </FormGroup>
 
