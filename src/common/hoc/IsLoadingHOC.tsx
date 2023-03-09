@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import React, { useEffect, useState } from "react";
-import { Spinner } from "reactstrap";
+import React, { useState } from "react";
+import { Alert, Spinner } from "reactstrap";
 
 // im havin an issue here
 // export const IsLoadingHOC = (WrappedComponent: React.FunctionComponent, loadingMessage: string) => {
@@ -8,40 +8,35 @@ export const IsLoadingHOC = (WrappedComponent: any, loadingMessage: string) => {
     function HOC(props: any) {
         const [isLoading, setIsLoading] = useState<boolean>(true);
         const [error, setError] = useState<string>();
+        const [visible, setVisible] = useState<boolean>(true);
 
         const setLoadingState = (isComponentLoading: boolean) => {
             setIsLoading(isComponentLoading);
         };
 
-        if (error) {
-            return <div>{error}</div>;
-        }
-
         return (
             <>
                 {isLoading && (
-                    <div
-                        style={{
-                            position: "absolute",
-                            right: "50%",
-                            top: "50%",
-                            transform: "translate(50%, -50%)",
-                            height: "200px",
-                            width: "300px",
-                            backgroundColor: "grey",
-                            display: "flex",
-                            justifyContent: "center",
-                            alignContent: "center",
-                            flexDirection: "column",
-                        }}>
+                    <div>
                         <Spinner>{loadingMessage}</Spinner>
                     </div>
                 )}
-                {/* Do you think this is a good idea?
-                The wrapped component has to be rendered or else the request in useEffect
-                will not run. So I hide the component until the loading state resolves
-                back to false */}
-                <div style={{ display: isLoading ? "none" : "initial" }}>
+                {error && (
+                    <Alert
+                        isOpen={visible}
+                        toggle={() => setVisible((x) => !x)}
+                        color="danger"
+                        style={{
+                            position: "fixed",
+                            width: "80vw",
+                            right: "45%",
+                            bottom: "5%",
+                            transform: "translate(50%, -50%)",
+                        }}>
+                        {error}
+                    </Alert>
+                )}
+                <div id="pass-content" style={{ display: isLoading ? "none" : "flex" }}>
                     <WrappedComponent {...props} setLoading={setLoadingState} setError={setError} />
                 </div>
             </>
@@ -50,5 +45,3 @@ export const IsLoadingHOC = (WrappedComponent: any, loadingMessage: string) => {
 
     return HOC;
 };
-
-// export default IsLoadingHOC;

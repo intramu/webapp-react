@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { IsLoadingHOC } from "../../common/hoc/IsLoadingHOC";
 import useAxios from "../../common/hooks/useAxios";
 import useSWR from "../../common/hooks/useSWR";
 import Roster from "../../components/team/Roster";
@@ -7,16 +8,32 @@ import { isErrorResponse } from "../../interfaces/ErrorResponse";
 import { IJoinRequest } from "../../interfaces/IJoinRequest";
 import { ITeam } from "../../interfaces/ITeam";
 
-function OneTeam() {
+interface IOneTeam {
+    setLoading(setLoading: boolean): void;
+    setError(setError: string): void;
+}
+
+function OneTeam({ setError, setLoading }: IOneTeam) {
     const { teamId } = useParams();
 
     const { deleteRequest, postRequest } = useAxios();
 
     const { data: team, error, isLoading } = useSWR<ITeam>(`/teams/${teamId}`);
-    const { data: requests } = useSWR<IJoinRequest[]>(`/teams/${teamId}/requests`);
+    const {
+        data: requests,
+        isLoading: fetchIsLoading,
+        error: fetchError,
+    } = useSWR<IJoinRequest[]>(`/teams/${teamId}/requests`);
 
     console.log(requests);
 
+    useEffect(() => {
+        if (fetchError) {
+            setError(fetchError.errorMessage);
+        }
+        setLoading(false);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [fetchIsLoading]);
     // const declineRequest = async () => {};
 
     const acceptRequest = async (userId: string) => {
@@ -58,4 +75,4 @@ function OneTeam() {
     );
 }
 
-export default OneTeam;
+export default IsLoadingHOC(OneTeam, "Loading");
