@@ -1,12 +1,7 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import axios, { AxiosError } from "axios";
-import { boolean } from "yup";
+import { AxiosError } from "axios";
 import { ErrorResponse } from "../../interfaces/ErrorResponse";
-
-const appendedUrl = "user/v1/";
-const instance = axios.create({
-    baseURL: `http://localhost:8080/${appendedUrl}`,
-});
+import { instance } from "../../utilities/axiosInstance";
 
 export default () => {
     const { getAccessTokenSilently } = useAuth0();
@@ -79,6 +74,26 @@ export default () => {
             });
     }
 
+    async function putRequest<RETURN, BODY>(
+        url: string,
+        body?: BODY
+    ): Promise<RETURN | ErrorResponse> {
+        const token = await getAccessTokenSilently();
+        console.log(body);
+
+        return instance
+            .put<RETURN>(url, body, {
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                },
+            })
+            .then((res) => res.data)
+            .catch((err) => {
+                return handleError(err as AxiosError);
+            });
+    }
+
     async function deleteRequest(url: string): Promise<boolean | ErrorResponse> {
         const token = await getAccessTokenSilently();
         return instance
@@ -88,7 +103,7 @@ export default () => {
                     Authorization: `Bearer ${token}`,
                 },
             })
-            .then((res) => {
+            .then(() => {
                 return true;
             })
             .catch((err) => {
@@ -100,6 +115,7 @@ export default () => {
         getRequest,
         postRequest,
         patchRequest,
+        putRequest,
         deleteRequest,
     };
 

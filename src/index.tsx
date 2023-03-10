@@ -2,10 +2,9 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { Auth0Provider } from "@auth0/auth0-react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Landing from "./pages/Landing";
 import PlayerLayout from "./layouts/PlayerLayout";
 import TeamLayout from "./layouts/TeamLayout";
-import Dashboard from "./pages/Dashboard";
+import Dashboard from "./pages/dashboard";
 import OneTeam from "./pages/teams/[teamId]";
 import NewTeam from "./pages/teams/newTeam";
 import Network from "./pages/network";
@@ -17,6 +16,7 @@ import OnePlayer from "./pages/players/[userId]";
 import Home from "./pages/landing/home";
 import LandingLayout from "./layouts/LandingLayout";
 import Holder from "./pages/holder";
+import Messages from "./pages/messages";
 
 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 const root = ReactDOM.createRoot(document.getElementById("root")!);
@@ -69,7 +69,7 @@ root.render(
                     <Route element={<PlayerLayout />}>
                         {/* Sidebar routes */}
                         <Route path="/dashboard" element={<Dashboard />} />
-                        <Route path="/test" element={<Holder />} />
+                        <Route path="/messages" element={<Messages />} />
                         <Route path="teams" element={<TeamLayout />}>
                             <Route path=":teamId" element={<OneTeam />} />
                             <Route path="new" element={<NewTeam />} />
@@ -90,6 +90,10 @@ root.render(
         </BrowserRouter>
     </Auth0Provider>
 );
+
+/** This will fetch any requests when the app is first mounted and pass them to the message center.
+ * This will removed in later version when push notifications are used
+ */
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

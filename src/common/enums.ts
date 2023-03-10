@@ -13,6 +13,39 @@ export enum Sport {
     FLAGFOOTBALL = "FLAGFOOTBALL",
 }
 
+export enum ExSport {
+    CAPTAIN = "CAPTAIN",
+    COCAPTAIN = "COCAPTAIN",
+    PLAYER = "PLAYER",
+}
+
+// eslint-disable-next-line @typescript-eslint/no-namespace
+// export namespace ExSport {
+//     // export function promote(value: ExSport): string {
+//     //     if (value === 0) {
+//     //         return ExSport[value];
+//     //     }
+//     //     return ExSport[value - 1];
+//     // }
+//     export function promote(value: ExSport): ExSport {
+//         const vals = Object.values(ExSport);
+
+//         const index = vals.indexOf(value);
+//         const next: ExSport = vals[index + 1];
+//         // if (value === 0) {
+//         //     return value;
+//         // }
+//         // return value - 1;
+//     }
+
+//     export function demote(value: ExSport): ExSport {
+//         if (value === 2) {
+//             return value;
+//         }
+//         return value + 1;
+//     }
+// }
+
 export enum Role {
     CAPTAIN = "CAPTAIN",
     COCAPTAIN = "COCAPTAIN",

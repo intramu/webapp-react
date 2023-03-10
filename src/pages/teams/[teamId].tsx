@@ -40,7 +40,7 @@ function OneTeam() {
                 <h1>{team?.name}</h1>
             </div>
 
-            <Roster roster={team?.players ?? []} />
+            <Roster teamId={Number(teamId)} roster={team?.players ?? []} />
             <div className="container">Schedule</div>
             <div className="container">
                 <h1>Requests</h1>

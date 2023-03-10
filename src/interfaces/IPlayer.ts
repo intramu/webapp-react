@@ -1,7 +1,7 @@
-import { Gender, Language, Role, Status, Visibility } from "../common/enums";
+import { ExSport, Gender, Language, Role, Status, Visibility } from "../common/enums";
 
 export interface IPlayer {
-    authId: string | null;
+    authId: string;
     firstName: string;
     lastName: string;
     language: Language;

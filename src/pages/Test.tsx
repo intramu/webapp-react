@@ -1,5 +1,5 @@
 import React from "react";
-import { IsLoadingHOC } from "../common/hoc/IsLoadingHOC";
+import { IsLoadingHOC } from "../components/hoc/IsLoadingHOC";
 
 function Test(props: any) {
     const { setLoading } = props;

@@ -60,8 +60,8 @@ $container-width: 92%;
 
         #content {
             flex: auto;
-            background-color: grey;
-            border-radius: 1em 1em 0 0;
+            border-radius: 2em 2em 0 0;
+            background-color: #dfe1eb;
 
             overflow: scroll;
 
@@ -73,9 +73,10 @@ $container-width: 92%;
                 background-color: white;
                 width: $container-width;
                 position: relative;
-                border-radius: 20px;
+                border-radius: 2.3em;
                 margin: 1em;
                 padding: 1.5em;
+                box-shadow: 0 1px 8px 0 rgba(0, 0, 0, 0.1), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
             }
 
             .container:first-child{

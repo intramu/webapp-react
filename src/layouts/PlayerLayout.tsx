@@ -16,6 +16,8 @@ const useStyles = createUseStyles({
 export default function PlayerLayout() {
     const classes = useStyles();
 
+    console.log("rerendered");
+
     return (
         <main id="player">
             <Navbar />
