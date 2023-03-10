@@ -1,55 +1,47 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import React, { useEffect, useState } from "react";
-import { Spinner } from "reactstrap";
+import React, { useState } from "react";
+import { Alert, Spinner } from "reactstrap";
 
+// im havin an issue here
+// export const IsLoadingHOC = (WrappedComponent: React.FunctionComponent, loadingMessage: string) => {
 export const IsLoadingHOC = (WrappedComponent: any, loadingMessage: string) => {
     function HOC(props: any) {
-        const [isLoading, setIsLoading] = useState(false);
+        const [isLoading, setIsLoading] = useState<boolean>(true);
+        const [error, setError] = useState<string>();
+        const [visible, setVisible] = useState<boolean>(true);
 
         const setLoadingState = (isComponentLoading: boolean) => {
             setIsLoading(isComponentLoading);
         };
 
-        useEffect(() => {
-            console.log("here");
-
-            if (isLoading) {
-                setTimeout(() => {
-                    setIsLoading(false);
-                }, 3000);
-            }
-        }, [isLoading]);
-
-        if (isLoading) {
-            return <Spinner color="primary">Loading</Spinner>;
-        }
-
         return (
             <>
-                {/* {isLoading && (
-                    <div
-                        style={{
-                            position: "absolute",
-                            right: "50%",
-                            top: "50%",
-                            transform: "translate(50%, -50%)",
-                            height: "200px",
-                            width: "300px",
-                            backgroundColor: "grey",
-                            display: "flex",
-                            justifyContent: "center",
-                            alignContent: "center",
-                            flexDirection: "column",
-                        }}>
-                        {loadingMessage}
+                {isLoading && (
+                    <div>
+                        <Spinner>{loadingMessage}</Spinner>
                     </div>
-                )} */}
-                <WrappedComponent {...props} setLoading={setLoadingState} />
+                )}
+                {error && (
+                    <Alert
+                        isOpen={visible}
+                        toggle={() => setVisible((x) => !x)}
+                        color="danger"
+                        style={{
+                            position: "fixed",
+                            width: "80vw",
+                            right: "45%",
+                            bottom: "5%",
+                            transform: "translate(50%, -50%)",
+                        }}>
+                        {error}
+                    </Alert>
+                )}
+                <div id="pass-content" style={{ display: isLoading ? "none" : "flex" }}>
+                    <WrappedComponent {...props} setLoading={setLoadingState} setError={setError} />
+                </div>
             </>
         );
     }
 
     return HOC;
 };
-
-// export default IsLoadingHOC;
