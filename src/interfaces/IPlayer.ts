@@ -29,7 +29,7 @@ export interface IPlayerEdit {
 
 export interface IRosterPlayer {
     authId: string;
-    role: string;
+    role: Role;
     firstName: string;
     lastName: string;
     gender: string;

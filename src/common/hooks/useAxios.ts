@@ -6,10 +6,10 @@ import { instance } from "../../utilities/axiosInstance";
 export default () => {
     const { getAccessTokenSilently } = useAuth0();
 
-    async function getRequest<T>(url: string): Promise<T | ErrorResponse> {
+    async function getRequest<Return>(url: string): Promise<Return | ErrorResponse> {
         const token = await getAccessTokenSilently();
         return instance
-            .get<T>(url, {
+            .get<Return>(url, {
                 headers: {
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${token}`,
@@ -30,13 +30,13 @@ export default () => {
             });
     }
 
-    async function postRequest<RETURN, BODY>(
+    async function postRequest<Return, Body>(
         url: string,
-        body?: BODY
-    ): Promise<RETURN | ErrorResponse> {
+        body?: Body
+    ): Promise<Return | ErrorResponse> {
         const token = await getAccessTokenSilently();
         return instance
-            .post<RETURN>(url, body, {
+            .post<Return>(url, body, {
                 headers: {
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${token}`,
@@ -56,13 +56,13 @@ export default () => {
             });
     }
 
-    async function patchRequest<RETURN, BODY>(
+    async function patchRequest<Return, Body>(
         url: string,
-        body?: BODY
-    ): Promise<RETURN | ErrorResponse> {
+        body?: Body
+    ): Promise<Return | ErrorResponse> {
         const token = await getAccessTokenSilently();
         return instance
-            .patch<RETURN>(url, body, {
+            .patch<Return>(url, body, {
                 headers: {
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${token}`,
@@ -74,15 +74,15 @@ export default () => {
             });
     }
 
-    async function putRequest<RETURN, BODY>(
+    async function putRequest<Return, Body>(
         url: string,
-        body?: BODY
-    ): Promise<RETURN | ErrorResponse> {
+        body?: Body
+    ): Promise<Return | ErrorResponse> {
         const token = await getAccessTokenSilently();
         console.log(body);
 
         return instance
-            .put<RETURN>(url, body, {
+            .put<Return>(url, body, {
                 headers: {
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${token}`,
@@ -103,9 +103,7 @@ export default () => {
                     Authorization: `Bearer ${token}`,
                 },
             })
-            .then(() => {
-                return true;
-            })
+            .then(() => true)
             .catch((err) => {
                 return handleError(err as AxiosError);
             });

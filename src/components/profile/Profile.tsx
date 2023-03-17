@@ -120,8 +120,8 @@ function Profile() {
                                 <FormGroup>
                                     <Label>Gender</Label>
                                     <SelectInput label="Gender" name="gender">
-                                        <option value="MALE">Male</option>
-                                        <option defaultChecked value="FEMALE">
+                                        <option value={Gender.MALE}>Male</option>
+                                        <option defaultChecked value={Gender.FEMALE}>
                                             Female
                                         </option>
                                     </SelectInput>

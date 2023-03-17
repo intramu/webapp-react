@@ -89,7 +89,7 @@ function Roster({ roster, teamId }: IRoster) {
                                         Demote
                                     </button>
                                 )}
-                                {player.role === (Role.COCAPTAIN || Role.COCAPTAIN) && (
+                                {![Role.COCAPTAIN, Role.CAPTAIN].includes(player.role) && (
                                     <button onClick={() => kickPlayer(player.authId)}>Kick</button>
                                 )}
                             </span>
