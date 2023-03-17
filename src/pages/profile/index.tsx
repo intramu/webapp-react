@@ -5,6 +5,9 @@ import Settings from "./Settings";
 function ProfileSettings() {
     return (
         <div className="container">
+            <h5>
+                <u>Profile</u>
+            </h5>
             <Profile />
             <Settings />
         </div>
