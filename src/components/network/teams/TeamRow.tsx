@@ -7,8 +7,9 @@ import { ITeam } from "../../../interfaces/ITeam";
 
 interface ITeamRow {
     team: ITeam;
+    maxTeamSize: number;
 }
-function TeamRow({ team }: ITeamRow) {
+function TeamRow({ team, maxTeamSize }: ITeamRow) {
     const { postRequest } = useAxios();
     const navigate = useNavigate();
 
@@ -39,7 +40,6 @@ function TeamRow({ team }: ITeamRow) {
     return (
         <div style={{ display: "flex", flexDirection: "row" }}>
             <span>{team.name}</span>
-            <span>{team.visibility}</span>
 
             {team.visibility === Visibility.OPEN && (
                 <button onClick={() => joinTeam(team.id)}>Join</button>
@@ -48,6 +48,10 @@ function TeamRow({ team }: ITeamRow) {
             {team.visibility === Visibility.PRIVATE && (
                 <button onClick={() => requestToJoinTeam(team.id)}>Request</button>
             )}
+
+            <span>
+                {team.players.length}/{maxTeamSize}
+            </span>
         </div>
     );
 }
