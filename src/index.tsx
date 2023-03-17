@@ -8,7 +8,6 @@ import TeamLayout from "./layouts/TeamLayout";
 import Dashboard from "./pages/Dashboard";
 import OneTeam from "./pages/teams/[teamId]";
 import NewTeam from "./pages/teams/newTeam";
-import Network from "./pages/network";
 import ProfileSettings from "./pages/profile";
 import Help from "./pages/Help";
 import AuthPlayer from "./layouts/AuthPlayer";
@@ -17,6 +16,7 @@ import OnePlayer from "./pages/players/[userId]";
 import Home from "./pages/landing/home";
 import LandingLayout from "./layouts/LandingLayout";
 import Holder from "./pages/holder";
+import { Network } from "./pages/network";
 
 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 const root = ReactDOM.createRoot(document.getElementById("root")!);

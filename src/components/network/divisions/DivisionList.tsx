@@ -8,11 +8,11 @@ interface IDivisionList {
 
 function DivisionList({ divisions }: IDivisionList) {
     return (
-        <div style={{ marginLeft: "20px" }}>
+        <>
             {divisions.map((division, index) => (
                 <DivisionBox key={index} division={division} />
             ))}
-        </div>
+        </>
     );
 }
 

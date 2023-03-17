@@ -1,9 +1,13 @@
-import React, { useState } from "react";
+import React, { Suspense, useState } from "react";
+import { createUseStyles } from "react-jss";
+
 import useSWR from "../../common/hooks/useSWR";
 import LeaguesList from "../../components/network/leagues/LeagueList";
 import { IContest } from "../../interfaces/competition/IContest";
 
-function Network() {
+const useStyles = createUseStyles({});
+
+export function Network() {
     const { data, error, isLoading } = useSWR<IContest[]>("network");
 
     const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -15,8 +19,18 @@ function Network() {
     return (
         <>
             {/* <div className="content-container"> */}
-            <h1>Network</h1>
-            {data?.map((contest, index) => (
+            <span>
+                Fall 2023 Term 2{" "}
+                <input type="text" placeholder="Search for sports, team names, and more..." />
+            </span>
+            <Suspense fallback={<div>Loading...</div>}>
+                {data?.map((contest, index) => (
+                    <LeaguesList key={index} leagues={contest.leagues} />
+                ))}
+            </Suspense>
+
+            {/* contests need to be addressed differently especially with seasons and terms */}
+            {/* {data?.map((contest, index) => (
                 <div key={index} className="container network-container">
                     <h1>{contest.name}</h1>
                     <button
@@ -26,9 +40,7 @@ function Network() {
                     </button>
                     {isOpen && <LeaguesList leagues={contest.leagues} />}
                 </div>
-            ))}
+            ))} */}
         </>
     );
 }
-
-export default Network;
