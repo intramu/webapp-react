@@ -17,7 +17,11 @@ import Home from "./pages/landing/home";
 import LandingLayout from "./layouts/LandingLayout";
 import Holder from "./pages/holder";
 import Messages from "./pages/messages";
+import { TestOneTeam } from "./pages/teams/testOneTeam";
+import { TeamModel } from "./models/TeamModel";
+import { Term } from "./pages/network/[term]";
 
+const team = new TeamModel();
 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 const root = ReactDOM.createRoot(document.getElementById("root")!);
 root.render(
@@ -71,10 +75,12 @@ root.render(
                         <Route path="/dashboard" element={<Dashboard />} />
                         <Route path="/messages" element={<Messages />} />
                         <Route path="teams" element={<TeamLayout />}>
-                            <Route path=":teamId" element={<OneTeam />} />
+                            {/* <Route path=":teamId" element={<OneTeam />} /> */}
+                            <Route path=":teamId" element={<TestOneTeam store={team} />} />
                             <Route path="new" element={<NewTeam />} />
                         </Route>
-                        <Route path="/network" element={<Network />} />
+                        {/* <Route path="/network" element={<Network />} /> */}
+                        <Route path="/network" element={<Term />} />
                         <Route path="/help" element={<Help />} />
                         <Route path="/profile" element={<ProfileSettings />} />
                         <Route path="/players/:userId" element={<OnePlayer />} />

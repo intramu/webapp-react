@@ -14,8 +14,8 @@ function Network() {
 
     return (
         <>
-            {/* <div className="content-container"> */}
             <h1>Network</h1>
+
             {data?.map((contest, index) => (
                 <div key={index} className="container network-container">
                     <h1>{contest.name}</h1>

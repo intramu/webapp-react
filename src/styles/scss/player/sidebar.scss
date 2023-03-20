@@ -1,0 +1,63 @@
+$link-width: 75%;
+
+aside{
+    // this controls minimum width of sidebar
+    flex-basis: 18.5vw;
+
+    margin-top: 5em;
+
+    ul{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        list-style-type: none;
+        padding-left: 0;
+
+        li {
+            border: 1px solid rgba(255, 255, 211, .5);
+            width: $link-width;
+            border-radius: 5px;
+            box-shadow: 0 1px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+            margin: 1.2em;
+            min-height: 2.2em;
+
+            img {
+                height: 1.5em;
+                width: 1.5em;
+            }
+
+            .link-icon{    
+                margin: 0 1.1em 0 1em;
+            }
+
+            // for teams links
+            #teams-links{
+                display: flex;
+                flex-direction: column;
+                margin: 0 1.1em 0 1em;
+                a{
+                    text-decoration: none;
+                }
+
+                img{
+                    float: right;
+                }
+
+                hr{
+                    margin: .2em 0;
+                }
+            }
+        }
+    }
+
+    #profile {
+        display: flex;
+        flex-direction: row;
+        margin-left: 1.2em;
+
+        img{
+            height: 2.5em;
+            width: 2.5em;
+        }
+    }
+}

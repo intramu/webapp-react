@@ -1,5 +1,13 @@
+/** @jsxImportSource @emotion/react */
 import React, { useState } from "react";
 import { IDivision } from "../../../interfaces/competition/IDivision";
+import {
+    colors,
+    definedSizes,
+    flexCenterVertical,
+    smallIconSize,
+} from "../../../styles/scss/player/common";
+import { divisionContainer } from "../../../styles/scss/player/containers";
 import BracketList from "../brackets/BracketList";
 
 interface IDivisionBox {
@@ -7,10 +15,15 @@ interface IDivisionBox {
 }
 
 function DivisionBox({ division }: IDivisionBox) {
-    const [isOpen, setIsOpen] = useState<boolean>(true);
+    const [isOpen, setIsOpen] = useState<boolean>(false);
     return (
-        <div>
-            <h1>{division.type}</h1>
+        <div css={[divisionContainer, { backgroundColor: isOpen ? "white" : colors.content }]}>
+            <div css={[flexCenterVertical]}>
+                <span css={{ flex: 1 }}>{division.type}</span>
+                <button onClick={() => setIsOpen((x) => !x)}>
+                    <img css={[smallIconSize.md]} src="./logo192.png" alt="icon" />
+                </button>
+            </div>
             {isOpen && <BracketList brackets={division.brackets} />}
         </div>
     );

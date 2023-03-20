@@ -11,6 +11,7 @@ interface IRoster {
     roster: IRosterPlayer[];
     teamId: number;
 }
+
 function Roster({ roster, teamId }: IRoster) {
     const navigate = useNavigate();
     const { putRequest, deleteRequest } = useAxios();

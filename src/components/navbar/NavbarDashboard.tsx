@@ -1,11 +1,32 @@
+/** @jsxImportSource @emotion/react */
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { definedSizes, flexRow } from "../../styles/scss/player/common";
 
 export default function NavbarDashboard() {
     return (
-        <header>
-            <img id="icon" src="/logo192.png" alt="Logo" />
-            <div>
+        <header
+            css={{
+                height: definedSizes.navbarHeight,
+                marginRight: definedSizes.rightSidePageSpace,
+                position: "relative",
+                flex: "none",
+            }}>
+            <img
+                css={{ left: "4vw", height: "inherit", position: "absolute" }}
+                id="icon"
+                src="/logo192.png"
+                alt="Logo"
+            />
+            <div
+                css={[
+                    flexRow,
+                    {
+                        justifyContent: "right",
+                        alignItems: "center",
+                        height: "100%",
+                    },
+                ]}>
                 <Clock />
                 <div>
                     <Link to="/profile">Profile</Link>

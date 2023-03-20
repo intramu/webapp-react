@@ -11,8 +11,9 @@ module.exports = {
         ecmaVersion: "latest",
         sourceType: "module",
     },
-    plugins: ["react"],
+    plugins: ["react", "@emotion"],
     rules: {
+        "react/no-unknown-property": ["error", { ignore: ["css"] }],
         "no-unused-vars": "off",
         "@typescript-eslint/no-use-before-define": "off",
         "@typescript-eslint/no-unused-vars": [

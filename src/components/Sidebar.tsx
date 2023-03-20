@@ -1,10 +1,14 @@
+/** @jsxImportSource @emotion/react */
 import React from "react";
 import { Link } from "react-router-dom";
 import useSWR from "../common/hooks/useSWR";
 import { ITeam } from "../interfaces/ITeam";
+import { flexCenterVertical, flexColumn } from "../styles/scss/player/common";
+import "../styles/scss/player/sidebar.scss";
 
 function Sidebar() {
     const { data, isLoading } = useSWR<ITeam[]>("players/teams");
+    // make api call to grab list of seasons and terms
     console.log(data);
 
     return (
@@ -17,7 +21,11 @@ function Sidebar() {
                     Stevan Perrino
                 </span>
             </div>
-            <ul>
+            <ul
+                css={[
+                    flexCenterVertical,
+                    { flexDirection: "column", listStyleType: "none", paddingLeft: 0 },
+                ]}>
                 <li>
                     <span>
                         <Link to="/dashboard">
@@ -31,7 +39,7 @@ function Sidebar() {
                     <span>Teams</span>
 
                     {!isLoading && (
-                        <div id="teams-links">
+                        <div css={[flexColumn]} id="teams-links">
                             {data?.map((team, index) => (
                                 <span key={index}>
                                     <Link

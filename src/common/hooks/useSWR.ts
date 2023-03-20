@@ -21,9 +21,9 @@ const useSWR = <T>(url: string) => {
     const { getAccessTokenSilently } = useAuth0();
 
     useEffect(() => {
+        setIsLoading(true);
         const request = async () => {
             const token = await getAccessTokenSilently();
-            setIsLoading(true);
 
             instance
                 .get<T>(url, {
