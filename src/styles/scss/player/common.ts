@@ -1,16 +1,17 @@
 import { CSSObject } from "@emotion/react";
+import { createStyleMap } from "./stylemap";
 
 export const definedSizes = {
     navbarHeight: "11vh",
-    rightSidePageSpace: "7.5vw",
-    footerHeight: "5vh",
+    rightSidePageSpace: "6vw",
+    footerHeight: "4vh",
     iconHeight: "1.5em",
     iconWidth: "1.5em",
     borderRadius: "1em",
     contentPadding: "2em",
 
     networkIndentation: "0 2em",
-    // $link-width: 90%;
+    linkWidth: "75%",
     // containerWidth: "92%",
 };
 
@@ -18,29 +19,72 @@ export const standardShadows = {
     0: "0 1px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)",
 };
 
-// this seems unsafe because theres no typing
-// buuuuuut because its only height and width, I feel its ok
-export const smallIconSize = {
-    xs: "height: .5em; width: 5em",
-    sm: "height: 1em; width: 1em",
-    md: "height: 1.5em; width: 1.5em",
-    lg: "height: 2em; width: 2em",
+export const standardBorders = {
+    0: "1px solid rgba(255, 255, 211, .5)",
+    1: "1px solid rgba(0,0, 0, 1)",
 };
 
-export const sidebarLink: CSSObject = {
-    linkBorder: "1px solid rgba(255, 255, 211, .5)",
-    width: "90%",
-    borderRadius: definedSizes.borderRadius,
-    boxShadow: standardShadows[0],
-    margin: "1.2em",
-    minHeight: "2.2em",
+export const standardBorderRadius = {
+    sm: "5px",
+    md: "10px",
+    lg: "15px",
 };
+
+export const standardFontSizes = {
+    xs: "8px",
+    sm: "10px",
+    md: "13px",
+};
+
+export const iconSizing = createStyleMap({
+    xs: {
+        height: ".5em",
+        width: ".5em",
+    },
+    sm: {
+        height: "1em",
+        width: "1em",
+    },
+    md: {
+        height: "1.5em",
+        width: "1.5em",
+    },
+    lg: {
+        height: "2em",
+        width: "2em",
+    },
+});
 
 export const colors = {
     background: "white",
+    footer: "#3b3b3b",
     content: "#dfe1eb",
-    footer: "black",
-    containerBackground: "white",
+
+    // primary
+    // secondary:
+    // accent:
+    text1: "black",
+    text2: "grey",
+    // text2:
+};
+
+export const center: CSSObject = {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+};
+
+export const centerHorizontal: CSSObject = {
+    position: "absolute",
+    left: "50%",
+    transform: "translateX(-50%)",
+};
+
+export const centerVertical: CSSObject = {
+    position: "absolute",
+    top: "50%",
+    transform: "translateY(-50%)",
 };
 
 export const flexCenterVertical: CSSObject = {

@@ -1,22 +1,45 @@
-import React from "react";
-import { useAuth0 } from "@auth0/auth0-react";
+import React, {
+    FunctionComponent,
+    PropsWithChildren,
+    ReactElement,
+    ReactNode,
+    useEffect,
+} from "react";
+import { Auth0Context, useAuth0, withAuth0 } from "@auth0/auth0-react";
+// import { setToken } from "./utilities/axiosInstance";
 
-export default function Test() {
-    const { user, isAuthenticated, getIdTokenClaims } = useAuth0();
+// export default function Test({ children }: { children: PropsWithChildren }) {
 
-    const test = async () => {
-        console.log(await getIdTokenClaims());
-    };
-    test();
+//     return { children };
+// }
 
-    console.log(user);
+type FooProps = {
+    // look here 👇
+    children: ReactNode;
+};
 
-    if (!isAuthenticated || !user) {
-        return <div>Duh you cant access it</div>;
-    }
-    return (
-        <div>
-            <p>{`Email :${user.email}`}</p>
-        </div>
-    );
+interface testthing {
+    // eslint-disable-next-line react/require-default-props
+    children?: React.ReactNode;
 }
+
+// eslint-disable-next-line react/function-component-definition
+export const Test = (props: testthing) => {
+    const { children } = props;
+
+    const { getAccessTokenSilently } = useAuth0();
+
+    useEffect(() => {
+        const test = async () => {
+            const token = await getAccessTokenSilently();
+            console.log(token);
+
+            // setToken(token);
+        };
+        test();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    // eslint-disable-next-line react/jsx-no-useless-fragment
+    return <>{children}</>;
+};

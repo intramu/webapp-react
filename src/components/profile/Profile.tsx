@@ -8,6 +8,7 @@ import useAxios from "../../common/hooks/useAxios";
 import { Gender, Language, Status, Visibility } from "../../common/enums";
 import { SelectInput, TextInput } from "../../common/inputs";
 import { isErrorResponse } from "../../interfaces/ErrorResponse";
+// import { getRequest } from "../../common/functions/axiosRequests";
 
 const initialState = {
     authId: "",
@@ -41,6 +42,7 @@ function Profile() {
     useEffect(() => {
         const fetch = async () => {
             const response = await getRequest<IPlayer>("/players");
+            // const response = await getRequest<IPlayer>("/players");
             if (isErrorResponse(response)) {
                 // handle error
                 return;

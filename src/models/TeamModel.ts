@@ -27,8 +27,8 @@ export class TeamModel {
 
     // Im going to have an issue here because the token can only be grabbed through a hook call
     // there is an alternative
-    async fetchTeam(id: number, tempToken: string) {
-        const team = await getRequest<any>(`/teams/${id}`, tempToken);
+    async fetchTeam(id: number, token: string) {
+        const team = await getRequest<any>(`/teams/${id}`, token);
         if (isErrorResponse(team)) {
             return;
         }
@@ -43,7 +43,6 @@ export class TeamModel {
 
     removePlayer(authId: string) {
         // I think the api call will be here
-        const index = this.players.findIndex((x) => x.authId === authId);
-        this.players.splice(index, 1);
+        this.players = this.players.filter((player) => player.authId !== authId);
     }
 }

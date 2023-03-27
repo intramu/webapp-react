@@ -33,7 +33,7 @@ function NewTeam() {
         data: contests = [],
         error: fetchError,
         isLoading: fetchIsLoading,
-    } = useSWR<IContest[]>("network");
+    } = useSWR<IContest[]>("contests");
 
     console.log(contests);
 
@@ -150,10 +150,19 @@ function NewTeam() {
                                             formik.handleChange(e);
                                             updateLeagues(Number(e.target.value));
                                         }}>
+                                        <option value="" defaultChecked>
+                                            {" "}
+                                        </option>
                                         {/* Gives contest choices if organization offers more than one */}
-                                        {contests.map((contest, index) => {
+                                        {contests.map((contest) => {
+                                            if (contest.season)
+                                                return (
+                                                    <option key={contest.season} value={contest.id}>
+                                                        {contest.season}--{contest.term}
+                                                    </option>
+                                                );
                                             return (
-                                                <option key={index} value={contest.id}>
+                                                <option key={contest.name} value={contest.id}>
                                                     {contest.name}
                                                 </option>
                                             );
@@ -169,11 +178,12 @@ function NewTeam() {
                                     <SelectInput
                                         id="league"
                                         name="league"
+                                        disabled={!formik.values.contest}
                                         onChange={(e: any) => {
                                             formik.handleChange(e);
                                             updateDivisions(Number(e.target.value));
                                         }}>
-                                        <option value={0} defaultChecked>
+                                        <option value="" defaultChecked>
                                             {" "}
                                         </option>
                                         {/* Maps out leagues into sport choices */}
@@ -190,8 +200,11 @@ function NewTeam() {
                                     Division
                                 </Label>
                                 <Col sm={10}>
-                                    <SelectInput id="division" name="division">
-                                        <option value={0} defaultChecked>
+                                    <SelectInput
+                                        id="division"
+                                        name="division"
+                                        disabled={!formik.values.league}>
+                                        <option value="" defaultChecked>
                                             {" "}
                                         </option>
                                         {/* Maps out divisions for user */}
@@ -211,7 +224,6 @@ function NewTeam() {
 
                                 <Col sm={10}>
                                     <p>{error}</p>
-                                    <p>error</p>
                                     <p>{isSuccess && "Team Created!"}</p>
                                 </Col>
                             </FormGroup>

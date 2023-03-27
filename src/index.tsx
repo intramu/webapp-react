@@ -9,7 +9,6 @@ import OneTeam from "./pages/teams/[teamId]";
 import NewTeam from "./pages/teams/newTeam";
 import Network from "./pages/network";
 import ProfileSettings from "./pages/profile";
-import Help from "./pages/Help";
 import AuthPlayer from "./layouts/AuthPlayer";
 
 import OnePlayer from "./pages/players/[userId]";
@@ -20,6 +19,10 @@ import Messages from "./pages/messages";
 import { TestOneTeam } from "./pages/teams/testOneTeam";
 import { TeamModel } from "./models/TeamModel";
 import { Term } from "./pages/network/[term]";
+import { Test } from "./Test";
+import { AuthProvider } from "./utilities/auth/AuthProvider";
+import { Help } from "./pages/help";
+// import { Help } from "./pages/help";
 
 const team = new TeamModel();
 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -67,6 +70,7 @@ root.render(
         clientId="fSMneHc4uoLgAmfFZA9WUyHWULdXku4O"
         redirectUri="http://localhost:3000/dashboard"
         audience="https://server-authorization/">
+        {/* <AuthProvider> */}
         <BrowserRouter>
             <Routes>
                 <Route element={<AuthPlayer />}>
@@ -80,7 +84,7 @@ root.render(
                             <Route path="new" element={<NewTeam />} />
                         </Route>
                         {/* <Route path="/network" element={<Network />} /> */}
-                        <Route path="/network" element={<Term />} />
+                        <Route path="/network/:compId" element={<Term />} />
                         <Route path="/help" element={<Help />} />
                         <Route path="/profile" element={<ProfileSettings />} />
                         <Route path="/players/:userId" element={<OnePlayer />} />
@@ -94,6 +98,7 @@ root.render(
                 {/* <Route path="/test" element={<Navigate to={"/landing/test.html"} /> */}
             </Routes>
         </BrowserRouter>
+        {/* </AuthProvider> */}
     </Auth0Provider>
 );
 

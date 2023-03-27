@@ -44,15 +44,17 @@ function OneTeam() {
             <div className="container">Schedule</div>
             <div className="container">
                 <h1>Requests</h1>
-                {requests?.map((request, index) => (
-                    <span key={index}>
-                        {`${request.requesting_player_full_name} wants to join your team`}
-                        <button onClick={() => acceptRequest(request.player_auth_id)}>
-                            Accept
-                        </button>
-                        <button>Decline</button>
-                    </span>
-                ))}
+                {requests && requests.length > 0
+                    ? requests?.map((request, index) => (
+                          <span key={index}>
+                              {`${request.requesting_player_full_name} wants to join your team`}
+                              <button onClick={() => acceptRequest(request.player_auth_id)}>
+                                  Accept
+                              </button>
+                              <button>Decline</button>
+                          </span>
+                      ))
+                    : "No requests"}
             </div>
         </>
     );

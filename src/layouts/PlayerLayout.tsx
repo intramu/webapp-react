@@ -1,15 +1,15 @@
 /** @jsxImportSource @emotion/react */
 import React from "react";
 import { Outlet } from "react-router-dom";
-import Footer from "../components/Footer";
-import Navbar from "../components/navbar/NavbarDashboard";
-import Sidebar from "../components/Sidebar";
+import { FooterDashboard } from "../components/footer/FooterDashboard";
+import { NavbarDashboard } from "../components/navbar/NavbarDashboard";
+import Sidebar from "../components/sidebar/Sidebar";
 import { colors, definedSizes, flexColumn, flexRow } from "../styles/scss/player/common";
 
 export default function PlayerLayout() {
     return (
         <div css={[flexColumn, { height: "100vh" }]}>
-            <Navbar />
+            <NavbarDashboard />
 
             <div
                 css={[
@@ -34,7 +34,7 @@ export default function PlayerLayout() {
                 </div>
             </div>
 
-            <Footer />
+            <FooterDashboard />
         </div>
     );
 }

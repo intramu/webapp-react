@@ -8,7 +8,7 @@ export function Term() {
     // change to api call to grab season info with id
     const { compId } = useParams();
 
-    const { data: season, error, isLoading } = useSWR<IContest[]>("network");
+    const { data: season, error, isLoading } = useSWR<IContest>(`contests/${compId}`);
 
     console.log(season);
 
@@ -18,9 +18,10 @@ export function Term() {
     return (
         <div>
             <span>Fall 2023 Term 2</span>
-            {season?.map((contest) => (
+            {/* {season?.leagues.map((contest) => (
                 <LeaguesList key={contest.id} leagues={contest.leagues} />
-            ))}
+            ))} */}
+            <LeaguesList leagues={season?.leagues ?? []} />
         </div>
     );
 }

@@ -5,7 +5,7 @@ import {
     colors,
     definedSizes,
     flexCenterVertical,
-    smallIconSize,
+    iconSizing,
 } from "../../../styles/scss/player/common";
 import { divisionContainer } from "../../../styles/scss/player/containers";
 import BracketList from "../brackets/BracketList";
@@ -16,12 +16,15 @@ interface IDivisionBox {
 
 function DivisionBox({ division }: IDivisionBox) {
     const [isOpen, setIsOpen] = useState<boolean>(false);
+
+    const toggle = () => setIsOpen((x) => !x);
+
     return (
         <div css={[divisionContainer, { backgroundColor: isOpen ? "white" : colors.content }]}>
             <div css={[flexCenterVertical]}>
                 <span css={{ flex: 1 }}>{division.type}</span>
-                <button onClick={() => setIsOpen((x) => !x)}>
-                    <img css={[smallIconSize.md]} src="./logo192.png" alt="icon" />
+                <button onClick={toggle}>
+                    <img css={[iconSizing.md]} src="./logo192.png" alt="icon" />
                 </button>
             </div>
             {isOpen && <BracketList brackets={division.brackets} />}

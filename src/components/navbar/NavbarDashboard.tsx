@@ -1,9 +1,14 @@
 /** @jsxImportSource @emotion/react */
+import { CSSObject } from "@emotion/react";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { definedSizes, flexRow } from "../../styles/scss/player/common";
+import { definedSizes, flexRow, iconSizing } from "../../styles/scss/player/common";
 
-export default function NavbarDashboard() {
+const icon: CSSObject = {
+    margin: "0 .5em",
+};
+
+export function NavbarDashboard() {
     return (
         <header
             css={{
@@ -13,9 +18,9 @@ export default function NavbarDashboard() {
                 flex: "none",
             }}>
             <img
-                css={{ left: "4vw", height: "inherit", position: "absolute" }}
+                css={{ left: "4vw", top: "40px", height: "inherit", position: "absolute" }}
                 id="icon"
-                src="/logo192.png"
+                src="/intramulogo.png"
                 alt="Logo"
             />
             <div
@@ -29,13 +34,12 @@ export default function NavbarDashboard() {
                 ]}>
                 <Clock />
                 <div>
-                    <Link to="/profile">Profile</Link>
-                </div>
-                <div>
-                    <img src="/settings_FILL0_wght400_GRAD0_opsz48.svg" alt="test" />
-                </div>
-                <div>
-                    <Link to="/messages">Messages</Link>
+                    <Link css={[icon]} to="/profile">
+                        <img src="/settings_FILL0_wght400_GRAD0_opsz48.svg" alt="test" />
+                    </Link>
+                    <Link css={[icon]} to="/messages">
+                        <img css={[iconSizing.lg]} src="/email-svgrepo-com.svg" alt="test" />
+                    </Link>
                 </div>
             </div>
         </header>
@@ -66,10 +70,13 @@ function Clock() {
     });
 
     return (
-        <span>{`${time.getDate()} ${months[time.getMonth()]} ${time.getFullYear()}, ${
-            weekday[time.getDay()]
-        } ${time.getHours() > 12 ? time.getHours() - 12 : time.getHours()}:${time.getMinutes()} ${
-            time.getHours() > 11 ? "PM" : "AM"
-        }`}</span>
+        <>
+            <span>{`${time.getDate()} ${months[time.getMonth()]} ${time.getFullYear()}, ${
+                weekday[time.getDay()]
+            }`}</span>
+            <span css={{ margin: "0 1em" }}>{`${
+                time.getHours() > 12 ? time.getHours() - 12 : time.getHours()
+            }:${time.getMinutes()} ${time.getHours() > 11 ? "PM" : "AM"}`}</span>
+        </>
     );
 }

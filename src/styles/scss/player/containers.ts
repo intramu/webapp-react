@@ -11,7 +11,7 @@ const networkHeight = "7vh";
 const networkMargin = "1em 0";
 
 const commonContainer: CSSObject = {
-    backgroundColor: colors.containerBackground,
+    backgroundColor: colors.background,
     position: "relative",
     boxShadow: standardShadows[0],
     // padding: containerPadding,
@@ -36,7 +36,7 @@ export const quarterHolder: CSSObject = {
 };
 
 export const fullVerticalInfinite: CSSObject = {
-    backgroundColor: colors.containerBackground,
+    backgroundColor: colors.background,
     width: "92%",
     minHeight: "35vh",
     position: "relative",
@@ -46,7 +46,7 @@ export const fullVerticalInfinite: CSSObject = {
 };
 
 export const halfVerticalInfinite: CSSObject = {
-    backgroundColor: colors.containerBackground,
+    backgroundColor: colors.background,
     width: halfWidth,
     minHeight: fullHeight,
     position: "relative",
@@ -56,7 +56,7 @@ export const halfVerticalInfinite: CSSObject = {
 };
 
 export const half: CSSObject = {
-    backgroundColor: colors.containerBackground,
+    backgroundColor: colors.background,
     // width: `calc(50% - ${containerMargin} * 2)`,
     width: halfWidth,
     height: fullHeight,
@@ -69,7 +69,7 @@ export const half: CSSObject = {
 };
 
 export const quarter: CSSObject = {
-    backgroundColor: colors.containerBackground,
+    backgroundColor: colors.background,
     height: quarterHeight,
     position: "relative",
     borderRadius: definedSizes.borderRadius,
@@ -79,7 +79,7 @@ export const quarter: CSSObject = {
 };
 
 export const full: CSSObject = {
-    backgroundColor: colors.containerBackground,
+    backgroundColor: colors.background,
     // width: `calc(50% - ${containerMargin} * 2)`,
     width: "100%",
     height: fullHeight,
@@ -89,6 +89,12 @@ export const full: CSSObject = {
     boxShadow: standardShadows[0],
     padding: containerPadding,
     overflowY: "scroll",
+};
+
+export const fullDynamic: CSSObject = {
+    ...commonContainer,
+    margin: containerMargin,
+    padding: containerPadding,
 };
 
 export const networkContainer: CSSObject = {

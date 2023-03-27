@@ -1,7 +1,6 @@
 import React from "react";
 import { createUseStyles } from "react-jss";
 import { Outlet } from "react-router-dom";
-import Footer from "../components/Footer";
 import NavbarAdmin from "../components/navbar/NavbarAdmin";
 
 const useStyles = createUseStyles({
@@ -23,7 +22,7 @@ export default function AdminLayout() {
         <div className={classes.mainContainer}>
             <NavbarAdmin />
             <Outlet />
-            <Footer />
+            {/* <Footer /> */}
         </div>
     );
 }
