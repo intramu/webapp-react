@@ -1,9 +1,10 @@
 /** @jsxImportSource @emotion/react */
 import React, { useEffect } from "react";
+import { Helmet } from "react-helmet";
 import { IsLoadingHOC } from "../components/hoc/IsLoadingHOC";
 import { full, fullDynamic } from "../styles/scss/player/containers";
 
-function Dashboard(props: any) {
+export function Dashboard(props: any) {
     // useEffect(() => {
     //     setLoading(true);
 
@@ -15,6 +16,9 @@ function Dashboard(props: any) {
 
     return (
         <>
+            <Helmet>
+                <title>Dashboard</title>
+            </Helmet>
             <div css={[fullDynamic, { textAlign: "center" }]}>
                 <h1>Welcome to Intramu!</h1>
             </div>
@@ -24,5 +28,3 @@ function Dashboard(props: any) {
         </>
     );
 }
-
-export default IsLoadingHOC(Dashboard, "Loading...");

@@ -12,6 +12,7 @@ import {
     flexColumn,
     flexRow,
     iconSizing,
+    imageSizing,
     standardBorderRadius,
     standardBorders,
     standardFontSizes,
@@ -68,15 +69,33 @@ function Sidebar() {
     const { data: contests, error: contestsError } = useSWR<IContest[]>("/contests");
 
     return (
-        <aside css={{ flexBasis: "19vw", maxWidth: "19vw", marginTop: "5em" }}>
-            <div id="profile">
-                <img src="/logo192.png" alt="logo" />
+        <aside
+            css={[
+                flexColumn,
+                {
+                    flexBasis: 365,
+                    minWidth: 250,
+                    maxWidth: 400,
+                    flexShrink: 1,
+                },
+            ]}>
+            <div css={{ height: 250 }}>
+                <img
+                    css={[imageSizing.sm, { position: "relative", top: 60, left: 70 }]}
+                    src="/intramulogo.png"
+                    alt="Logo"
+                />
+            </div>
+
+            <div css={{ textAlign: "center" }}>
+                <img css={[iconSizing.lg]} src="/logo192.png" alt="logo" />
                 <span>
                     <span>Welcome</span>
                     <br />
                     Stevan Perrino
                 </span>
             </div>
+
             <ul
                 css={[
                     flexCenterVertical,
@@ -184,6 +203,13 @@ function Sidebar() {
                     <NavLink css={[link]} to="/help">
                         <img css={[icon]} src="/logo192.png" alt="logo" />
                         Help
+                    </NavLink>
+                </li>
+
+                <li css={[sidebarBox]}>
+                    <NavLink css={[link]} to="/test">
+                        <img css={[icon]} src="/logo192.png" alt="logo" />
+                        Test
                     </NavLink>
                 </li>
             </ul>

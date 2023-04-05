@@ -16,7 +16,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { ExSport, Role } from "../../common/enums";
 import useAxios from "../../common/hooks/useAxios";
-import { RosterPlayer } from "../../models/RosterPlayerModel";
+import { RosterPlayer } from "../../models/team/RosterPlayerModel";
 import InviteMembers from "./InviteMembers";
 
 interface IRoster {

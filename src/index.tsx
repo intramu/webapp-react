@@ -1,28 +1,26 @@
-import React from "react";
+import React, { Suspense } from "react";
 import ReactDOM from "react-dom/client";
 import { Auth0Provider } from "@auth0/auth0-react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import PlayerLayout from "./layouts/PlayerLayout";
 import TeamLayout from "./layouts/TeamLayout";
-import Dashboard from "./pages/dashboard";
-import OneTeam from "./pages/teams/[teamId]";
+import { Dashboard } from "./pages/dashboard";
+import { OneTeam } from "./pages/teams/[teamId]";
 import NewTeam from "./pages/teams/newTeam";
-import Network from "./pages/network";
-import ProfileSettings from "./pages/profile";
+import ProfileSettings from "./pages/settings";
 import AuthPlayer from "./layouts/AuthPlayer";
 
 import OnePlayer from "./pages/players/[userId]";
 import Home from "./pages/landing/home";
 import LandingLayout from "./layouts/LandingLayout";
-import Holder from "./pages/holder";
 import Messages from "./pages/messages";
 import { TestOneTeam } from "./pages/teams/testOneTeam";
 import { TeamModel } from "./models/TeamModel";
 import { Term } from "./pages/network/[term]";
 import { Test } from "./Test";
-import { AuthProvider } from "./utilities/auth/AuthProvider";
 import { Help } from "./pages/help";
-// import { Help } from "./pages/help";
+import { AuthProvider } from "./utilities/auth/AuthProvider";
+import { Setter } from "./utilities/auth/Setter";
 
 const team = new TeamModel();
 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -71,6 +69,7 @@ root.render(
         redirectUri="http://localhost:3000/dashboard"
         audience="https://server-authorization/">
         {/* <AuthProvider> */}
+        <Setter />
         <BrowserRouter>
             <Routes>
                 <Route element={<AuthPlayer />}>
@@ -79,8 +78,8 @@ root.render(
                         <Route path="/dashboard" element={<Dashboard />} />
                         <Route path="/messages" element={<Messages />} />
                         <Route path="teams" element={<TeamLayout />}>
-                            {/* <Route path=":teamId" element={<OneTeam />} /> */}
-                            <Route path=":teamId" element={<TestOneTeam store={team} />} />
+                            <Route path=":teamId" element={<OneTeam />} />
+                            {/* <Route path=":teamId" element={<TestOneTeam store={team} />} /> */}
                             <Route path="new" element={<NewTeam />} />
                         </Route>
                         {/* <Route path="/network" element={<Network />} /> */}
@@ -88,6 +87,7 @@ root.render(
                         <Route path="/help" element={<Help />} />
                         <Route path="/profile" element={<ProfileSettings />} />
                         <Route path="/players/:userId" element={<OnePlayer />} />
+                        <Route path="/test" element={<Test />} />
                     </Route>
                 </Route>
                 <Route element={<LandingLayout />}>

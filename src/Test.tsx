@@ -1,45 +1,45 @@
-import React, {
-    FunctionComponent,
-    PropsWithChildren,
-    ReactElement,
-    ReactNode,
-    useEffect,
-} from "react";
-import { Auth0Context, useAuth0, withAuth0 } from "@auth0/auth0-react";
-// import { setToken } from "./utilities/axiosInstance";
+import { useAuth0 } from "@auth0/auth0-react";
+import { observer } from "mobx-react-lite";
+import React, { Suspense, useEffect, useState } from "react";
+import { ErrorBoundary } from "react-error-boundary";
+import fetchData from "./common/api/fetchData";
+import { getRequest } from "./common/api/testFunctions";
+import { TestTeamModel } from "./models/TestTeamModel";
 
-// export default function Test({ children }: { children: PropsWithChildren }) {
+const resource = fetchData(`http://localhost:8080/api/v1/players/auth0|62760b4733c477006f82c56c`);
+const test = getRequest("", "");
 
-//     return { children };
-// }
-
-type FooProps = {
-    // look here 👇
-    children: ReactNode;
-};
-
-interface testthing {
-    // eslint-disable-next-line react/require-default-props
-    children?: React.ReactNode;
+export function Test() {
+    return (
+        <ErrorBoundary fallback={<div>Sorry an error occurred</div>}>
+            <Suspense fallback={<p>loading...</p>}>
+                <UserWelcome />
+            </Suspense>
+        </ErrorBoundary>
+    );
 }
 
-// eslint-disable-next-line react/function-component-definition
-export const Test = (props: testthing) => {
-    const { children } = props;
+const UserWelcome = observer(() => {
+    // const userDetails = resource.read();
+    const [team] = useState(() => new TestTeamModel());
 
     const { getAccessTokenSilently } = useAuth0();
 
     useEffect(() => {
-        const test = async () => {
+        const fetch = async () => {
             const token = await getAccessTokenSilently();
-            console.log(token);
-
-            // setToken(token);
+            team.fetchTeam(17, token);
         };
-        test();
+        fetch();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    // eslint-disable-next-line react/jsx-no-useless-fragment
-    return <>{children}</>;
-};
+    return (
+        <div>
+            <p>Welcome {team.id}</p>
+            {/* <p>Welcome {details.id}</p> */}
+        </div>
+    );
+});
+
+// framer motion

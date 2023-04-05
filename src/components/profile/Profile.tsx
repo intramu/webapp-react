@@ -1,3 +1,4 @@
+/** @jsxImportSource @emotion/react */
 import React, { useEffect, useState } from "react";
 import { Formik, Form } from "formik";
 import { Button, Col, FormGroup, Label, Row } from "reactstrap";
@@ -9,6 +10,7 @@ import { Gender, Language, Status, Visibility } from "../../common/enums";
 import { SelectInput, TextInput } from "../../common/inputs";
 import { isErrorResponse } from "../../interfaces/ErrorResponse";
 // import { getRequest } from "../../common/functions/axiosRequests";
+import { dynamicButton } from "../../styles/scss/player/buttons";
 
 const initialState = {
     authId: "",
@@ -25,10 +27,12 @@ const initialState = {
     dateCreated: new Date(),
 };
 
-function Profile() {
+export function Profile() {
     const [player, setPlayer] = useState<IPlayer>(initialState);
     const [error, setError] = useState<string>();
     const [isLoading, setIsLoading] = useState<boolean>();
+
+    const [isEditing, setIsEditing] = useState(true);
 
     const { patchRequest, getRequest } = useAxios();
 
@@ -67,10 +71,14 @@ function Profile() {
         return <div>Error sorry :(</div>;
     }
     return (
-        <div>
+        <>
             <h5>
                 <u>Profile</u>
             </h5>
+            <button css={[dynamicButton]} onClick={() => setIsEditing((x) => !x)}>
+                {isEditing ? "Edit" : "Cancel"}
+            </button>
+
             <Formik
                 enableReinitialize
                 initialValues={player}
@@ -81,18 +89,28 @@ function Profile() {
                     editProfile(values);
                 }}>
                 {(formik) => (
-                    <Form style={{ width: "50%" }}>
+                    <Form>
                         <Row>
                             <Col md={6}>
                                 <FormGroup>
                                     <Label>First Name</Label>
-                                    <TextInput label="First Name" name="firstName" type="text" />
+                                    <TextInput
+                                        label="First Name"
+                                        name="firstName"
+                                        type="text"
+                                        disabled={isEditing || formik.isSubmitting}
+                                    />
                                 </FormGroup>
                             </Col>
                             <Col md={6}>
                                 <FormGroup>
                                     <Label>Last Name</Label>
-                                    <TextInput label="Last Name" name="lastName" type="text" />
+                                    <TextInput
+                                        label="Last Name"
+                                        name="lastName"
+                                        type="text"
+                                        disabled={isEditing || formik.isSubmitting}
+                                    />
                                 </FormGroup>
                             </Col>
                         </Row>
@@ -106,7 +124,11 @@ function Profile() {
                             </Col>
                             <Col md={6} style={{ margin: "auto" }}>
                                 <FormGroup>
-                                    <button style={{ width: "100%" }}>Change Image</button>
+                                    <button
+                                        style={{ width: "100%" }}
+                                        disabled={isEditing || formik.isSubmitting}>
+                                        Change Image
+                                    </button>
                                 </FormGroup>
                             </Col>
                         </Row>
@@ -115,13 +137,21 @@ function Profile() {
                                 <FormGroup>
                                     <Label>Email Address</Label>
 
-                                    <TextInput label="Email" name="emailAddress" type="text" />
+                                    <TextInput
+                                        label="Email"
+                                        name="emailAddress"
+                                        type="text"
+                                        disabled={isEditing || formik.isSubmitting}
+                                    />
                                 </FormGroup>
                             </Col>
                             <Col md={6}>
                                 <FormGroup>
                                     <Label>Gender</Label>
-                                    <SelectInput label="Gender" name="gender">
+                                    <SelectInput
+                                        label="Gender"
+                                        name="gender"
+                                        disabled={isEditing || formik.isSubmitting}>
                                         <option value={Gender.MALE}>Male</option>
                                         <option defaultChecked value={Gender.FEMALE}>
                                             Female
@@ -134,7 +164,10 @@ function Profile() {
                             <Col md={6}>
                                 <FormGroup>
                                     <Label>Language</Label>
-                                    <SelectInput label="Language" name="language">
+                                    <SelectInput
+                                        label="Language"
+                                        name="language"
+                                        disabled={isEditing || formik.isSubmitting}>
                                         <option value="ENGLISH">English</option>
                                         {/* <option defaultChecked value="SPANISH">
                                             Spanish
@@ -177,7 +210,10 @@ function Profile() {
                         <FormGroup row>
                             <Label sm={2}>Visibility:</Label>
                             <Col sm={4}>
-                                <SelectInput label="Visibility" name="visibility">
+                                <SelectInput
+                                    label="Visibility"
+                                    name="visibility"
+                                    disabled={isEditing || formik.isSubmitting}>
                                     <option value="PRIVATE">Private</option>
                                     <option defaultChecked value="OPEN">
                                         Open
@@ -186,12 +222,10 @@ function Profile() {
                                 </SelectInput>
                             </Col>
                         </FormGroup>
-                        <Button type="submit">Update</Button>
+                        {!isEditing && <Button type="submit">Update</Button>}
                     </Form>
                 )}
             </Formik>
-        </div>
+        </>
     );
 }
-
-export default Profile;

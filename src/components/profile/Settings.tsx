@@ -9,7 +9,7 @@ function Settings() {
     const [developer, setDeveloper] = useState(false);
 
     return (
-        <div style={{ marginTop: "20px" }}>
+        <>
             <h5>
                 <u>Settings</u>
             </h5>
@@ -48,7 +48,7 @@ function Settings() {
                     <LogoutButton />
                 </div>
             )}
-        </div>
+        </>
     );
 }
 

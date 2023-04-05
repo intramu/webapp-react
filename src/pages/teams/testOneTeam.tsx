@@ -6,7 +6,7 @@ import { useParams } from "react-router-dom";
 import useAxios from "../../common/hooks/useAxios";
 import useSWR from "../../common/hooks/useSWR";
 import { MobxRoster } from "../../components/team/MobxRoster";
-import Roster from "../../components/team/Roster";
+import { Roster } from "../../components/team/Roster";
 import { Schedule } from "../../components/team/Schedule";
 import { isErrorResponse } from "../../interfaces/ErrorResponse";
 import { IJoinRequest } from "../../interfaces/IJoinRequest";
@@ -69,7 +69,7 @@ export const TestOneTeam = observer<testProps>(({ store }) => {
                         roster={store.players ?? []}
                         removePlayer={store.removePlayer}
                     /> */}
-                    <Roster teamId={Number(teamId)} roster={team?.players ?? []} />
+                    {/* <Roster teamId={Number(teamId)} roster={team?.players ?? []} /> */}
                 </div>
                 <div css={[quarterHolder]}>
                     <div css={[quarter]}>

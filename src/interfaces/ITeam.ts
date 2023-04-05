@@ -1,4 +1,4 @@
-import { Sport, Visibility } from "../common/enums";
+import { Gender, Sport, Visibility } from "../common/enums";
 import { IRosterPlayer } from "./IPlayer";
 
 export interface ITeam {
@@ -9,14 +9,15 @@ export interface ITeam {
     losses: number;
     image: string;
     visibility: string;
-    sport: string;
+    // sport: string;
+    gender: string;
     dateCreated: Date;
     sportsmanshipScore: number | null;
     status: string;
     maxTeamSize: number | null;
     players: IRosterPlayer[];
-    organizationId: string;
-    bracketId: number;
+    // organizationId: string;
+    // bracketId: number;
 }
 
 export interface ITeamNew {

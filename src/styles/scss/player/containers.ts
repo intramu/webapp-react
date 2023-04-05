@@ -18,6 +18,10 @@ const commonContainer: CSSObject = {
     borderRadius: definedSizes.borderRadius,
 };
 
+export const header: CSSObject = {
+    padding: "10px 0px 50px 25px",
+};
+
 export const containerHolder: CSSObject = {
     display: "flex",
     flexDirection: "row",
@@ -36,23 +40,22 @@ export const quarterHolder: CSSObject = {
 };
 
 export const fullVerticalInfinite: CSSObject = {
-    backgroundColor: colors.background,
-    width: "92%",
+    ...commonContainer,
     minHeight: "35vh",
-    position: "relative",
-    borderRadius: definedSizes.borderRadius,
     margin: containerMargin,
     padding: containerPadding,
 };
 
 export const halfVerticalInfinite: CSSObject = {
-    backgroundColor: colors.background,
+    ...commonContainer,
     width: halfWidth,
     minHeight: fullHeight,
-    position: "relative",
-    borderRadius: definedSizes.borderRadius,
+    minWidth: 600,
     margin: containerMargin,
     padding: containerPadding,
+    "@media(max-width: 1000px)": {
+        width: "92%",
+    },
 };
 
 export const half: CSSObject = {
@@ -79,14 +82,9 @@ export const quarter: CSSObject = {
 };
 
 export const full: CSSObject = {
-    backgroundColor: colors.background,
-    // width: `calc(50% - ${containerMargin} * 2)`,
-    width: "100%",
+    ...commonContainer,
     height: fullHeight,
-    position: "relative",
-    borderRadius: definedSizes.borderRadius,
     margin: containerMargin,
-    boxShadow: standardShadows[0],
     padding: containerPadding,
     overflowY: "scroll",
 };

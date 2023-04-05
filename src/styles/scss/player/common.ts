@@ -55,6 +55,21 @@ export const iconSizing = createStyleMap({
     },
 });
 
+export const imageSizing = createStyleMap({
+    xs: {
+        height: 50,
+        width: 50,
+    },
+    sm: {
+        height: 100,
+        width: 100,
+    },
+    md: {
+        height: 200,
+        width: 200,
+    },
+});
+
 export const colors = {
     background: "white",
     footer: "#3b3b3b",
@@ -65,6 +80,7 @@ export const colors = {
     // accent:
     text1: "black",
     text2: "grey",
+    text3: "blue",
     // text2:
 };
 

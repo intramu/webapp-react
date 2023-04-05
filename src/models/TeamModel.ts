@@ -1,32 +1,42 @@
-import { action, makeObservable, observable, runInAction } from "mobx";
+import { action, makeAutoObservable, makeObservable, observable, runInAction } from "mobx";
 import { Role, Sport, Visibility } from "../common/enums";
 import { getRequest } from "../common/functions/axiosRequests";
 import { isErrorResponse } from "../interfaces/ErrorResponse";
 import { IRosterPlayer } from "../interfaces/IPlayer";
 import { ITeam } from "../interfaces/ITeam";
-import { RosterPlayer } from "./RosterPlayerModel";
+import { RosterPlayer } from "./team/RosterPlayerModel";
 
 export class TeamModel {
     id = 0;
 
     name = "";
 
-    // I think the rest of the team fields would be here
+    wins = 0;
+
+    ties = 0;
+
+    losses = 0;
+
+    image = "";
+
+    visibility = "";
+
+    gender = "";
+
+    dateCreated = "";
+
+    sportsmanshipScore = 0;
+
+    status = "";
+
+    maxTeamSize = 0;
 
     players: RosterPlayer[] = [];
 
     constructor() {
-        // I know i can make this autoobservable but I was doing it manually to learn
-        makeObservable(this, {
-            id: observable,
-            name: observable,
-            removePlayer: action,
-            fetchTeam: action,
-        });
+        makeAutoObservable(this);
     }
 
-    // Im going to have an issue here because the token can only be grabbed through a hook call
-    // there is an alternative
     async fetchTeam(id: number, token: string) {
         const team = await getRequest<any>(`/teams/${id}`, token);
         if (isErrorResponse(team)) {

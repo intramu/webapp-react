@@ -8,20 +8,11 @@ import { colors, definedSizes, flexColumn, flexRow } from "../styles/scss/player
 
 export default function PlayerLayout() {
     return (
-        <div css={[flexColumn, { height: "100vh" }]}>
-            <NavbarDashboard />
+        <div css={[flexRow, { overflow: "hidden" }]}>
+            <Sidebar />
 
-            <div
-                css={[
-                    flexRow,
-                    {
-                        overflow: "hidden",
-                        flex: "auto",
-                        marginRight: definedSizes.rightSidePageSpace,
-                    },
-                ]}>
-                <Sidebar />
-
+            <div css={[flexColumn, { flexBasis: 1400, height: "100vh" }]}>
+                <NavbarDashboard />
                 <div
                     css={{
                         flex: "auto",
@@ -33,6 +24,8 @@ export default function PlayerLayout() {
                     <Outlet />
                 </div>
             </div>
+
+            <div id="spacer" css={{ flexBasis: "auto", flexShrink: 2 }} />
 
             <FooterDashboard />
         </div>

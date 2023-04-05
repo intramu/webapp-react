@@ -1,11 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import React from "react";
-import {
-    colors,
-    definedSizes,
-    flexCenterVertical,
-    iconSizing,
-} from "../../styles/scss/player/common";
+import { colors, flexCenterVertical, iconSizing } from "../../styles/scss/player/common";
 
 export function FooterDashboard() {
     return (
@@ -17,9 +12,12 @@ export function FooterDashboard() {
                     backgroundColor: colors.footer,
                     textAlign: "center",
                     flex: "none",
-                    height: definedSizes.footerHeight,
+                    height: 45,
                     color: colors.text2,
                     justifyContent: "center",
+                    position: "absolute",
+                    bottom: 0,
+                    width: "100%",
                 },
             ]}>
             <span>
