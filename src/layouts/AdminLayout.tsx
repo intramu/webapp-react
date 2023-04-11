@@ -1,28 +1,17 @@
+/** @jsxImportSource @emotion/react */
 import React from "react";
-import { createUseStyles } from "react-jss";
 import { Outlet } from "react-router-dom";
-import NavbarAdmin from "../components/navbar/NavbarAdmin";
+import { NavbarAdmin } from "../components/navbar/NavbarAdmin";
+import { FooterDashboard } from "../components/footer/FooterDashboard";
 
-const useStyles = createUseStyles({
-    mainContainer: {
-        minHeight: "100vh",
-        position: "relative",
-        // paddingTop: '9vh'
-    },
-
-    content: {
-        marginTop: "5vh",
-    },
-});
-
-export default function AdminLayout() {
-    const classes = useStyles();
-
+export function AdminLayout() {
     return (
-        <div className={classes.mainContainer}>
+        <div css={{ minHeight: "100vh", position: "relative" }}>
             <NavbarAdmin />
-            <Outlet />
-            {/* <Footer /> */}
+            <div css={{ padding: 15 }}>
+                <Outlet />
+            </div>
+            <FooterDashboard />
         </div>
     );
 }

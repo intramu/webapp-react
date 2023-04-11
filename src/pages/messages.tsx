@@ -2,9 +2,9 @@
 import React from "react";
 import { Helmet } from "react-helmet";
 import { Requests } from "../components/messages/Requests";
-import { containerHolder, fullDynamic, header } from "../styles/scss/player/containers";
+import { fullDynamic } from "../styles/scss/player/containers";
 
-function Messages() {
+export function Messages() {
     return (
         <div>
             <Helmet>
@@ -35,5 +35,3 @@ function Messages() {
         </div>
     );
 }
-
-export default Messages;

@@ -5,13 +5,15 @@ import { PlayerInviteModel } from "../../models/PlayerInviteModel";
 export const Requests = observer(() => {
     const [player] = useState(() => new PlayerInviteModel());
 
-    const acceptInvite = async (teamId: number) => {
-        player.acceptInvite(teamId);
-    };
+    // const acceptInvite = async (teamId: number) => {
+    //     player.acceptInvite(teamId);
+    // };
 
-    const declineInvite = (teamId: number) => {
-        player.declineInvite(teamId);
-    };
+    const { acceptInvite, declineInvite } = player;
+
+    // const declineInvite = (teamId: number) => {
+    //     player.declineInvite(teamId);
+    // };
 
     useEffect(() => {
         player.fetchRequests();

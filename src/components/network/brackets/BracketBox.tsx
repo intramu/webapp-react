@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { IBracket } from "../../../interfaces/competition/IBracket";
+import { IBracket, ITimeRange } from "../../../interfaces/competition/IBracket";
 import TeamRow from "../teams/TeamRow";
 
 interface IBracketBox {
@@ -7,23 +7,53 @@ interface IBracketBox {
 }
 
 function BracketBox({ bracket }: IBracketBox) {
-    const [isOpen, setIsOpen] = useState<boolean>(true);
     const createTeam = () => {
         // create team in bracket waitlist
     };
 
+    function showTimes() {
+        let time = "";
+        bracket.timeChoices.forEach((choice) => {
+            time += `, ${choice.startTime}`;
+        });
+
+        return time;
+    }
+
+    if (bracket.maxTeamAmount > 0) {
+        return (
+            <div>
+                <b>{bracket.dayChoices}</b>
+                <b>{showTimes()}</b>
+
+                {bracket.teams.length === 0 ? (
+                    <div>No Teams</div>
+                ) : (
+                    <div>
+                        {bracket.teams.map((team, index) => (
+                            <TeamRow key={index} team={team} />
+                        ))}
+                    </div>
+                )}
+            </div>
+        );
+    }
+
     return (
         <div>
-            <h1>{bracket.dayChoices}</h1>
+            <b>Waitlist</b>
+
             {/* render team cards here */}
-            {isOpen && (
+            {bracket.teams.length === 0 ? (
+                <div>No Teams</div>
+            ) : (
                 <div>
                     {bracket.teams.map((team, index) => (
                         <TeamRow key={index} team={team} />
                     ))}
-                    <button onClick={() => createTeam()}>Create Team</button>
                 </div>
             )}
+            <button onClick={() => createTeam()}>Create Team</button>
         </div>
     );
 }

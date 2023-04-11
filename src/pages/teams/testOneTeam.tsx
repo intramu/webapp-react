@@ -5,7 +5,6 @@ import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import useAxios from "../../common/hooks/useAxios";
 import useSWR from "../../common/hooks/useSWR";
-import { MobxRoster } from "../../components/team/MobxRoster";
 import { Roster } from "../../components/team/Roster";
 import { Schedule } from "../../components/team/Schedule";
 import { isErrorResponse } from "../../interfaces/ErrorResponse";

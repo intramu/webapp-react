@@ -1,10 +1,8 @@
 import React from "react";
-// import Link from "next/link";
 
-export default function Home() {
-    // const handleSubmit = async () => {};
+export function Portal() {
     return (
-        <main id="adminMain">
+        <div>
             <h1>Admin home page for your organization</h1>
             <p>Please bookmark this page for easier navigation</p>
             <p>Here the master administrator will be able to add additional admins to the system</p>
@@ -16,11 +14,10 @@ export default function Home() {
                 For more advanced tools such as handling players and teams, the master admin must be
                 logged in
             </p>
-            <br />
-            <p>If this is your first time accessing this page please fill ou</p>
-            {/* <Link href="/admin/register">
-                <a>Sign Up</a>
-            </Link> */}
-        </main>
+            <p>
+                If at any point you require assistance in handling your Organization, please reach
+                contact us
+            </p>
+        </div>
     );
 }

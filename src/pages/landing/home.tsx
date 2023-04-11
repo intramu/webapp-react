@@ -1,8 +1,6 @@
 import React from "react";
-import FooterLanding from "../../components/footer/FooterLanding";
-import NavbarLanding from "../../components/navbar/NavbarLanding";
 
-function Home() {
+export function Home() {
     return (
         <div id="landing">
             <section id="section-one">
@@ -49,5 +47,3 @@ function Home() {
         </div>
     );
 }
-
-export default Home;

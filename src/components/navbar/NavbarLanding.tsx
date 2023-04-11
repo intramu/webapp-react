@@ -38,14 +38,27 @@ function NavbarLanding() {
                         className="button"
                         onClick={() =>
                             loginWithRedirect({
-                                login_hint: "signup",
+                                authorizationParams: {
+                                    screen_hint: "signup",
+                                },
+                                appState: {
+                                    returnTo: "/dashboard",
+                                },
                             })
                         }>
                         Sign Up
                     </button>
                     OR
                     <span id="login">
-                        <button className="button" onClick={() => loginWithRedirect()}>
+                        <button
+                            className="button"
+                            onClick={() =>
+                                loginWithRedirect({
+                                    appState: {
+                                        returnTo: "/dashboard",
+                                    },
+                                })
+                            }>
                             Log In
                         </button>
                         <img src="/logo192.png" alt="icon" />

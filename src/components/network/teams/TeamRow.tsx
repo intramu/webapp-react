@@ -1,9 +1,9 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { Visibility } from "../../../common/enums";
 import useAxios from "../../../common/hooks/useAxios";
 import { isErrorResponse } from "../../../interfaces/ErrorResponse";
 import { ITeam } from "../../../interfaces/ITeam";
+import { TeamVisibility } from "../../../utilities/enums/teamEnum";
 
 interface ITeamRow {
     team: ITeam;
@@ -41,11 +41,11 @@ function TeamRow({ team }: ITeamRow) {
             <span>{team.name}</span>
             <span>{team.visibility}</span>
 
-            {team.visibility === Visibility.OPEN && (
+            {team.visibility === TeamVisibility.PUBLIC && (
                 <button onClick={() => joinTeam(team.id)}>Join</button>
             )}
 
-            {team.visibility === Visibility.PRIVATE && (
+            {team.visibility === TeamVisibility.PRIVATE && (
                 <button onClick={() => requestToJoinTeam(team.id)}>Request</button>
             )}
         </div>

@@ -13,7 +13,7 @@ export interface IContest {
     season: CompetitionSeason;
     term: number;
     year: string;
-    date_created: Date;
+    dateCreated: Date;
     leagues: ILeague[];
     organization_id: string;
 }

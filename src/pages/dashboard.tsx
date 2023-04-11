@@ -1,10 +1,9 @@
 /** @jsxImportSource @emotion/react */
 import React, { useEffect } from "react";
 import { Helmet } from "react-helmet";
-import { IsLoadingHOC } from "../components/hoc/IsLoadingHOC";
-import { full, fullDynamic } from "../styles/scss/player/containers";
+import { fullDynamic } from "../styles/scss/player/containers";
 
-export function Dashboard(props: any) {
+export function Dashboard() {
     // useEffect(() => {
     //     setLoading(true);
 

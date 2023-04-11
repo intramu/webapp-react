@@ -1,23 +1,34 @@
 import { Auth0Provider } from "@auth0/auth0-react";
 import React from "react";
-import { AxiosInterceptorProvider } from "./AxiosInterceptorProvider";
-import { CommonAuthProvider } from "./CommonAuthProvider";
-import { Setter } from "./Setter";
+import { Outlet, useNavigate } from "react-router-dom";
+import { AxiosTokenInitializer } from "./AxiosTokenInitializer";
 
-type AuthProviderProps = { children: React.ReactNode };
+type AuthProviderProps = {
+    appState?: {
+        returnTo: string;
+    };
+};
 
-export function AuthProvider({ children }: AuthProviderProps) {
-    // export function AuthProvider({ children }) {
+export function AuthProvider() {
+    const navigate = useNavigate();
+
+    const onRedirectCallback = (appState: any) => {
+        navigate(appState && appState.returnTo ? appState.returnTo : window.location.href);
+    };
+
     return (
         <Auth0Provider
             domain="dev-5p-an07k.us.auth0.com"
             clientId="fSMneHc4uoLgAmfFZA9WUyHWULdXku4O"
-            redirectUri="http://localhost:3000/dashboard"
-            audience="https://server-authorization/">
-            {/* <AxiosInterceptorProvider>
-                <CommonAuthProvider>{children}</CommonAuthProvider>
-            </AxiosInterceptorProvider> */}
-            {/* <Setter>{children}</Setter> */}
+            onRedirectCallback={onRedirectCallback}
+            authorizationParams={{
+                audience: "https://server-authorization/",
+                redirect_uri: "http://localhost:3000/redirect",
+            }}>
+            <>
+                <AxiosTokenInitializer />
+                <Outlet />
+            </>
         </Auth0Provider>
     );
 }

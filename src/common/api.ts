@@ -31,7 +31,7 @@ export function apiFindPlayerProfile<T>(token: string): Promise<T | ErrorRespons
             const error = err as AxiosError;
 
             const errno: ErrorResponse = {
-                statusCode: error.status || "500",
+                statusCode: error.response?.status || 500,
                 errorMessage: error.message || "Internal Server Error",
             };
 

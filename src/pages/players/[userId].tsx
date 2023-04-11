@@ -1,10 +1,9 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-import { Visibility } from "../../common/enums";
 import useSWR from "../../common/hooks/useSWR";
 import { IPlayer } from "../../interfaces/IPlayer";
 
-function OnePlayer() {
+export function OnePlayer() {
     const { userId } = useParams();
 
     const { data: player, error, isLoading } = useSWR<IPlayer>(`/players/search/${userId}`);
@@ -27,5 +26,3 @@ function OnePlayer() {
         </div>
     );
 }
-
-export default OnePlayer;

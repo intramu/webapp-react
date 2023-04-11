@@ -33,23 +33,21 @@ export function NavbarDashboard() {
                         paddingBottom: 15,
                     },
                 ]}>
-                {/* <h4 css={{ paddingLeft: 5, color: colors.text3 }}>{title}</h4> */}
                 <h4 css={{ paddingLeft: 5, color: colors.text3 }}>{document.title}</h4>
                 <div
                     css={[
                         flexRow,
                         {
-                            justifyContent: "right",
                             alignItems: "center",
                         },
                     ]}>
                     <Clock />
                     <div>
-                        <Link css={[icon]} to="/profile">
+                        <Link css={icon} to="/profile">
                             <img src="/settings_FILL0_wght400_GRAD0_opsz48.svg" alt="test" />
                         </Link>
-                        <Link css={[icon]} to="/messages">
-                            <img css={[iconSizing.lg]} src="/email-svgrepo-com.svg" alt="test" />
+                        <Link css={icon} to="/messages">
+                            <img css={iconSizing.lg} src="/email-svgrepo-com.svg" alt="test" />
                         </Link>
                     </div>
                 </div>

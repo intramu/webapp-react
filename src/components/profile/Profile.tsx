@@ -2,72 +2,32 @@
 import React, { useEffect, useState } from "react";
 import { Formik, Form } from "formik";
 import { Button, Col, FormGroup, Label, Row } from "reactstrap";
+import { observer } from "mobx-react-lite";
 import * as Yup from "yup";
-import { IPlayer } from "../../interfaces/IPlayer";
-import useSWR from "../../common/hooks/useSWR";
-import useAxios from "../../common/hooks/useAxios";
-import { Gender, Language, Status, Visibility } from "../../common/enums";
 import { SelectInput, TextInput } from "../../common/inputs";
-import { isErrorResponse } from "../../interfaces/ErrorResponse";
-// import { getRequest } from "../../common/functions/axiosRequests";
 import { dynamicButton } from "../../styles/scss/player/buttons";
+import { PlayerModel } from "../../models/PlayerModel";
+import { Language, PlayerGender, PlayerVisibility } from "../../utilities/enums/userEnum";
 
-const initialState = {
-    authId: "",
-    firstName: "",
-    lastName: "",
-    emailAddress: "",
-    gender: Gender.MALE,
-    language: Language.ENGLISH,
-    dob: new Date().toDateString(),
-    graduationTerm: "2023",
-    visibility: Visibility.PRIVATE,
-    image: "",
-    status: Status.ACTIVE,
-    dateCreated: new Date(),
-};
+export const Profile = observer(() => {
+    const [player] = useState(() => new PlayerModel());
+    const { editPlayer, fetchPlayer } = player;
 
-export function Profile() {
-    const [player, setPlayer] = useState<IPlayer>(initialState);
-    const [error, setError] = useState<string>();
-    const [isLoading, setIsLoading] = useState<boolean>();
-
-    const [isEditing, setIsEditing] = useState(true);
-
-    const { patchRequest, getRequest } = useAxios();
-
-    // This function will update the profile when the button is clicked
-    const editProfile = async (values: IPlayer) => {
-        const response = await patchRequest<IPlayer, IPlayer>("/players", values);
-        console.log("response", response);
-        console.log("values", values);
-    };
+    const [isEditing, setIsEditing] = useState(false);
 
     useEffect(() => {
-        const fetch = async () => {
-            const response = await getRequest<IPlayer>("/players");
-            // const response = await getRequest<IPlayer>("/players");
-            if (isErrorResponse(response)) {
-                // handle error
-                return;
-            }
-
-            response.dob = convertDate(response.dob);
-            setPlayer(response);
-        };
-        fetch();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+        fetchPlayer();
+    }, [fetchPlayer]);
 
     const convertDate = (date: string): string => {
         const newDate = new Date(date);
         return newDate.toLocaleDateString("sv-SE");
     };
 
-    if (isLoading) {
+    if (player.state === "pending") {
         return <div>Loading...</div>;
     }
-    if (error) {
+    if (player.error) {
         return <div>Error sorry :(</div>;
     }
     return (
@@ -76,7 +36,7 @@ export function Profile() {
                 <u>Profile</u>
             </h5>
             <button css={[dynamicButton]} onClick={() => setIsEditing((x) => !x)}>
-                {isEditing ? "Edit" : "Cancel"}
+                {isEditing ? "Cancel" : "Edit"}
             </button>
 
             <Formik
@@ -86,7 +46,7 @@ export function Profile() {
                     emailAddress: Yup.string().email("Invalid emailAddress"),
                 })}
                 onSubmit={(values, { setSubmitting }) => {
-                    editProfile(values);
+                    editPlayer(values);
                 }}>
                 {(formik) => (
                     <Form>
@@ -98,7 +58,7 @@ export function Profile() {
                                         label="First Name"
                                         name="firstName"
                                         type="text"
-                                        disabled={isEditing || formik.isSubmitting}
+                                        disabled={!isEditing || formik.isSubmitting}
                                     />
                                 </FormGroup>
                             </Col>
@@ -109,7 +69,7 @@ export function Profile() {
                                         label="Last Name"
                                         name="lastName"
                                         type="text"
-                                        disabled={isEditing || formik.isSubmitting}
+                                        disabled={!isEditing || formik.isSubmitting}
                                     />
                                 </FormGroup>
                             </Col>
@@ -126,7 +86,7 @@ export function Profile() {
                                 <FormGroup>
                                     <button
                                         style={{ width: "100%" }}
-                                        disabled={isEditing || formik.isSubmitting}>
+                                        disabled={!isEditing || formik.isSubmitting}>
                                         Change Image
                                     </button>
                                 </FormGroup>
@@ -141,7 +101,7 @@ export function Profile() {
                                         label="Email"
                                         name="emailAddress"
                                         type="text"
-                                        disabled={isEditing || formik.isSubmitting}
+                                        disabled={!isEditing || formik.isSubmitting}
                                     />
                                 </FormGroup>
                             </Col>
@@ -151,9 +111,9 @@ export function Profile() {
                                     <SelectInput
                                         label="Gender"
                                         name="gender"
-                                        disabled={isEditing || formik.isSubmitting}>
-                                        <option value={Gender.MALE}>Male</option>
-                                        <option defaultChecked value={Gender.FEMALE}>
+                                        disabled={!isEditing || formik.isSubmitting}>
+                                        <option value={PlayerGender.MALE}>Male</option>
+                                        <option defaultChecked value={PlayerGender.FEMALE}>
                                             Female
                                         </option>
                                     </SelectInput>
@@ -167,12 +127,8 @@ export function Profile() {
                                     <SelectInput
                                         label="Language"
                                         name="language"
-                                        disabled={isEditing || formik.isSubmitting}>
-                                        <option value="ENGLISH">English</option>
-                                        {/* <option defaultChecked value="SPANISH">
-                                            Spanish
-                                        </option>
-                                        <option value="NIGERIAN">Nigerian</option> */}
+                                        disabled={!isEditing || formik.isSubmitting}>
+                                        <option value={Language.ENGLISH}>English</option>
                                     </SelectInput>
                                 </FormGroup>
                             </Col>
@@ -213,19 +169,19 @@ export function Profile() {
                                 <SelectInput
                                     label="Visibility"
                                     name="visibility"
-                                    disabled={isEditing || formik.isSubmitting}>
-                                    <option value="PRIVATE">Private</option>
-                                    <option defaultChecked value="OPEN">
-                                        Open
-                                    </option>
-                                    <option value="CLOSED">Closed</option>
+                                    disabled={!isEditing || formik.isSubmitting}>
+                                    <option value={PlayerVisibility.PRIVATE}>Private</option>
+                                    <option value={PlayerVisibility.OPEN}>Open</option>
+                                    <option value={PlayerVisibility.CLOSED}>Closed</option>
                                 </SelectInput>
                             </Col>
                         </FormGroup>
-                        {!isEditing && <Button type="submit">Update</Button>}
+                        <Button disabled={!isEditing} type="submit">
+                            Update
+                        </Button>
                     </Form>
                 )}
             </Formik>
         </>
     );
-}
+});

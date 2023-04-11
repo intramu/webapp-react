@@ -1,38 +1,71 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import React, { useEffect, useState } from "react";
-import { Outlet } from "react-router-dom";
-import Error404 from "../Error404";
+import { Outlet, useNavigate } from "react-router-dom";
+import Error404 from "../pages/Error404";
 
-export default function AuthAdmin() {
-    const { getIdTokenClaims, error, isLoading } = useAuth0();
+export function AuthAdmin() {
+    const { getIdTokenClaims, error, isLoading, isAuthenticated, loginWithRedirect } = useAuth0();
+    const navigate = useNavigate();
+
     const [isAuthorized, setIsAuthorized] = useState(false);
+    const [pageLoading, setPageLoading] = useState(true);
+
     const roleClaimType = "https://intramu.app.com/roles";
-    const authorizedRoles = ["Admin", "Sudo"];
 
     useEffect(() => {
-        const getRoles = async () => {
+        const authorizedRoles = ["Admin", "Sudo"];
+
+        const fetch = async () => {
+            setPageLoading(true);
             const claims = await getIdTokenClaims();
+
             if (!claims) {
-                throw new Error("No claims");
+                setIsAuthorized(false);
+                setPageLoading(false);
+                return;
             }
-            return claims[roleClaimType] || [];
-        };
-        const checkRoles = async () => {
-            const roles = await getRoles();
 
-            const isAuthorizedTemp = authorizedRoles.every((role) => {
-                return roles.includes(role);
-            });
+            const roles: string[] = claims[roleClaimType];
+            const authorize = authorizedRoles.some((role) => roles.includes(role));
 
-            if (!isAuthorizedTemp) return;
+            if (!authorize) {
+                setIsAuthorized(false);
+                setPageLoading(false);
+                return;
+            }
+
             setIsAuthorized(true);
+            setPageLoading(false);
         };
-        checkRoles();
-    });
+        fetch();
+    }, [getIdTokenClaims]);
 
-    if (error || isLoading || !isAuthorized) {
+    if (error) {
         return <Error404 />;
     }
 
-    return isAuthorized && <Outlet />;
+    if (isLoading || pageLoading) {
+        return <b>Loading</b>;
+    }
+
+    if (!isAuthenticated) {
+        loginWithRedirect({
+            appState: {
+                returnTo: window.location.pathname,
+            },
+        });
+        return null;
+    }
+
+    // possibly show a 404 error if were trying to hide the existence of the admin page
+    if (!isAuthorized) {
+        return (
+            <div>
+                <b>Sorry you are not authorized to view this page</b>
+                <button onClick={() => navigate("/landing")}>Back</button>
+            </div>
+        );
+    }
+
+    return isAuthenticated && isAuthorized && <Outlet />;
 }

@@ -1,6 +1,11 @@
 import { AxiosError } from "axios";
 import { ErrorResponse } from "../../interfaces/ErrorResponse";
 import { instance } from "../../utilities/axiosInstance";
+import { handleError } from "../handleApiError";
+
+const commonAxiosHeaders = {
+    "Content-Type": "application/json",
+};
 
 export async function getRequest<Return>(
     url: string,
@@ -15,7 +20,7 @@ export async function getRequest<Return>(
         })
         .then((res) => res.data)
         .catch((err) => {
-            return handleError(err as AxiosError);
+            return handleError(err);
         });
 }
 
@@ -33,7 +38,7 @@ export async function postRequest<Return, Body>(
         })
         .then((res) => res.data)
         .catch((err) => {
-            return handleError(err as AxiosError);
+            return handleError(err);
         });
 }
 
@@ -47,7 +52,7 @@ export async function putRequest<Return, Body>(url: string, token: string, body?
         })
         .then((res) => res.data)
         .catch((err) => {
-            return handleError(err as AxiosError);
+            return handleError(err);
         });
 }
 
@@ -57,49 +62,57 @@ export async function newPostRequest<Return, Body>(
 ): Promise<Return | ErrorResponse> {
     return instance
         .post<Return>(url, body, {
-            headers: {
-                "Content-Type": "application/json",
-            },
+            headers: commonAxiosHeaders,
         })
         .then((res) => res.data)
         .catch((err) => {
-            return handleError(err as AxiosError);
+            return handleError(err);
         });
 }
 
 export async function newDeleteRequest(url: string): Promise<boolean | ErrorResponse> {
     return instance
         .delete(url, {
-            headers: {
-                "Content-Type": "application/json",
-            },
+            headers: commonAxiosHeaders,
         })
         .then(() => true)
         .catch((err) => {
-            return handleError(err as AxiosError);
+            return handleError(err);
         });
 }
 
 export async function newGetRequest<Return>(url: string): Promise<Return | ErrorResponse> {
     return instance
         .get<Return>(url, {
-            headers: {
-                "Content-Type": "application/json",
-            },
+            headers: commonAxiosHeaders,
         })
         .then((res) => res.data)
         .catch((err) => {
-            return handleError(err as AxiosError);
+            return handleError(err);
         });
 }
 
-function handleError(err: AxiosError): ErrorResponse {
-    const errno: ErrorResponse = {
-        statusCode: err.status ?? "500",
-        errorMessage: err.message ?? "Internal Server Error",
-    };
+export async function newPatchRequest<Return, Body>(
+    url: string,
+    body?: Body
+): Promise<Return | ErrorResponse> {
+    return instance
+        .patch<Return>(url, body, {
+            headers: commonAxiosHeaders,
+        })
+        .then((res) => res.data)
+        .catch((err) => {
+            return handleError(err);
+        });
+}
 
-    console.log("Axios", errno);
-
-    return errno;
+export async function newPutRequest<Return, Body>(url: string, body?: Body) {
+    return instance
+        .put<Return>(url, body, {
+            headers: commonAxiosHeaders,
+        })
+        .then((res) => res.data)
+        .catch((err) => {
+            return handleError(err);
+        });
 }

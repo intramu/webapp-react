@@ -28,6 +28,12 @@ export const containerHolder: CSSObject = {
     flexWrap: "wrap",
     justifyContent: "space-between",
     width: "100%",
+    paddingBottom: 20,
+
+    "@media(max-width: 1600px)": {
+        alignItems: "center",
+        flexDirection: "column",
+    },
 };
 
 export const quarterHolder: CSSObject = {
@@ -50,35 +56,29 @@ export const halfVerticalInfinite: CSSObject = {
     ...commonContainer,
     width: halfWidth,
     minHeight: fullHeight,
-    minWidth: 600,
+    // minWidth: 600,
     margin: containerMargin,
     padding: containerPadding,
-    "@media(max-width: 1000px)": {
+    "@media(max-width: 1600px)": {
         width: "92%",
     },
 };
 
 export const half: CSSObject = {
-    backgroundColor: colors.background,
+    ...commonContainer,
     // width: `calc(50% - ${containerMargin} * 2)`,
     width: halfWidth,
     height: fullHeight,
-    position: "relative",
-    borderRadius: definedSizes.borderRadius,
     margin: containerMargin,
-    boxShadow: standardShadows[0],
     padding: containerPadding,
-    overflowY: "scroll",
+    overflowY: "auto",
 };
 
 export const quarter: CSSObject = {
-    backgroundColor: colors.background,
+    ...commonContainer,
     height: quarterHeight,
-    position: "relative",
-    borderRadius: definedSizes.borderRadius,
-    boxShadow: standardShadows[0],
     padding: containerPadding,
-    overflowY: "scroll",
+    overflowY: "auto",
 };
 
 export const full: CSSObject = {
@@ -86,7 +86,8 @@ export const full: CSSObject = {
     height: fullHeight,
     margin: containerMargin,
     padding: containerPadding,
-    overflowY: "scroll",
+    overflowY: "auto",
+    width: "100%",
 };
 
 export const fullDynamic: CSSObject = {
@@ -96,12 +97,12 @@ export const fullDynamic: CSSObject = {
 };
 
 export const networkContainer: CSSObject = {
+    ...commonContainer,
     width: "100%",
     minHeight: networkHeight,
     margin: networkMargin,
     padding: "1.3em",
     // overflowY: "scroll",
-    ...commonContainer,
 };
 
 export const divisionContainer: CSSObject = {

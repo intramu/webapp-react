@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function Fake() {
+export function Fake() {
     return (
         <>
             <p>Note: remove for production use</p>
@@ -9,7 +9,9 @@ export default function Fake() {
                 You are entering a admin access page. This should not be visible if you are a
                 regular user. If you are an admin please continue.
             </p>
-            <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">Enter</a>
+            <a href="https://www.youtube.com/watch?v=a3Z7zEc7AXQ" target="_blank" rel="noreferrer">
+                Enter
+            </a>
         </>
     );
 }

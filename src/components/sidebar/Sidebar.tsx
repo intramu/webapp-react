@@ -108,7 +108,7 @@ function Sidebar() {
                         //         color: isActive ? "red" : "",
                         //     };
                         // }}
-                        css={[link]}
+                        css={link}
                         to="/dashboard">
                         <img css={[icon]} src="/logo192.png" alt="logo" />
                         Dashboard
@@ -207,9 +207,9 @@ function Sidebar() {
                 </li>
 
                 <li css={[sidebarBox]}>
-                    <NavLink css={[link]} to="/test">
+                    <NavLink css={[link]} to="/admin/portal">
                         <img css={[icon]} src="/logo192.png" alt="logo" />
-                        Test
+                        Admin
                     </NavLink>
                 </li>
             </ul>

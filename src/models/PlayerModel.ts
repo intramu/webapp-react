@@ -1,8 +1,31 @@
-import { makeAutoObservable, runInAction } from "mobx";
-import { newGetRequest } from "../common/functions/axiosRequests";
+import dayjs from "dayjs";
+import {
+    action,
+    flowResult,
+    makeAutoObservable,
+    makeObservable,
+    observable,
+    runInAction,
+} from "mobx";
+import { newGetRequest, newPatchRequest, newPostRequest } from "../common/functions/axiosRequests";
 import { isErrorResponse } from "../interfaces/ErrorResponse";
 import { IPlayer } from "../interfaces/IPlayer";
 import { Language } from "../utilities/enums/userEnum";
+
+interface PlayerModelProps {
+    authId: string;
+    firstName: string;
+    lastName: string;
+    emailAddress: string;
+    gender: string;
+    language: string;
+    dateOfBirth: string;
+    graduationTerm: string;
+    visibility: string;
+    image: string;
+    status: string;
+    dateCreated: string;
+}
 
 export class PlayerModel {
     authId = "";
@@ -17,7 +40,7 @@ export class PlayerModel {
 
     language = "";
 
-    dob = new Date();
+    dob = dayjs(Date.now());
 
     graduationTerm = "";
 
@@ -27,29 +50,37 @@ export class PlayerModel {
 
     status = "";
 
-    dateCreated = new Date();
+    dateCreated = dayjs(Date.now());
 
     // request variables
     error = "";
 
-    state = "";
+    state = "pending";
 
     constructor() {
-        makeAutoObservable(this);
+        // makeAutoObservable(this);
+        makeObservable(this, {
+            authId: observable,
+            firstName: observable,
+            formikToPlayerModel: action,
+            createPlayer: action,
+        });
     }
 
     async fetchPlayer() {
-        // this.state = "pending";
-        // this.error = "";
+        this.state = "pending";
+        this.error = "";
 
         const response = await newGetRequest<IPlayer>("/players");
-        if (isErrorResponse(response)) {
-            // handle error
-            // this.error = response.errorMessage
-            return;
-        }
 
         runInAction(() => {
+            if (isErrorResponse(response)) {
+                // handle error
+                this.state = "done";
+                this.error = response.errorMessage;
+                return;
+            }
+
             this.authId = response.authId;
             this.firstName = response.firstName;
             this.lastName = response.lastName;
@@ -61,13 +92,106 @@ export class PlayerModel {
             this.visibility = response.visibility;
             this.image = response.image;
             this.status = response.status;
-            this.dateCreated = response.dateCreated || new Date();
+            // this.dateCreated = response.dateCreated || dayjs(Date.now());
+
+            this.state = "success";
         });
     }
 
-    // async editPlayer() {}
+    async editPlayer(player: PlayerModel) {
+        this.state = "pending";
+        this.error = "";
+        const response = await newPatchRequest<IPlayer, PlayerModel>("/players", player);
 
-    // async createPlayer() {}
+        runInAction(() => {
+            if (isErrorResponse(response)) {
+                // handle error
+                return;
+            }
+            this.authId = response.authId;
+            this.firstName = response.firstName;
+            this.lastName = response.lastName;
+            this.emailAddress = response.emailAddress;
+            this.gender = response.gender;
+            this.language = response.language;
+            // this.dob = this.convertDob();
+            this.graduationTerm = response.graduationTerm;
+            this.visibility = response.visibility;
+            this.image = response.image;
+            this.status = response.status;
+            // this.dateCreated = response.dateCreated || new Date();
+            this.state = "success";
+        });
+    }
+
+    async createPlayer(orgId: string) {
+        runInAction(() => {
+            this.state = "pending";
+            this.error = "";
+        });
+
+        console.log(orgId);
+
+        const response = await newPostRequest<IPlayer, PlayerModelProps>(
+            `/organizations/${orgId}/players`,
+            {
+                authId: this.authId,
+                firstName: this.firstName,
+                lastName: this.lastName,
+                emailAddress: this.emailAddress,
+                gender: this.gender,
+                language: this.language,
+                dateOfBirth: dayjs(this.dob).format("YYYY-MM-DD"),
+                graduationTerm: this.graduationTerm,
+                visibility: this.visibility,
+                image: this.image,
+                status: this.status,
+                dateCreated: this.dateCreated.toISOString(),
+            }
+        );
+
+        console.log(response);
+
+        runInAction(() => {
+            if (isErrorResponse(response)) {
+                this.state = "done";
+                this.error = response.errorMessage;
+                return;
+            }
+
+            this.authId = response.authId;
+            this.firstName = response.firstName;
+            this.lastName = response.lastName;
+            this.emailAddress = response.emailAddress;
+            this.gender = response.gender;
+            this.language = response.language;
+            // this.dob = this.convertDob();
+            this.graduationTerm = response.graduationTerm;
+            this.visibility = response.visibility;
+            this.image = response.image;
+            this.status = response.status;
+            // this.dateCreated = response.dateCreated || dayjs(Date.now());
+
+            this.state = "success";
+        });
+    }
+
+    formikToPlayerModel(player: PlayerModel) {
+        console.log("first", this.firstName);
+
+        this.authId = player.authId;
+        this.firstName = player.firstName;
+        this.lastName = player.lastName;
+        this.emailAddress = player.emailAddress;
+        this.gender = player.gender;
+        this.language = player.language;
+        this.dob = player.dob;
+        this.graduationTerm = player.graduationTerm;
+        this.visibility = player.visibility;
+        this.image = player.image;
+        this.status = player.status;
+        this.dateCreated = player.dateCreated;
+    }
 
     // async fetchPlayerById() {}
 

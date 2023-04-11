@@ -1,39 +1,61 @@
-import { action, makeAutoObservable, makeObservable, observable } from "mobx";
-import { Gender, Role, Status } from "../../common/enums";
-import { putRequest } from "../../common/functions/axiosRequests";
+import { action, makeAutoObservable, makeObservable, observable, runInAction } from "mobx";
+import { newPutRequest } from "../../common/functions/axiosRequests";
 import { isErrorResponse } from "../../interfaces/ErrorResponse";
-import { IPlayer } from "../../interfaces/IPlayer";
+import { TeamRole } from "../../utilities/enums/teamEnum";
+import { PlayerGender, PlayerStatus } from "../../utilities/enums/userEnum";
 
 export class RosterPlayer {
     authId = "";
 
-    role = Role.PLAYER;
+    role = TeamRole.PLAYER;
 
     firstName = "";
 
     lastName = "";
 
-    gender = Gender.MALE;
+    gender = PlayerGender.MALE;
 
-    status = Status.ACTIVE;
+    status = PlayerStatus.ACTIVE;
+
+    state = "pending";
+
+    error = "";
 
     constructor() {
-        makeAutoObservable(this);
+        makeObservable(this, {
+            authId: observable,
+            updateRole: action,
+            testFunction: action,
+        });
     }
 
-    *updateRole(role: Role, teamId: number, token: string) {
-        const response: boolean = yield putRequest<null, { role: Role }>(
-            `/teams/${teamId}/players/${this.authId}`,
-            token,
-            {
-                role,
-            }
-        );
+    // async updateRole(role: TeamRole, teamId: number) {
+    //     this.state = "pending";
+    //     this.error = "";
 
-        if (isErrorResponse(response)) {
-            throw Error(response.errorMessage);
-        }
+    //     const response = await newPutRequest<null, { role: TeamRole }>(
+    //         `/teams/${teamId}/players/${this.authId}`,
+    //         {
+    //             role,
+    //         }
+    //     );
 
+    //     runInAction(() => {
+    //         if (isErrorResponse(response)) {
+    //             this.error = response.errorMessage;
+    //             this.state = "done";
+    //         }
+
+    //         this.role = role;
+    //         this.state = "success";
+    //     });
+    // }
+
+    testFunction() {
+        console.log("test function", this.authId);
+    }
+
+    updateRole(role: TeamRole) {
         this.role = role;
     }
 }

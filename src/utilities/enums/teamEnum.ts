@@ -5,6 +5,7 @@ export enum TeamRole {
     CAPTAIN = "CAPTAIN",
     COCAPTAIN = "COCAPTAIN",
     PLAYER = "PLAYER",
+    VISITOR = "VISITOR",
 }
 
 export enum TeamStatus {

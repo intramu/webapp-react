@@ -6,7 +6,7 @@ import { NavbarDashboard } from "../components/navbar/NavbarDashboard";
 import Sidebar from "../components/sidebar/Sidebar";
 import { colors, definedSizes, flexColumn, flexRow } from "../styles/scss/player/common";
 
-export default function PlayerLayout() {
+export function PlayerLayout() {
     return (
         <div css={[flexRow, { overflow: "hidden" }]}>
             <Sidebar />

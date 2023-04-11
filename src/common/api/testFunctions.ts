@@ -1,5 +1,5 @@
 import { AxiosError } from "axios";
-import { ErrorResponse } from "../../interfaces/ErrorResponse";
+import { ErrorResponse, StatusCode } from "../../interfaces/ErrorResponse";
 import { instance } from "../../utilities/axiosInstance";
 import wrapPromise from "./wrapPromise";
 
@@ -25,7 +25,7 @@ export function getRequest<Return>(url: string, token: string) {
                 const error = err as AxiosError;
 
                 const errno: ErrorResponse = {
-                    statusCode: error.status || "500",
+                    statusCode: error.response?.status || 500,
                     errorMessage: error.message || "Internal Server Error",
                 };
 

@@ -1,4 +1,5 @@
-import { Gender, Sport, Visibility } from "../common/enums";
+import { Sport } from "../utilities/enums/commonEnum";
+import { TeamVisibility } from "../utilities/enums/teamEnum";
 import { IRosterPlayer } from "./IPlayer";
 
 export interface ITeam {
@@ -23,6 +24,6 @@ export interface ITeam {
 export interface ITeamNew {
     name: string;
     image: string;
-    visibility: Visibility;
+    visibility: TeamVisibility;
     sport: Sport;
 }

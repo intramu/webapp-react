@@ -1,5 +1,4 @@
 import { action, makeAutoObservable, makeObservable, observable, runInAction } from "mobx";
-import { Role, Sport, Visibility } from "../common/enums";
 import { getRequest } from "../common/functions/axiosRequests";
 import { isErrorResponse } from "../interfaces/ErrorResponse";
 import { IRosterPlayer } from "../interfaces/IPlayer";

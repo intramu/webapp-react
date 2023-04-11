@@ -37,7 +37,7 @@ const useSWR = <T>(url: string) => {
                     const axiosError = err as AxiosError;
 
                     const errno: ErrorResponse = {
-                        statusCode: axiosError.status || "500",
+                        statusCode: axiosError.response?.status || 500,
                         errorMessage: axiosError.message || "Internal Server Error",
                     };
 

@@ -1,8 +1,9 @@
-import { Formik, useFormikContext } from "formik";
-import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+/** @jsxImportSource @emotion/react */
+import { Formik } from "formik";
+import React, { useState } from "react";
+import { Helmet } from "react-helmet";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Button, Col, Form, FormGroup, Label } from "reactstrap";
-import { Sport, Visibility } from "../../common/enums";
 import useAxios from "../../common/hooks/useAxios";
 import useSWR from "../../common/hooks/useSWR";
 import { SelectInput, TextInput } from "../../common/inputs";
@@ -10,16 +11,19 @@ import { IContest } from "../../interfaces/competition/IContest";
 import { IDivision } from "../../interfaces/competition/IDivision";
 import { ILeague } from "../../interfaces/competition/ILeague";
 import { isErrorResponse } from "../../interfaces/ErrorResponse";
-import { ITeam, ITeamNew } from "../../interfaces/ITeam";
+import { ITeam } from "../../interfaces/ITeam";
+import { fullDynamic } from "../../styles/scss/player/containers";
+import { TeamVisibility } from "../../utilities/enums/teamEnum";
 
 interface INewTeam {
     name: string;
     // image: string;
-    visibility: Visibility;
+    visibility: TeamVisibility;
     divisionId: number;
 }
 
-function NewTeam() {
+export function NewTeam() {
+    const location = useLocation();
     const { postRequest } = useAxios();
 
     const [error, setError] = useState<string>();
@@ -77,8 +81,11 @@ function NewTeam() {
     };
     return (
         <>
-            <h1 className="container">Team Creator</h1>
-            <div className="container">
+            <Helmet>
+                <title>New Team</title>
+            </Helmet>
+            <h1>New Team</h1>
+            <div css={fullDynamic}>
                 <Formik
                     initialValues={{
                         name: "",
@@ -86,7 +93,7 @@ function NewTeam() {
                         contest: "",
                         league: "",
                         division: "",
-                        visibility: Visibility.PRIVATE,
+                        visibility: TeamVisibility.PRIVATE,
                     }}
                     onSubmit={(values) => {
                         console.log("nice day", values);
@@ -129,9 +136,8 @@ function NewTeam() {
                                 </Label>
                                 <Col sm={10}>
                                     <SelectInput id="visibility" name="visibility">
-                                        <option value={Visibility.CLOSED}>Closed</option>
-                                        <option value={Visibility.OPEN}>Open</option>
-                                        <option defaultChecked value={Visibility.PRIVATE}>
+                                        <option value={TeamVisibility.PUBLIC}>Public</option>
+                                        <option defaultChecked value={TeamVisibility.PRIVATE}>
                                             Private
                                         </option>
                                     </SelectInput>
@@ -234,5 +240,3 @@ function NewTeam() {
         </>
     );
 }
-
-export default NewTeam;

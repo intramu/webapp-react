@@ -1,6 +1,7 @@
 import { createUseStyles } from "react-jss";
 import React, { useState } from "react";
-import BracketBuilder from "./BracketBuilder";
+// import BracketBuilder from "../../admin/CompetitionCreator/BracketBuilder";
+import { NewBracketBuilder } from "../../components/admin/competitionCreator/NewBracketBuilder";
 
 const useStyles = createUseStyles({
     toolTip: {
@@ -43,50 +44,48 @@ const useStyles = createUseStyles({
     },
 });
 
-export default function CompetitionCreator() {
+export default function TempCompetitionCreator() {
     const classes = useStyles();
-    const [competitionType, setCompetitionType] = useState("intramuralLeague");
+    const [competition, setCompetition] = useState("");
+    const [competitionType, setCompetitionType] = useState("");
 
-    // ! REVISIT - any event handlers can be typed better
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const handleInputChange = (e: any) => setCompetitionType(e.target.value);
+    const handleCompetition = (e: any) => setCompetition(e.target.value);
+    const handleCompetitionType = (e: any) => setCompetitionType(e.target.value);
 
     return (
-        <main id="adminMain">
+        <div>
             <h1>Competition Creator</h1>
             <p>
                 The competition creator will walk through a number inputs that will set up your
                 event
             </p>
-            <p>Please fill in all fields</p>
-
-            <h3>What will be the name of the this glorious competition?</h3>
             <span>What is a competition?</span>
             <div className={classes.toolTip} id="tooltip">
                 <img src="/informationIcon.png" alt="Info" />
                 <span id="toolTipText" className={classes.toolTipText}>
                     A competition is the main container for all sporting events that will occur in
-                    your organization. You will more than likely only ever need one of these for
-                    intramural sports. This supports the option to host separate tournaments outside
-                    of the intramural sports network and for private competitions.
+                    your organization. You can host leagues and tournaments separately and even
+                    change the visibility to make private events
                 </span>
             </div>
+            <hr />
+            <p>Please fill in all fields</p>
+
             <br />
-            <input type="text" name="competitionName" placeholder="GCU-intramural-league" />
-            <br />
+
             <h3>What type of competition will this event be?</h3>
             <label htmlFor="tournament">Tournament: </label>
             <input
                 type="radio"
                 id="tournament"
                 value="tournament"
-                checked={competitionType === "tournament"}
-                onChange={handleInputChange}
+                checked={competition === "tournament"}
+                onChange={(e) => handleCompetition(e)}
             />
             <div className={classes.toolTip} id="tooltip">
                 <img src="/informationIcon.png" alt="Info" />
                 <span id="toolTipText" className={classes.toolTipText}>
-                    Will be a traditional style tournament with random or selected seeding.
+                    Traditional style tournament with full customization
                 </span>
             </div>
             <br />
@@ -95,34 +94,21 @@ export default function CompetitionCreator() {
                 type="radio"
                 id="league"
                 value="league"
-                checked={competitionType === "league"}
-                onChange={handleInputChange}
+                checked={competition === "league"}
+                onChange={(e) => handleCompetition(e)}
             />
             <div className={classes.toolTip} id="tooltip">
                 <img src="/informationIcon.png" alt="Info" />
                 <span id="toolTipText" className={classes.toolTipText}>
-                    Normal league competition with games in varying durations for a selected time
-                    duration. There is no playoffs at the end of this competition.
+                    Traditional league which follows a schedule
                 </span>
             </div>
             <br />
-            <label htmlFor="intraLeague">Intramural competition: </label>
-            <input
-                type="radio"
-                id="intraLeague"
-                value="intramuralLeague"
-                checked={competitionType === "intramuralLeague"}
-                onChange={handleInputChange}
-            />
-            <div className={classes.toolTip} id="tooltip">
-                <img src="/informationIcon.png" alt="Info" />
-                <span id="toolTipText" className={classes.toolTipText}>
-                    This will be the most likely choice for all users. This supports league play
-                    with a playoff/ tournament at the end.
-                </span>
-            </div>
+            {/* <BracketBuilder competitionType={competitionType} /> */}
             <br />
-            <BracketBuilder competitionType={competitionType} />
-        </main>
+            <br />
+            <br />
+            <NewBracketBuilder />
+        </div>
     );
 }

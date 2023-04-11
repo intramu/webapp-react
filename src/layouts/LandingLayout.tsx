@@ -4,7 +4,7 @@ import FooterLanding from "../components/footer/FooterLanding";
 import NavbarLanding from "../components/navbar/NavbarLanding";
 import "../styles/scss/landing/home.scss";
 
-function LandingLayout() {
+export function LandingLayout() {
     return (
         <main id="landing">
             <NavbarLanding />
@@ -15,5 +15,3 @@ function LandingLayout() {
         </main>
     );
 }
-
-export default LandingLayout;

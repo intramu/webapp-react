@@ -2,6 +2,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { AxiosError } from "axios";
 import { ErrorResponse } from "../../interfaces/ErrorResponse";
 import { instance } from "../../utilities/axiosInstance";
+import { handleError } from "../handleApiError";
 
 export default () => {
     const { getAccessTokenSilently } = useAuth0();
@@ -17,16 +18,7 @@ export default () => {
             })
             .then((res) => res.data)
             .catch((err) => {
-                const error = err as AxiosError;
-
-                const errno: ErrorResponse = {
-                    statusCode: error.status || "500",
-                    errorMessage: error.message || "Internal Server Error",
-                };
-
-                console.log(err);
-
-                return errno;
+                return handleError(err);
             });
     }
 
@@ -44,15 +36,7 @@ export default () => {
             })
             .then((res) => res.data)
             .catch((err) => {
-                const error = err as AxiosError;
-                const errno: ErrorResponse = {
-                    statusCode: error.status || "500",
-                    errorMessage: error.message || "Internal Server Error",
-                };
-
-                console.log("Axios", err);
-
-                return errno;
+                return handleError(err);
             });
     }
 
@@ -70,7 +54,7 @@ export default () => {
             })
             .then((res) => res.data)
             .catch((err) => {
-                return handleError(err as AxiosError);
+                return handleError(err);
             });
     }
 
@@ -90,7 +74,7 @@ export default () => {
             })
             .then((res) => res.data)
             .catch((err) => {
-                return handleError(err as AxiosError);
+                return handleError(err);
             });
     }
 
@@ -105,7 +89,7 @@ export default () => {
             })
             .then(() => true)
             .catch((err) => {
-                return handleError(err as AxiosError);
+                return handleError(err);
             });
     }
 
@@ -116,15 +100,4 @@ export default () => {
         putRequest,
         deleteRequest,
     };
-
-    function handleError(err: AxiosError): ErrorResponse {
-        const errno: ErrorResponse = {
-            statusCode: err.status ?? "500",
-            errorMessage: err.message ?? "Internal Server Error",
-        };
-
-        console.log("Axios", errno);
-
-        return errno;
-    }
 };

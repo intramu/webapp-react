@@ -44,7 +44,7 @@ export const OneTeam = observer(() => {
         team.acceptRequest(userId, token);
     };
 
-    console.log(requests);
+    console.log(team.players[0]);
 
     return (
         <>
@@ -88,27 +88,6 @@ export const OneTeam = observer(() => {
                         : "No requests"}
                 </div>
             </div>
-
-            {/* <Roster teamId={Number(teamId)} roster={team?.players ?? []} /> */}
-            <div className="container">Schedule</div>
-            <div className="container">
-                <h1>Requests</h1>
-                {requests && requests.length > 0
-                    ? requests?.map((request, index) => (
-                          <span key={index}>
-                              {request.requesting_player_full_name} wants to join your team
-                              <button onClick={() => acceptRequest(request.player_auth_id)}>
-                                  Accept
-                              </button>
-                              <button onClick={() => declineRequest(request.player_auth_id)}>
-                                  Decline
-                              </button>
-                          </span>
-                      ))
-                    : "No requests"}
-            </div>
         </>
     );
 });
-
-export default OneTeam;
