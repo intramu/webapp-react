@@ -4,7 +4,7 @@ import React, { Suspense, useEffect, useState } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import fetchData from "./common/api/fetchData";
 // import { getRequest } from "./common/api/testFunctions";
-import { TestTeamModel } from "./models/TestTeamModel";
+import { TestTeamModel } from "./models/team/TeamModel";
 
 const resource = fetchData(`http://localhost:8080/api/v1/players/auth0|62760b4733c477006f82c56c`);
 // const test = getRequest("", "");

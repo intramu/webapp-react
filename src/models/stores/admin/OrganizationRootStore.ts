@@ -24,8 +24,17 @@ export class OrganizationRootStore {
 
     state = "pending";
 
+    error = "";
+
     constructor() {
         makeAutoObservable(this, {}, { autoBind: true });
+    }
+
+    *fetchOrganization(id: string) {
+        this.state = "pending";
+        this.error = "";
+
+        const response = newGetRequest < Orga(`/organization/${id}`);
     }
 
     fetchPlayers() {

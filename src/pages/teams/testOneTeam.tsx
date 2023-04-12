@@ -10,7 +10,7 @@ import { Schedule } from "../../components/team/Schedule";
 import { isErrorResponse } from "../../interfaces/ErrorResponse";
 import { IJoinRequest } from "../../interfaces/IJoinRequest";
 import { ITeam } from "../../interfaces/ITeam";
-import { TeamModel } from "../../models/TeamModel";
+import { TeamModel } from "../../models/team/TeamModel";
 import {
     containerHolder,
     full,

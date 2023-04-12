@@ -14,12 +14,12 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useAxios from "../../common/hooks/useAxios";
 import { IRosterPlayer } from "../../interfaces/IPlayer";
-import { TestTeamModel } from "../../models/TestTeamModel";
+import { TeamModel } from "../../models/team/TeamModel";
 import { TeamRole, TeamVisibility } from "../../utilities/enums/teamEnum";
 import InviteMembers from "./InviteMembers";
 
 interface RosterProps {
-    team: TestTeamModel;
+    team: TeamModel;
 }
 
 // export function Roster({ team }: RosterProps) {

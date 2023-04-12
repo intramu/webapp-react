@@ -7,7 +7,7 @@ import useSWR from "../../common/hooks/useSWR";
 import { Roster } from "../../components/team/Roster";
 import { Schedule } from "../../components/team/Schedule";
 import { IJoinRequest } from "../../interfaces/IJoinRequest";
-import { TestTeamModel } from "../../models/TestTeamModel";
+import { TestTeamModel } from "../../models/team/TeamModel";
 import {
     containerHolder,
     full,

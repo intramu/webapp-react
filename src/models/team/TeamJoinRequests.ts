@@ -1,5 +1,5 @@
 import { makeAutoObservable } from "mobx";
-import { IJoinRequest } from "../interfaces/ITeamJoinRequest";
+import { IJoinRequest } from "../../interfaces/ITeamJoinRequest";
 
 export class TeamJoinRequests {
     requests: IJoinRequest[] = [];

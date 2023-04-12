@@ -1,6 +1,4 @@
 import { makeAutoObservable } from "mobx";
-import { postRequest } from "../../common/functions/axiosRequests";
-import { ErrorResponse } from "../../interfaces/ErrorResponse";
 
 export class JoinRequestModel {
     playerAuthId = "";
@@ -14,6 +12,6 @@ export class JoinRequestModel {
     expirationTime = new Date();
 
     constructor() {
-        makeAutoObservable(this);
+        makeAutoObservable(this, {}, { autoBind: true });
     }
 }
