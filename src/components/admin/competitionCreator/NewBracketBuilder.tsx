@@ -10,52 +10,52 @@ export const NewBracketBuilder = observer(() => {
     const [store] = useState(() => new LeagueStore());
 
     return (
-        <>
-            <div>
-                {store.leagues.map((league, index) => (
-                    <NewLeague
-                        key={index}
-                        league={league}
-                        removeLeague={store.removeLeague}
-                        index={index}
-                    />
-                ))}
-            </div>
-            <button onClick={store.pushLeague}>Push League</button>
-        </>
-        // <Formik
-        //     initialValues={{
-        //         song: "",
-        //         leagues: [new LeagueModel()],
-        //     }}
-        //     onSubmit={(values) => {
-        //         console.log(JSON.stringify(values));
-        //     }}
-        //     enableReinitialize>
-        //     {(formik) => (
-        //         <Form>
-        //             <Field type="text" name="song" />
-        //             <FieldArray name="leagues">
-        //                 {({ push }) => (
-        //                     <>
-        //                         {formik.values.leagues.map((league, lindex) => (
-        //                             <SubForm key={lindex} index={lindex} league={league} />
-        //                         ))}
-        //                         <button
-        //                             type="button"
-        //                             onClick={() => {
-        //                                 push(new LeagueModel());
-        //                             }}>
-        //                             Push League
-        //                         </button>
-        //                         {/* <button onClick={() => push({ address: "", zipcode: "" })}>h</button> */}
-        //                     </>
-        //                 )}
-        //             </FieldArray>
+        // <>
+        //     <div>
+        //         {store.leagues.map((league, index) => (
+        //             <NewLeague
+        //                 key={index}
+        //                 league={league}
+        //                 removeLeague={store.removeLeague}
+        //                 index={index}
+        //             />
+        //         ))}
+        //     </div>
+        //     <button onClick={store.pushLeague}>Push League</button>
+        // </>
+        <Formik
+            initialValues={{
+                song: "",
+                leagues: [new LeagueModel()],
+            }}
+            onSubmit={(values) => {
+                console.log(values);
+            }}
+            enableReinitialize>
+            {(formik) => (
+                <Form>
+                    <Field type="text" name="song" />
+                    <FieldArray name="leagues">
+                        {({ push }) => (
+                            <>
+                                {formik.values.leagues.map((league, lindex) => (
+                                    <SubForm key={lindex} index={lindex} league={league} />
+                                ))}
+                                <button
+                                    type="button"
+                                    onClick={() => {
+                                        push(new LeagueModel());
+                                    }}>
+                                    Push League
+                                </button>
+                                {/* <button onClick={() => push({ address: "", zipcode: "" })}>h</button> */}
+                            </>
+                        )}
+                    </FieldArray>
 
-        //             <button type="submit">Create</button>
-        //         </Form>
-        //     )}
-        // </Formik>
+                    <button type="submit">Create</button>
+                </Form>
+            )}
+        </Formik>
     );
 });

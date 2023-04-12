@@ -7,8 +7,8 @@ export const definedSizes = {
     footerHeight: "4vh",
     iconHeight: "1.5em",
     iconWidth: "1.5em",
-    borderRadius: "1em",
-    contentPadding: "2em",
+    borderRadius: 15,
+    contentPadding: 38,
 
     networkIndentation: "0 2em",
     linkWidth: "75%",
@@ -16,16 +16,18 @@ export const definedSizes = {
 };
 
 export const standardShadows = {
-    0: "0 1px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)",
+    // 0: "0 1px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)",
+    0: "0 2px 7px 0 #00000014",
+    1: "0 2px 5px 0 #00000016",
 };
 
 export const standardBorders = {
     0: "1px solid rgba(255, 255, 211, .5)",
-    1: "1px solid rgba(0,0, 0, 1)",
+    1: "1px solid #e0e0e0",
 };
 
 export const standardBorderRadius = {
-    sm: "5px",
+    sm: "8px",
     md: "10px",
     lg: "15px",
 };
@@ -35,6 +37,8 @@ export const standardFontSizes = {
     sm: "10px",
     md: "13px",
 };
+
+export const standardFontStyles = {};
 
 export const iconSizing = createStyleMap({
     xs: {
@@ -61,8 +65,8 @@ export const imageSizing = createStyleMap({
         width: 50,
     },
     sm: {
-        height: 100,
-        width: 100,
+        height: 110,
+        width: 110,
     },
     md: {
         height: 200,
@@ -72,15 +76,22 @@ export const imageSizing = createStyleMap({
 
 export const colors = {
     background: "white",
-    footer: "#3b3b3b",
-    content: "#dfe1eb",
+    // footer: "#3b3b3b",
+    footer: "#3e3e3e",
+    footerText: "#888888",
+    // content: "#dfe1eb",
+    content: "#f6f7f9",
 
-    // primary
+    primary: "#2b71e2",
+
+    iconPrimary: "#4e4e4e",
+
+    navbarText: "#919191",
     // secondary:
     // accent:
     text1: "black",
     text2: "grey",
-    text3: "blue",
+    text3: "#457CD5",
     // text2:
 };
 

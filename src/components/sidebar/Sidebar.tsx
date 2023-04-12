@@ -2,11 +2,20 @@
 import { CSSObject } from "@emotion/react";
 import React from "react";
 import { Link, NavLink } from "react-router-dom";
+import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
+import PeopleIcon from "@mui/icons-material/People";
+import PublicIcon from "@mui/icons-material/Public";
+import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
+import CloudOffIcon from "@mui/icons-material/CloudOff";
+import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
+import PersonIcon from "@mui/icons-material/Person";
 import useSWR from "../../common/hooks/useSWR";
+
 import { IContest } from "../../interfaces/competition/IContest";
 import { ITeam } from "../../interfaces/ITeam";
 import { smallButton } from "../../styles/scss/player/buttons";
 import {
+    colors,
     definedSizes,
     flexCenterVertical,
     flexColumn,
@@ -27,8 +36,19 @@ const linkList: CSSObject = {
 };
 
 const link: CSSObject = {
-    padding: ".5em",
+    padding: "12px 8px",
+    boxSizing: "border-box",
+    fontSize: 15,
+    color: colors.iconPrimary,
     ...flexCenterVertical,
+    "&:hover": {
+        color: "black",
+    },
+    "&.active": {
+        "& svg": {
+            color: colors.primary,
+        },
+    },
 };
 
 const spacedLink: CSSObject = {
@@ -38,20 +58,23 @@ const spacedLink: CSSObject = {
 
 const icon: CSSObject = {
     margin: "0 1.1em",
-    ...iconSizing.md,
+    // ...iconSizing.md,
 };
 
 const sidebarBox: CSSObject = {
     width: definedSizes.linkWidth,
     borderRadius: standardBorderRadius.sm,
-    boxShadow: standardShadows[0],
+    boxShadow: standardShadows[1],
     border: standardBorders[1],
-    margin: "1.2em 0",
+    margin: "11px 0",
     "& a": {
         textDecoration: "none",
     },
     "& hr": {
         margin: "8px 0",
+    },
+    "&:hover": {
+        backgroundColor: "#2b71e203",
     },
 };
 
@@ -79,20 +102,35 @@ function Sidebar() {
                     flexShrink: 1,
                 },
             ]}>
-            <div css={{ height: 250 }}>
+            <div css={{ height: 210 }}>
                 <img
-                    css={[imageSizing.sm, { position: "relative", top: 60, left: 70 }]}
+                    css={[
+                        imageSizing.sm,
+                        {
+                            position: "relative",
+                            top: 60,
+                            left: 70,
+                            transition: "all .2s ease",
+                            "&:hover": {
+                                transform: "scale(1.2)",
+                            },
+                        },
+                    ]}
                     src="/intramulogo.png"
                     alt="Logo"
                 />
             </div>
 
-            <div css={{ textAlign: "center" }}>
-                <img css={[iconSizing.lg]} src="/logo192.png" alt="logo" />
+            <div
+                css={[
+                    flexRow,
+                    { alignItems: "center", justifyContent: "center", marginBottom: 40 },
+                ]}>
+                <PersonIcon css={{ fontSize: 40 }} />
                 <span>
-                    <span>Welcome</span>
+                    <span css={{ fontSize: 11 }}>Welcome</span>
                     <br />
-                    Stevan Perrino
+                    <span>Stevan Perrino</span>
                 </span>
             </div>
 
@@ -102,83 +140,78 @@ function Sidebar() {
                     { flexDirection: "column", listStyleType: "none", paddingLeft: 0 },
                 ]}>
                 <li css={[sidebarBox]}>
-                    <NavLink
-                        // style={({ isActive }) => {
-                        //     return {
-                        //         color: isActive ? "red" : "",
-                        //     };
-                        // }}
-                        css={link}
-                        to="/dashboard">
-                        <img css={[icon]} src="/logo192.png" alt="logo" />
+                    <NavLink css={link} to="/dashboard">
+                        <MenuOutlinedIcon css={icon} />
                         Dashboard
                     </NavLink>
                 </li>
 
                 <li css={[sidebarBox]}>
                     <span css={[link]}>
-                        <img css={[icon]} src="/logo192.png" alt="logo" />
+                        <PeopleIcon css={icon} />
                         Teams
                     </span>
-
-                    <div css={[flexColumn, linkList]}>
-                        {teams && (
-                            <>
-                                {teams.map((team) => (
-                                    <div key={team.name}>
-                                        <NavLink css={[spacedLink]} to={`/teams/${team.id}`}>
-                                            <span css={[overflowControl]}>{team.name}</span>
-                                            <img
-                                                css={[iconSizing.md, { float: "right" }]}
-                                                src="/logo192.png"
-                                                alt="team"
-                                            />
-                                        </NavLink>
-                                        <hr />
-                                    </div>
-                                ))}
-                                <div
-                                    css={[
-                                        flexRow,
-                                        { justifyContent: "space-evenly", marginTop: "10px" },
-                                    ]}>
-                                    {/* If contests is defined then this link should always redirect correctly */}
-                                    {contests && (
-                                        <Link
-                                            css={[
-                                                smallButton,
-                                                {
-                                                    backgroundColor: "blue",
-                                                    color: "white",
-                                                    fontSize: standardFontSizes.md,
-                                                },
-                                            ]}
-                                            to={`/network/${contests[0].id}`}>
-                                            Join Team
-                                        </Link>
-                                    )}
-                                    <NavLink
+                    {teams && (
+                        <div css={[flexColumn, linkList]}>
+                            {teams.map((team) => (
+                                <div key={team.name}>
+                                    <NavLink css={[spacedLink]} to={`/teams/${team.id}`}>
+                                        <span css={[overflowControl]}>{team.name}</span>
+                                        <img
+                                            css={[iconSizing.md, { float: "right" }]}
+                                            src="/logo192.png"
+                                            alt="team"
+                                        />
+                                    </NavLink>
+                                    <hr />
+                                </div>
+                            ))}
+                            <div
+                                css={[
+                                    flexRow,
+                                    { justifyContent: "space-evenly", padding: "10px 0px" },
+                                ]}>
+                                {/* If contests is defined then this link should always redirect correctly */}
+                                {contests && (
+                                    <Link
                                         css={[
                                             smallButton,
                                             {
-                                                border: "1px solid black",
-                                                color: "black",
+                                                backgroundColor: colors.primary,
+                                                color: "white",
                                                 fontSize: standardFontSizes.md,
                                             },
                                         ]}
-                                        to="/teams/new">
-                                        Create Team
-                                    </NavLink>
-                                </div>
-                            </>
-                        )}
-                        {teamsError && <span css={[link]}>Error</span>}
-                    </div>
+                                        to={`/network/${contests[0].id}`}>
+                                        Join Team
+                                    </Link>
+                                )}
+                                <NavLink
+                                    css={[
+                                        smallButton,
+                                        {
+                                            border: "1px solid black",
+                                            color: "black",
+                                            fontSize: standardFontSizes.md,
+                                        },
+                                    ]}
+                                    to="/teams/new">
+                                    Create Team
+                                </NavLink>
+                            </div>
+                        </div>
+                    )}
+                    {teamsError && (
+                        <span css={link}>
+                            <CloudOffIcon css={icon} />
+                            Error
+                        </span>
+                    )}
                 </li>
 
                 <li css={[sidebarBox]}>
-                    <span css={[link]}>
-                        <img css={[icon]} src="/logo192.png" alt="logo" />
+                    <span css={link}>
+                        <PublicIcon css={icon} />
                         Network
                     </span>
 
@@ -196,19 +229,24 @@ function Sidebar() {
                             ))}
                         </div>
                     )}
-                    {contestsError && <span>Error</span>}
+                    {contestsError && (
+                        <span css={link}>
+                            <CloudOffIcon css={icon} />
+                            Error
+                        </span>
+                    )}
                 </li>
 
                 <li css={[sidebarBox]}>
                     <NavLink css={[link]} to="/help">
-                        <img css={[icon]} src="/logo192.png" alt="logo" />
+                        <HelpOutlineIcon css={icon} />
                         Help
                     </NavLink>
                 </li>
 
                 <li css={[sidebarBox]}>
-                    <NavLink css={[link]} to="/admin/portal">
-                        <img css={[icon]} src="/logo192.png" alt="logo" />
+                    <NavLink css={[link]} to="/administration">
+                        <AdminPanelSettingsIcon css={icon} />
                         Admin
                     </NavLink>
                 </li>

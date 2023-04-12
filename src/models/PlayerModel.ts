@@ -58,13 +58,13 @@ export class PlayerModel {
     state = "pending";
 
     constructor() {
-        // makeAutoObservable(this);
-        makeObservable(this, {
-            authId: observable,
-            firstName: observable,
-            formikToPlayerModel: action,
-            createPlayer: action,
-        });
+        makeAutoObservable(this, {}, { autoBind: true });
+        // makeObservable(this, {
+        //     authId: observable,
+        //     firstName: observable,
+        //     formikToPlayerModel: action,
+        //     createPlayer: action,
+        // });
     }
 
     async fetchPlayer() {

@@ -3,7 +3,7 @@ import { ErrorResponse, StatusCode } from "../../interfaces/ErrorResponse";
 import { instance } from "../../utilities/axiosInstance";
 import wrapPromise from "./wrapPromise";
 
-export function getRequest<Return>(url: string, token: string) {
+export function wrappedGetRequest<Return>(url: string, token: string) {
     // const promise = fetch(url)
     //     .then((res) => res.json())
     //     .then((res) => res)

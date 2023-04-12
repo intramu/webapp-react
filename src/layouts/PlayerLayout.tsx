@@ -16,10 +16,11 @@ export function PlayerLayout() {
                 <div
                     css={{
                         flex: "auto",
-                        borderRadius: "2em 2em 0 0",
+                        borderRadius: "24px 24px 0 0",
                         backgroundColor: colors.content,
                         padding: definedSizes.contentPadding,
                         overflow: "scroll",
+                        overflowWrap: "anywhere",
                     }}>
                     <Outlet />
                 </div>

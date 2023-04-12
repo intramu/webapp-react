@@ -1,10 +1,18 @@
 /** @jsxImportSource @emotion/react */
 
 import React, { useState } from "react";
+import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import { CSSObject } from "@emotion/react";
+
 import { ILeague } from "../../../interfaces/competition/ILeague";
 import { flexCenterVertical, iconSizing } from "../../../styles/scss/player/common";
 import { networkContainer } from "../../../styles/scss/player/containers";
 import DivisionList from "../divisions/DivisionList";
+
+const icon: CSSObject = {
+    fontSize: 30,
+};
 
 function LeagueBox({ league }: { league: ILeague }) {
     const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -23,8 +31,12 @@ function LeagueBox({ league }: { league: ILeague }) {
                 </div>
                 <span>
                     Season: March 27 - April 06
-                    <button onClick={toggle}>
-                        <img css={[iconSizing.md]} src="./logo192.png" alt="Icon" />
+                    <button onClick={toggle} css={{ all: "unset" }}>
+                        {isOpen ? (
+                            <KeyboardArrowDownIcon css={icon} />
+                        ) : (
+                            <KeyboardArrowLeftIcon css={icon} />
+                        )}
                     </button>
                 </span>
             </div>

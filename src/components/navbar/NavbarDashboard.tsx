@@ -1,11 +1,27 @@
 /** @jsxImportSource @emotion/react */
 import { CSSObject } from "@emotion/react";
 import React, { useEffect, useReducer, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
-import { colors, flexRow, iconSizing } from "../../styles/scss/player/common";
+import { Link, NavLink, useLocation } from "react-router-dom";
+import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
+import MailOutlinedIcon from "@mui/icons-material/MailOutlined";
+import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
+import { colors, flexRow } from "../../styles/scss/player/common";
+
+const link: CSSObject = {
+    marginLeft: 14,
+    "&.active": {
+        "& svg": {
+            color: colors.primary,
+        },
+    },
+};
 
 const icon: CSSObject = {
-    margin: "0 .5em",
+    "&:hover": {
+        transform: "scale(1.2)",
+        color: colors.primary,
+    },
+    color: "black",
 };
 
 export function NavbarDashboard() {
@@ -30,7 +46,7 @@ export function NavbarDashboard() {
                         justifyContent: "space-between",
                         alignItems: "end",
                         height: "100%",
-                        paddingBottom: 15,
+                        paddingBottom: 20,
                     },
                 ]}>
                 <h4 css={{ paddingLeft: 5, color: colors.text3 }}>{document.title}</h4>
@@ -39,16 +55,20 @@ export function NavbarDashboard() {
                         flexRow,
                         {
                             alignItems: "center",
+                            marginRight: 30,
                         },
                     ]}>
                     <Clock />
                     <div>
-                        <Link css={icon} to="/profile">
-                            <img src="/settings_FILL0_wght400_GRAD0_opsz48.svg" alt="test" />
-                        </Link>
-                        <Link css={icon} to="/messages">
-                            <img css={iconSizing.lg} src="/email-svgrepo-com.svg" alt="test" />
-                        </Link>
+                        <NavLink css={link} to="/messages">
+                            <MailOutlinedIcon css={icon} />
+                        </NavLink>
+                        <NavLink css={link} to="/profile">
+                            <AccountCircleOutlinedIcon css={icon} />
+                        </NavLink>
+                        <NavLink css={link} to="/profile">
+                            <SettingsOutlinedIcon css={icon} />
+                        </NavLink>
                     </div>
                 </div>
             </div>
@@ -81,10 +101,10 @@ function Clock() {
 
     return (
         <>
-            <span>{`${time.getDate()} ${months[time.getMonth()]} ${time.getFullYear()}, ${
-                weekday[time.getDay()]
-            }`}</span>
-            <span css={{ margin: "0 1em" }}>{`${
+            <span css={{ color: colors.navbarText }}>{`${time.getDate()} ${
+                months[time.getMonth()]
+            } ${time.getFullYear()}, ${weekday[time.getDay()]}`}</span>
+            <span css={{ margin: "0 1em", color: colors.navbarText }}>{`${
                 time.getHours() > 12 ? time.getHours() - 12 : time.getHours()
             }:${time.getMinutes()} ${time.getHours() > 11 ? "PM" : "AM"}`}</span>
         </>

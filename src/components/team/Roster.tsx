@@ -52,7 +52,7 @@ export const Roster = observer(({ team }: RosterProps) => {
     function CommonTable({ children }: { children: React.ReactElement }) {
         return (
             <>
-                <h3>Roster</h3>
+                <h1>Roster</h1>
                 <TableContainer component={Paper}>
                     <Table sx={{ minWidth: 400 }} aria-label="simple table">
                         <TableBody>

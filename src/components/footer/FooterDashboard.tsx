@@ -1,6 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import React from "react";
-import { colors, flexCenterVertical, iconSizing } from "../../styles/scss/player/common";
+import HomeIcon from "@mui/icons-material/Home";
+import { colors, flexCenterVertical, standardFontSizes } from "../../styles/scss/player/common";
 
 export function FooterDashboard() {
     return (
@@ -20,8 +21,8 @@ export function FooterDashboard() {
                     width: "100%",
                 },
             ]}>
-            <span>
-                <img css={[iconSizing.md, { margin: "0 1em" }]} src="/logo192.png" alt="logo" />
+            <HomeIcon css={{ marginRight: 8, color: "white" }} />
+            <span css={{ color: colors.footerText, fontSize: standardFontSizes.md }}>
                 @2023 INTRAMU LLC, All Rights Reserved
             </span>
         </footer>

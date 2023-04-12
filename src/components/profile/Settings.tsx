@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useAuth0 } from "@auth0/auth0-react";
 import { Formik } from "formik";
 import { Form as ReactForm, FormGroup, Input, Label } from "reactstrap";
 import LogoutButton from "../LogoutButton";
@@ -7,6 +8,17 @@ import LogoutButton from "../LogoutButton";
 
 function Settings() {
     const [developer, setDeveloper] = useState(false);
+    const [token, setToken] = useState("");
+
+    const { getAccessTokenSilently } = useAuth0();
+
+    useEffect(() => {
+        const fetch = async () => {
+            const t = await getAccessTokenSilently();
+            setToken(t);
+        };
+        fetch();
+    }, [getAccessTokenSilently]);
 
     return (
         <>
@@ -40,12 +52,12 @@ function Settings() {
                     />
                     <Label>Developer Mode</Label>
                 </FormGroup>
+                <LogoutButton />
             </ReactForm>
-
             {developer && (
                 <div>
                     <h6>Developer Mode</h6>
-                    <LogoutButton />
+                    <p>{token}</p>
                 </div>
             )}
         </>

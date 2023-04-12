@@ -44,5 +44,7 @@ export class DivisionModel {
 
     removeBracket(index: number) {
         this.brackets.splice(index, 1);
+
+        this.pushBracket.bind(this);
     }
 }

@@ -1,6 +1,13 @@
-import { action, makeAutoObservable, makeObservable, observable, runInAction } from "mobx";
+import {
+    action,
+    flowResult,
+    makeAutoObservable,
+    makeObservable,
+    observable,
+    runInAction,
+} from "mobx";
 import { newDeleteRequest, getRequest, postRequest } from "../common/functions/axiosRequests";
-import { isErrorResponse } from "../interfaces/ErrorResponse";
+import { ErrorResponse, isErrorResponse } from "../interfaces/ErrorResponse";
 import { ITeam } from "../interfaces/ITeam";
 import { RosterPlayer } from "./team/RosterPlayerModel";
 import { JoinRequestModel } from "./team/JoinRequestModel";
@@ -43,42 +50,44 @@ export class TestTeamModel {
     error = "";
 
     constructor() {
-        makeObservable(this, {
-            players: observable,
-            removePlayer: action,
-        });
+        makeAutoObservable(this, {}, { autoBind: true });
+        // makeObservable(this, {
+        //     players: observable,
+        //     removePlayer: action,
+        // });
     }
 
-    async fetchTeam(id: number, token: string) {
-        const team = await getRequest<TeamModel>(`/teams/${id}`, token);
+    // async fetchTeam(id: number, token: string) {
+    //     const team = await getRequest<TeamModel>(`/teams/${id}`, token);
 
-        console.log(team);
-
-        if (isErrorResponse(team)) {
-            throw Error(team.errorMessage);
-        }
-
-        runInAction(() => {
-            this.id = team.id;
-            this.players = team.players;
-            this.visibility = team.visibility;
-        });
-    }
-
-    // *fetchTeam(id: number, token: string) {
-    //     const team: TeamModel = yield getRequest<TeamModel>(`/teams/${id}`, token);
     //     console.log(team);
 
     //     if (isErrorResponse(team)) {
     //         throw Error(team.errorMessage);
     //     }
 
-    //     console.log(team);
-
-    //     this.id = team.id;
-    //     this.name = team.name;
-    //     this.players = team.players;
+    //     runInAction(() => {
+    //         this.id = team.id;
+    //         this.players = team.players;
+    //         this.visibility = team.visibility;
+    //     });
     // }
+
+    *fetchTeam(id: number, token: string) {
+        const team = yield* result(getRequest<TeamModel>(`/teams/${id}`, token));
+        // const team = yield* result(instance.get("/teams"));
+        console.log(team);
+
+        if (isErrorResponse(team)) {
+            throw Error(team.errorMessage);
+        }
+
+        console.log(team);
+
+        this.id = team.id;
+        this.name = team.name;
+        this.players = team.players;
+    }
 
     *acceptRequest(userId: string, token: string) {
         const response: boolean = yield postRequest(
@@ -143,4 +152,8 @@ export class TestTeamModel {
     //         this.state = "success";
     //     });
     // }
+}
+
+export function* result<T>(promise: Promise<T>) {
+    return (yield promise) as T;
 }

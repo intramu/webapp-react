@@ -1,7 +1,7 @@
 import { CSSObject } from "@emotion/react";
 import { colors, definedSizes, standardShadows } from "./common";
 
-const containerMargin = "0.6em 0";
+const containerMargin = "9px 0";
 const containerPadding = "1.5em";
 const halfWidth = "49%";
 const fullHeight = "35vh";
@@ -59,9 +59,9 @@ export const halfVerticalInfinite: CSSObject = {
     // minWidth: 600,
     margin: containerMargin,
     padding: containerPadding,
-    "@media(max-width: 1600px)": {
-        width: "92%",
-    },
+    // "@media(max-width: 1600px)": {
+    //     width: "92%",
+    // },
 };
 
 export const half: CSSObject = {

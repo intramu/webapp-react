@@ -19,9 +19,14 @@ import { Home } from "./landing/home";
 import { Fake } from "./Fake";
 
 import { AdminLayout } from "../layouts/AdminLayout";
+import TempCompetitionCreator from "./admin/competition-creator";
 
 import "../styles/globals.css";
-import TempCompetitionCreator from "./admin/competition-creator";
+import { OrganizationRootStore } from "../models/stores/admin/OrganizationRootStore";
+import { Settings } from "./admin/settings";
+import { Term } from "./network/[term]";
+
+export const organizationStore = new OrganizationRootStore();
 
 export const routes = createBrowserRouter(
     createRoutesFromElements(
@@ -29,6 +34,7 @@ export const routes = createBrowserRouter(
             <Route element={<AuthPlayer />}>
                 <Route element={<PlayerLayout />}>
                     <Route path="/dashboard" element={<Dashboard />} />
+                    <Route path="/redirect" element={<div>Loading</div>} />
                     <Route path="/messages" element={<Messages />} />
                     <Route path="/help" element={<Help />} />
                     <Route path="/profile" element={<ProfileSettings />} />
@@ -37,6 +43,7 @@ export const routes = createBrowserRouter(
                         <Route path=":teamId" element={<OneTeam />} />
                         <Route path="new" element={<NewTeam />} />
                     </Route>
+                    <Route path="/network/:compId" element={<Term />} />
                     <Route path="/administration" element={<Fake />} />
                 </Route>
 
@@ -46,6 +53,10 @@ export const routes = createBrowserRouter(
                 <Route element={<AdminLayout />}>
                     <Route path="/admin/portal" element={<Portal />} />
                     <Route path="/admin/competition-creator" element={<TempCompetitionCreator />} />
+                    <Route
+                        path="/admin/settings"
+                        element={<Settings store={organizationStore} />}
+                    />
                 </Route>
             </Route>
 

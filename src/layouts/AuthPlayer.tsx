@@ -79,21 +79,10 @@ export function AuthPlayer() {
         return <div>Well this is a weird error. Not sure what happened</div>;
     }
 
-    if (isLoading || playerLoading) {
+    if (isLoading || pageLoading) {
         return <div>Loading...</div>;
     }
 
-    if (!isAuthorized) {
-        return (
-            <div>
-                <b>
-                    Sorry, you cant access this page as an admin. If you wish to particpate please
-                    create another account
-                </b>
-                <button onClick={() => navigate("/admin/portal")}>Back</button>
-            </div>
-        );
-    }
     if (!isAuthenticated) {
         loginWithRedirect({
             appState: {
@@ -102,6 +91,18 @@ export function AuthPlayer() {
         });
         return null;
     }
+
+    // if (!isAuthorized) {
+    //     return (
+    //         <div>
+    //             <b>
+    //                 Sorry, you cant access this page as an admin. If you wish to particpate please
+    //                 create another account
+    //             </b>
+    //             <button onClick={() => navigate("/admin/portal")}>Back</button>
+    //         </div>
+    //     );
+    // }
 
     /**
      * In a production build of the project a post registration auth0 action will
@@ -113,5 +114,5 @@ export function AuthPlayer() {
      * On logging in the id can be retrieved through the auth0 hook
      */
 
-    return isAuthenticated && isAuthorized && <Outlet />;
+    return isAuthenticated && <Outlet />;
 }
