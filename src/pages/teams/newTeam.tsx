@@ -12,7 +12,7 @@ import { IDivision } from "../../interfaces/competition/IDivision";
 import { ILeague } from "../../interfaces/competition/ILeague";
 import { isErrorResponse } from "../../interfaces/ErrorResponse";
 import { ITeam } from "../../interfaces/ITeam";
-import { fullDynamic } from "../../styles/scss/player/containers";
+import { fullDynamic } from "../../styles/player/containers";
 import { TeamVisibility } from "../../utilities/enums/teamEnum";
 
 interface INewTeam {

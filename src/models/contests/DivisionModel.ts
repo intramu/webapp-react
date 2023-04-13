@@ -1,5 +1,9 @@
 import { makeAutoObservable } from "mobx";
+import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
 import { BracketModel } from "./BracketModel";
+
+dayjs.extend(utc);
 
 export class DivisionModel {
     id = 0;
@@ -18,13 +22,13 @@ export class DivisionModel {
 
     minMenCount = 0;
 
-    startDate = new Date();
+    startDate = dayjs.utc();
 
-    endDate = new Date();
+    endDate = dayjs.utc();
 
-    registrationStartDate = new Date();
+    registrationStartDate = dayjs.utc();
 
-    registrationEndDate = new Date();
+    registrationEndDate = dayjs.utc();
 
     contestType = "";
 

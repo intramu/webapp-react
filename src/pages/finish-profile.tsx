@@ -16,7 +16,7 @@ import React, { useEffect, useState } from "react";
 import { PlayerModel } from "../models/PlayerModel";
 import useAxios from "../common/hooks/useAxios";
 import { generateGraduationTerms } from "../utilities/graduationTerm";
-import { colors, flexColumn, flexRow } from "../styles/scss/player/common";
+import { colors, flexColumn, flexRow } from "../styles/player/common";
 import { finishProfileSchema } from "../utilities/formValidation/userValidation";
 import { MaterialTextInput } from "../common/inputs";
 import { Language, PlayerGender, PlayerVisibility } from "../utilities/enums/userEnum";

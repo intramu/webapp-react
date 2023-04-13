@@ -25,6 +25,9 @@ import "../styles/globals.css";
 import { OrganizationRootStore } from "../models/stores/admin/OrganizationRootStore";
 import { Settings } from "./admin/settings";
 import { Term } from "./network/[term]";
+import { Test } from "../Test";
+import { Players } from "./admin/players";
+import { Teams } from "./admin/teams";
 
 export const organizationStore = new OrganizationRootStore();
 
@@ -45,6 +48,7 @@ export const routes = createBrowserRouter(
                     </Route>
                     <Route path="/network/:compId" element={<Term />} />
                     <Route path="/administration" element={<Fake />} />
+                    <Route path="/test" element={<Test />} />
                 </Route>
 
                 <Route path="finish-profile" element={<FinishProfile />} />
@@ -53,10 +57,9 @@ export const routes = createBrowserRouter(
                 <Route element={<AdminLayout />}>
                     <Route path="/admin/portal" element={<Portal />} />
                     <Route path="/admin/competition-creator" element={<TempCompetitionCreator />} />
-                    <Route
-                        path="/admin/settings"
-                        element={<Settings store={organizationStore} />}
-                    />
+                    <Route path="/admin/settings" element={<Settings />} />
+                    <Route path="/admin/players" element={<Players />} />
+                    <Route path="/admin/teams" element={<Teams />} />
                 </Route>
             </Route>
 

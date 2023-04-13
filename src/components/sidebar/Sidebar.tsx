@@ -13,7 +13,7 @@ import useSWR from "../../common/hooks/useSWR";
 
 import { IContest } from "../../interfaces/competition/IContest";
 import { ITeam } from "../../interfaces/ITeam";
-import { smallButton } from "../../styles/scss/player/buttons";
+import { smallButton } from "../../styles/player/buttons";
 import {
     colors,
     definedSizes,
@@ -26,8 +26,7 @@ import {
     standardBorders,
     standardFontSizes,
     standardShadows,
-} from "../../styles/scss/player/common";
-import "../../styles/scss/player/sidebar.scss";
+} from "../../styles/player/common";
 import { ContestLink } from "./ContestLink";
 
 const linkList: CSSObject = {
@@ -245,7 +244,7 @@ function Sidebar() {
                 </li>
 
                 <li css={[sidebarBox]}>
-                    <NavLink css={[link]} to="/administration">
+                    <NavLink css={[link]} to="/admin/portal">
                         <AdminPanelSettingsIcon css={icon} />
                         Admin
                     </NavLink>

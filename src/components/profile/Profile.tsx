@@ -5,7 +5,7 @@ import { Button, Col, FormGroup, Label, Row } from "reactstrap";
 import { observer } from "mobx-react-lite";
 import * as Yup from "yup";
 import { SelectInput, TextInput } from "../../common/inputs";
-import { dynamicButton } from "../../styles/scss/player/buttons";
+import { dynamicButton } from "../../styles/player/buttons";
 import { PlayerModel } from "../../models/PlayerModel";
 import { Language, PlayerGender, PlayerVisibility } from "../../utilities/enums/userEnum";
 

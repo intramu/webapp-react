@@ -6,12 +6,13 @@ import {
     definedSizes,
     flexCenterVertical,
     iconSizing,
-} from "../../../styles/scss/player/common";
-import { divisionContainer } from "../../../styles/scss/player/containers";
+} from "../../../styles/player/common";
+import { divisionContainer } from "../../../styles/player/containers";
 import BracketList from "../brackets/BracketList";
+import { DivisionModel } from "../../../models/contests/DivisionModel";
 
 interface IDivisionBox {
-    division: IDivision;
+    division: DivisionModel;
 }
 
 function DivisionBox({ division }: IDivisionBox) {

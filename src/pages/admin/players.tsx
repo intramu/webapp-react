@@ -1,59 +1,59 @@
-/** @jsxImportSource @emotion/react */
 import React, { useEffect } from "react";
+import GroupsIcon from "@mui/icons-material/Groups";
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import { observer } from "mobx-react-lite";
-import GroupsIcon from "@mui/icons-material/Groups";
 import { organizationStore } from "../_routes";
 import { GreyButton } from "../../components/Buttons";
 
-export const Teams = observer(() => {
-    const { teamStore } = organizationStore;
+export const Players = observer(() => {
+    const { playerStore } = organizationStore;
 
-    const fetchTeams = () => {
-        teamStore.fetchAllTeams();
+    const fetchPlayers = () => {
+        playerStore.fetchAllPlayers();
     };
 
     useEffect(() => {
-        if (teamStore.teams.length === 0) {
-            fetchTeams();
-        }
+        fetchPlayers();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [teamStore]);
+    }, [playerStore]);
 
     return (
         <div>
-            <h1>Teams</h1>
-            <GreyButton onClick={fetchTeams}>Refresh</GreyButton>
+            <h1>Players</h1>
             <TableContainer>
                 <Table>
                     <TableHead>
                         <TableRow>
                             <TableCell>Image</TableCell>
                             <TableCell>Name</TableCell>
+                            <TableCell>Email Address</TableCell>
                             <TableCell>Visibility</TableCell>
                             <TableCell>Status</TableCell>
                             <TableCell>Date Created</TableCell>
                             <TableCell size="small" />
                             <TableCell />
                             <TableCell />
-                            <TableCell>Id</TableCell>
+                            <TableCell>Auth Id</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {teamStore.teams.length === 0 ? (
+                        {playerStore.players.length === 0 ? (
                             <TableRow>
                                 <TableCell>No Teams</TableCell>
                             </TableRow>
                         ) : (
-                            teamStore.teams.map((team) => (
-                                <TableRow hover key={team.id}>
+                            playerStore.players.map((player) => (
+                                <TableRow hover key={player.authId}>
                                     <TableCell>
-                                        {team.image || <GroupsIcon css={{ fontSize: 40 }} />}
+                                        {player.image || <GroupsIcon css={{ fontSize: 40 }} />}
                                     </TableCell>
-                                    <TableCell>{team.name}</TableCell>
-                                    <TableCell>{team.visibility}</TableCell>
-                                    <TableCell>{team.status}</TableCell>
-                                    <TableCell>{team.dateCreated}</TableCell>
+                                    <TableCell>
+                                        {`${player.firstName} ${player.lastName}`}{" "}
+                                    </TableCell>
+                                    <TableCell>{player.emailAddress}</TableCell>
+                                    <TableCell>{player.visibility}</TableCell>
+                                    <TableCell>{player.status}</TableCell>
+                                    {/* <TableCell>{player.dateCreated)}</TableCell> */}
                                     <TableCell size="small">
                                         <GreyButton>Message</GreyButton>
                                     </TableCell>
@@ -63,7 +63,7 @@ export const Teams = observer(() => {
                                     <TableCell>
                                         <GreyButton>View</GreyButton>
                                     </TableCell>
-                                    <TableCell>{team.id}</TableCell>
+                                    <TableCell>{player.authId}</TableCell>
                                 </TableRow>
                             ))
                         )}

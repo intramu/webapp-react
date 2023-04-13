@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import React, { useEffect } from "react";
 import { Helmet } from "react-helmet";
-import { fullDynamic } from "../styles/scss/player/containers";
+import { fullDynamic } from "../styles/player/containers";
 
 export function Dashboard() {
     // useEffect(() => {

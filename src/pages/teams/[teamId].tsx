@@ -7,20 +7,20 @@ import useSWR from "../../common/hooks/useSWR";
 import { Roster } from "../../components/team/Roster";
 import { Schedule } from "../../components/team/Schedule";
 import { IJoinRequest } from "../../interfaces/IJoinRequest";
-import { TestTeamModel } from "../../models/team/TeamModel";
+import { TeamModel } from "../../models/team/TeamModel";
 import {
     containerHolder,
     full,
     half,
     quarter,
     quarterHolder,
-} from "../../styles/scss/player/containers";
+} from "../../styles/player/containers";
 
 export const OneTeam = observer(() => {
     const { teamId } = useParams();
     const { getAccessTokenSilently } = useAuth0();
 
-    const [team] = useState(() => new TestTeamModel());
+    const [team] = useState(() => new TeamModel());
 
     // const { data: team, error, isLoading } = useSWR<ITeam>(`/teams/${teamId}`);
     const { data: requests } = useSWR<IJoinRequest[]>(`/teams/${teamId}/requests`);
@@ -28,20 +28,18 @@ export const OneTeam = observer(() => {
     useEffect(() => {
         const fetch = async () => {
             const token = await getAccessTokenSilently();
-            team.fetchTeam(Number(teamId), token);
+            team.fetchTeam(Number(teamId));
         };
         fetch();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const declineRequest = async (userId: string) => {
-        const token = await getAccessTokenSilently();
-        team.declineRequest(userId, token);
+        team.declineRequest(userId);
     };
 
     const acceptRequest = async (userId: string) => {
-        const token = await getAccessTokenSilently();
-        team.acceptRequest(userId, token);
+        team.acceptRequest(userId);
     };
 
     console.log(team.players[0]);

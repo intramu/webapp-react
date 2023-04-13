@@ -1,9 +1,9 @@
 import { makeAutoObservable } from "mobx";
-import { newGetRequest } from "../common/functions/axiosRequests";
+import { newGetRequest, newPatchRequest } from "../common/functions/axiosRequests";
 import { isErrorResponse } from "../interfaces/ErrorResponse";
 import { result } from "./modelResult";
 
-interface IOrganizationProps {
+interface OrganizationModelProps {
     id: string;
     name: string;
     image: string;
@@ -28,17 +28,25 @@ export class OrganizationModel {
 
     studentContactEmail = "";
 
+    address = "";
+
+    city = "";
+
+    state = "";
+
+    zipCode = "";
+
     dateCreated = "";
 
-    state = "pending";
+    loadingState = "pending";
 
     error = "";
 
     constructor() {
-        makeAutoObservable(this, {}, {autoBind: true})
+        makeAutoObservable(this, {}, { autoBind: true });
     }
 
-    construct(props: Partial<IOrganizationProps>) {
+    construct(props: Partial<OrganizationModelProps>) {
         const {
             id = "",
             name = "",
@@ -57,21 +65,31 @@ export class OrganizationModel {
         this.dateCreated = dateCreated;
     }
 
-    *fetchOrganization(id: string){
-        this.state = "pending";
+    *fetchOrganization() {
+        this.loadingState = "pending";
         this.error = "";
 
-        const r = yield* result(newGetRequest<OrganizationModel>(`/organization/${id}`));
-        if(isErrorResponse(r)){
-            return
+        const r = yield* result(newGetRequest<OrganizationModel>(`/organization`));
+        if (isErrorResponse(r)) {
+            return;
         }
 
-        this.construct(r)
-        this.id = r.id;
-        this.name = r.name;
-        this.info = r.info;
-        this.mainColor = r.mainColor;
-        this.approvalStatus = r.approvalStatus;
-        this.primaryContactEmail = 
+        this.construct(r);
+        this.loadingState = "success";
+    }
+
+    *updateOrganization(org: OrganizationModel) {
+        this.loadingState = "pending";
+        this.error = "";
+
+        const r = yield* result(
+            newPatchRequest<OrganizationModel, OrganizationModel>(`/organization`, org)
+        );
+        if (isErrorResponse(r)) {
+            return;
+        }
+
+        this.construct(r);
+        this.loadingState = "success";
     }
 }

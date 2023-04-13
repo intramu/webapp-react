@@ -38,6 +38,7 @@ module.exports = {
                 endOfLine: "auto",
             },
         ],
+        "import/no-cycle": "off",
         "react/jsx-filename-extension": [1, { extensions: [".js", ".jsx", ".tsx"] }],
     },
 };

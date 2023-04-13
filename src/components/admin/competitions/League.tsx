@@ -27,6 +27,18 @@ export const NewLeague = observer(({ league, removeLeague, index }: LeagueProps)
     //     league.sport = sport;
     // };
 
+    // function hasKey<O extends object>(obj: O, key: keyof any): key is keyof O {
+    //     return key in obj;
+    // }
+
+    // const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    //     const { name, value } = e.target;
+
+    //     if (hasKey(league, name)) {
+    //         league[name] = value;
+    //     }
+    // };
+
     return (
         <div css={{ border: "1px solid black" }}>
             <span>League: {index}</span>

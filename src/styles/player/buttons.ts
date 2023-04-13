@@ -2,6 +2,8 @@ import { CSSObject } from "@emotion/react";
 import { standardBorderRadius } from "./common";
 
 const commonButton: CSSObject = {
+    backgroundColor: "unset",
+    border: "none",
     borderRadius: standardBorderRadius.lg,
     textAlign: "center",
     display: "inline-block",
@@ -17,8 +19,12 @@ export const smallButton: CSSObject = {
 
 export const dynamicButton: CSSObject = {
     ...commonButton,
-    padding: "5px",
+    padding: "3px 13px",
     // "&:hover":{
 
     // }
+};
+
+export const unstyledButton: CSSObject = {
+    ...commonButton,
 };

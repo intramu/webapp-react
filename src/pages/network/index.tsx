@@ -24,7 +24,7 @@ function Network() {
                         onClick={() => setIsOpen((x) => !x)}>
                         Toggle
                     </button>
-                    {isOpen && <LeaguesList leagues={contest.leagues} />}
+                    {/* {isOpen && <LeaguesList leagues={contest.leagues} />} */}
                 </div>
             ))}
         </>

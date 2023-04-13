@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { IBracket, ITimeRange } from "../../../interfaces/competition/IBracket";
 import TeamRow from "../teams/TeamRow";
+import { BracketModel } from "../../../models/contests/BracketModel";
 
 interface IBracketBox {
-    bracket: IBracket;
+    bracket: BracketModel;
 }
 
 function BracketBox({ bracket }: IBracketBox) {
@@ -11,51 +12,52 @@ function BracketBox({ bracket }: IBracketBox) {
         // create team in bracket waitlist
     };
 
-    function showTimes() {
-        let time = "";
-        bracket.timeChoices.forEach((choice) => {
-            time += `, ${choice.startTime}`;
-        });
+    return <div>Woah</div>;
+    // function showTimes() {
+    //     let time = "";
+    //     bracket.timeChoices.forEach((choice) => {
+    //         time += `, ${choice.startTime}`;
+    //     });
 
-        return time;
-    }
+    //     return time;
+    // }
 
-    if (bracket.maxTeamAmount > 0) {
-        return (
-            <div>
-                <b>{bracket.dayChoices}</b>
-                <b>{showTimes()}</b>
+    // if (bracket.maxTeamAmount > 0) {
+    //     return (
+    //         <div>
+    //             <b>{bracket.dayChoices}</b>
+    //             <b>{showTimes()}</b>
 
-                {bracket.teams.length === 0 ? (
-                    <div>No Teams</div>
-                ) : (
-                    <div>
-                        {bracket.teams.map((team, index) => (
-                            <TeamRow key={index} team={team} />
-                        ))}
-                    </div>
-                )}
-            </div>
-        );
-    }
+    //             {bracket.teams.length === 0 ? (
+    //                 <div>No Teams</div>
+    //             ) : (
+    //                 <div>
+    //                     {bracket.teams.map((team, index) => (
+    //                         <TeamRow key={index} team={team} />
+    //                     ))}
+    //                 </div>
+    //             )}
+    //         </div>
+    //     );
+    // }
 
-    return (
-        <div>
-            <b>Waitlist</b>
+    // return (
+    //     <div>
+    //         <b>Waitlist</b>
 
-            {/* render team cards here */}
-            {bracket.teams.length === 0 ? (
-                <div>No Teams</div>
-            ) : (
-                <div>
-                    {bracket.teams.map((team, index) => (
-                        <TeamRow key={index} team={team} />
-                    ))}
-                </div>
-            )}
-            <button onClick={() => createTeam()}>Create Team</button>
-        </div>
-    );
+    //         {/* render team cards here */}
+    //         {bracket.teams.length === 0 ? (
+    //             <div>No Teams</div>
+    //         ) : (
+    //             <div>
+    //                 {bracket.teams.map((team, index) => (
+    //                     <TeamRow key={index} team={team} />
+    //                 ))}
+    //             </div>
+    //         )}
+    //         <button onClick={() => createTeam()}>Create Team</button>
+    //     </div>
+    // );
 }
 
 export default BracketBox;

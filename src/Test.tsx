@@ -4,31 +4,62 @@ import React, { Suspense, useEffect, useState } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import fetchData from "./common/api/fetchData";
 // import { getRequest } from "./common/api/testFunctions";
-import { TestTeamModel } from "./models/team/TeamModel";
+import { TeamModel } from "./models/team/TeamModel";
+import { SimpleModel } from "./models/SimpleModel";
+import { Input } from "./common/mobbinInput";
 
 const resource = fetchData(`http://localhost:8080/api/v1/players/auth0|62760b4733c477006f82c56c`);
 // const test = getRequest("", "");
 
-export function Test() {
-    return (
-        <ErrorBoundary fallback={<div>Sorry an error occurred</div>}>
-            <Suspense fallback={<p>loading...</p>}>
-                <UserWelcome />
-            </Suspense>
-        </ErrorBoundary>
-    );
+type Item = {
+    name: string;
+    age: string;
+};
+
+interface test {
+    name: string;
+    age: number;
 }
+
+export const Test = observer(() => {
+    const [simpleModel] = useState(() => new SimpleModel());
+
+    const obj1: Item = {
+        age: "age",
+        name: "name",
+    };
+
+    // const changeValue = (e: React.ChangeEvent<HTMLInputElement>) => {
+    //     const { name, value } = e.target;
+
+    //     type i1 = (typeof simpleModel)[keyof SimpleModel];
+    //     // eslint-disable-next-line dot-notation
+    //     simpleModel[name as keyof test] = value;
+
+    //     console.log(SimpleModel.prototype);
+    // };
+
+    return (
+        <form>
+            <input
+                type="text"
+                value={simpleModel.name}
+                onChange={(e) => {
+                    simpleModel.name = e.target.value;
+                    // changeValue(e);
+                }}
+            />
+        </form>
+    );
+});
 
 const UserWelcome = observer(() => {
     // const userDetails = resource.read();
-    const [team] = useState(() => new TestTeamModel());
-
-    const { getAccessTokenSilently } = useAuth0();
+    const [team] = useState(() => new TeamModel());
 
     useEffect(() => {
         const fetch = async () => {
-            const token = await getAccessTokenSilently();
-            team.fetchTeam(17, token);
+            team.fetchTeam(17);
         };
         fetch();
         // eslint-disable-next-line react-hooks/exhaustive-deps

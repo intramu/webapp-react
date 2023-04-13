@@ -4,7 +4,7 @@ import { Outlet } from "react-router-dom";
 import { FooterDashboard } from "../components/footer/FooterDashboard";
 import { NavbarDashboard } from "../components/navbar/NavbarDashboard";
 import Sidebar from "../components/sidebar/Sidebar";
-import { colors, definedSizes, flexColumn, flexRow } from "../styles/scss/player/common";
+import { colors, definedSizes, flexColumn, flexRow } from "../styles/player/common";
 
 export function PlayerLayout() {
     return (

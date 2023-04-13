@@ -2,19 +2,29 @@ import { makeAutoObservable } from "mobx";
 import {
     newDeleteRequest,
     newGetRequest,
+    newPatchRequest,
     newPostRequest,
 } from "../../common/functions/axiosRequests";
 import { isErrorResponse } from "../../interfaces/ErrorResponse";
-import { ITeam } from "../../interfaces/ITeam";
 import { JoinRequestModel } from "./JoinRequestModel";
 import { TeamRole } from "../../utilities/enums/teamEnum";
 import { result } from "../modelResult";
 import { RosterPlayerModel } from "./RosterPlayerModel";
 
-enum State {
-    LOADING = 1,
-    SUCCESS = 2,
-    ERROR = 3,
+interface TeamModelProps {
+    id: number;
+    name: string;
+    wins: number;
+    ties: number;
+    losses: number;
+    image: string;
+    visibility: string;
+    gender: string;
+    dateCreated: string;
+    sportsmanshipScore: number;
+    status: string;
+    maxTeamSize: number;
+    players: RosterPlayerModel[];
 }
 
 export class TeamModel {
@@ -55,34 +65,78 @@ export class TeamModel {
         makeAutoObservable(this, {}, { autoBind: true });
     }
 
+    construct(props: Partial<TeamModelProps>) {
+        const {
+            id = 0,
+            name = "",
+            wins = 0,
+            ties = 0,
+            losses = 0,
+            gender = "",
+            status = "",
+            visibility = "",
+            maxTeamSize = 0,
+            sportsmanshipScore = 0,
+            image = "",
+            dateCreated = "",
+            players = [],
+        } = props;
+
+        this.id = id;
+        this.name = name;
+        this.wins = wins;
+        this.ties = ties;
+        this.losses = losses;
+        this.gender = gender;
+        this.status = status;
+        this.visibility = visibility;
+        this.maxTeamSize = maxTeamSize;
+        this.sportsmanshipScore = sportsmanshipScore;
+        this.image = image;
+        this.players = players;
+        this.dateCreated = dateCreated;
+    }
+
     *fetchTeam(id: number) {
         this.state = "pending";
         this.error = "";
 
-        const team = yield* result(newGetRequest<TeamModel>(`/teams/${id}`));
+        const response = yield* result(newGetRequest<TeamModel>(`/teams/${id}`));
 
-        if (isErrorResponse(team)) {
-            this.error = team.errorMessage;
+        if (isErrorResponse(response)) {
+            this.error = response.errorMessage;
             this.state = "done";
             return;
         }
 
-        this.id = team.id;
-        this.name = team.name;
-        this.wins = team.wins;
-        this.ties = team.ties;
-        this.losses = team.losses;
-        this.image = team.image;
-        this.visibility = team.visibility;
-        this.gender = team.gender;
-        this.dateCreated = team.dateCreated;
-        this.sportsmanshipScore = team.sportsmanshipScore;
-        this.status = team.status;
-        this.maxTeamSize = team.maxTeamSize;
-        this.players = team.players;
-        this.requests = team.requests;
-
+        this.construct(response);
         this.state = "success";
+    }
+
+    *updateTeam() {
+        const response = yield* result(
+            newPatchRequest<TeamModel, TeamModelProps>(`/organization/teams/${this.id}`, {
+                id: this.id,
+                name: this.name,
+                wins: this.wins,
+                ties: this.ties,
+                losses: this.losses,
+                gender: this.gender,
+                status: this.status,
+                visibility: this.visibility,
+                maxTeamSize: this.maxTeamSize,
+                sportsmanshipScore: this.sportsmanshipScore,
+                image: this.image,
+                players: this.players,
+                dateCreated: this.dateCreated,
+            })
+        );
+
+        if (isErrorResponse(response)) {
+            return;
+        }
+
+        this.construct(response);
     }
 
     *acceptRequest(userId: string) {

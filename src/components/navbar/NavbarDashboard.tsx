@@ -5,7 +5,7 @@ import { Link, NavLink, useLocation } from "react-router-dom";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import MailOutlinedIcon from "@mui/icons-material/MailOutlined";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
-import { colors, flexRow } from "../../styles/scss/player/common";
+import { colors, flexRow } from "../../styles/player/common";
 
 const link: CSSObject = {
     marginLeft: 14,

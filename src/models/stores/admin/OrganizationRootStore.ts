@@ -1,46 +1,30 @@
 import { makeAutoObservable } from "mobx";
 import { newGetRequest } from "../../../common/functions/axiosRequests";
+import { OrganizationModel } from "../../OrganizationModel";
+import { TeamStore } from "../TeamStore";
+import { PlayerStore } from "../PlayerStore";
 
 export class OrganizationRootStore {
-    id = "";
+    organization: OrganizationModel;
 
-    name = "";
+    teamStore: TeamStore;
 
-    info = "";
-
-    mainColor = "";
-
-    approvalStatus = "";
-
-    primaryContactEmail = "";
-
-    studentContactEmail = "";
-
-    dateCreated = "";
-
-    teams = [];
-
-    players = [];
-
-    state = "pending";
-
-    error = "";
+    playerStore: PlayerStore;
 
     constructor() {
         makeAutoObservable(this, {}, { autoBind: true });
+
+        this.organization = new OrganizationModel();
+        this.teamStore = new TeamStore();
+        this.playerStore = new PlayerStore();
     }
 
-    *fetchOrganization(id: string) {
-        this.state = "pending";
-        this.error = "";
+    // *fetchOrganization(id: string) {
+    //     this.state = "pending";
+    //     this.error = "";
 
-        const response = newGetRequest < Orga(`/organization/${id}`);
-    }
-
-    fetchPlayers() {
-        this.state = "pending";
-        // const response = newGetRequest("")
-    }
+    //     const response = newGetRequest < Orga(`/organization/${id}`);
+    // }
 
     // fetchOrganization
 }

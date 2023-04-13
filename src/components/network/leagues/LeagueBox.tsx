@@ -6,15 +6,16 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { CSSObject } from "@emotion/react";
 
 import { ILeague } from "../../../interfaces/competition/ILeague";
-import { flexCenterVertical, iconSizing } from "../../../styles/scss/player/common";
-import { networkContainer } from "../../../styles/scss/player/containers";
+import { flexCenterVertical, iconSizing } from "../../../styles/player/common";
+import { networkContainer } from "../../../styles/player/containers";
 import DivisionList from "../divisions/DivisionList";
+import { LeagueModel } from "../../../models/contests/LeagueModel";
 
 const icon: CSSObject = {
     fontSize: 30,
 };
 
-function LeagueBox({ league }: { league: ILeague }) {
+function LeagueBox({ league }: { league: LeagueModel }) {
     const [isOpen, setIsOpen] = useState<boolean>(false);
 
     const toggle = () => setIsOpen((x) => !x);

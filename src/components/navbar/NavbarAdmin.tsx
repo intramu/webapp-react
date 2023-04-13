@@ -3,7 +3,7 @@ import React from "react";
 import { Link, NavLink } from "react-router-dom";
 import { Collapse, Nav, Navbar, NavbarBrand, NavbarText, NavItem } from "reactstrap";
 import LogoutButton from "../LogoutButton";
-import { flexCenterVertical, flexRow } from "../../styles/scss/player/common";
+import { flexCenterVertical, flexRow } from "../../styles/player/common";
 
 export function NavbarAdmin() {
     // #212529
@@ -15,6 +15,9 @@ export function NavbarAdmin() {
                 {
                     backgroundColor: "#212529",
                     padding: 10,
+                    flex: "none",
+                    height: 50,
+                    position: "relative",
                     "& a": { textDecoration: "none", margin: "0 10px" },
                 },
             ]}>

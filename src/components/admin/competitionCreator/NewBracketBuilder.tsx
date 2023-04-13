@@ -1,10 +1,20 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { observer } from "mobx-react-lite";
-import { Field, FieldArray, Form, Formik } from "formik";
+import { FieldArray, Form, Formik } from "formik";
+import { MenuItem } from "@mui/material";
 import { LeagueStore } from "../../../models/contests/LeagueStore";
-import { NewLeague } from "../competitions/League";
-import { SubForm } from "../competitions/SubForm";
 import { LeagueModel } from "../../../models/contests/LeagueModel";
+import { FormikLeague } from "../formik/League";
+import {
+    MaterialNumberInput,
+    MaterialSelectInput,
+    MaterialTextInput,
+} from "../../../common/inputs";
+import {
+    CompetitionVisibility,
+    CompetitionStatus,
+    CompetitionSeason,
+} from "../../../utilities/enums/competitionEnum";
 
 export const NewBracketBuilder = observer(() => {
     const [store] = useState(() => new LeagueStore());
@@ -34,13 +44,41 @@ export const NewBracketBuilder = observer(() => {
             enableReinitialize>
             {(formik) => (
                 <Form>
-                    <Field type="text" name="song" />
+                    <h5>Contest Details</h5>
+                    <MaterialTextInput name="name" label="Optional: Name" />
+
+                    <MaterialSelectInput
+                        name="visibility"
+                        label="Visibility"
+                        enumValue={CompetitionVisibility}
+                    />
+                    <MaterialSelectInput
+                        name="status"
+                        label="Status"
+                        enumValue={CompetitionStatus}
+                    />
+                    <MaterialSelectInput
+                        name="season"
+                        label="Season"
+                        enumValue={CompetitionSeason}
+                    />
+                    <MaterialNumberInput name="term" label="Term" />
+                    <MaterialTextInput name="year" label="Year" />
+
                     <FieldArray name="leagues">
-                        {({ push }) => (
+                        {({ push, remove }) => (
                             <>
-                                {formik.values.leagues.map((league, lindex) => (
-                                    <SubForm key={lindex} index={lindex} league={league} />
-                                ))}
+                                <div style={{ marginLeft: 20 }}>
+                                    {formik.values.leagues.map((league, lindex) => (
+                                        <FormikLeague
+                                            formik={formik.setFieldValue}
+                                            key={lindex}
+                                            league={league}
+                                            lindex={lindex}
+                                            removeLeague={remove}
+                                        />
+                                    ))}
+                                </div>
                                 <button
                                     type="button"
                                     onClick={() => {
@@ -48,7 +86,6 @@ export const NewBracketBuilder = observer(() => {
                                     }}>
                                     Push League
                                 </button>
-                                {/* <button onClick={() => push({ address: "", zipcode: "" })}>h</button> */}
                             </>
                         )}
                     </FieldArray>

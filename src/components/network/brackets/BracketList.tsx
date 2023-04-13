@@ -1,9 +1,10 @@
 import React, { useEffect } from "react";
 import { IBracket } from "../../../interfaces/competition/IBracket";
 import BracketBox from "./BracketBox";
+import { BracketModel } from "../../../models/contests/BracketModel";
 
 interface IBracketList {
-    brackets: IBracket[];
+    brackets: BracketModel[];
 }
 function BracketList({ brackets }: IBracketList) {
     useEffect(() => {

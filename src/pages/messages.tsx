@@ -2,7 +2,7 @@
 import React from "react";
 import { Helmet } from "react-helmet";
 import { Requests } from "../components/messages/Requests";
-import { fullDynamic } from "../styles/scss/player/containers";
+import { fullDynamic } from "../styles/player/containers";
 
 export function Messages() {
     return (
