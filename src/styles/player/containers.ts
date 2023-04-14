@@ -1,20 +1,17 @@
 import { CSSObject } from "@emotion/react";
-import { colors, definedSizes, standardShadows } from "./common";
+import { colors, definedSizes, standardBorders, standardShadows } from "./common";
 
 const containerMargin = "9px 0";
 const containerPadding = "1.5em";
 const halfWidth = "49%";
 const fullHeight = "35vh";
 const quarterHeight = "47%";
-
-const networkHeight = "7vh";
-const networkMargin = "1em 0";
+// const containerRadius =
 
 const commonContainer: CSSObject = {
     backgroundColor: colors.background,
     position: "relative",
     boxShadow: standardShadows[0],
-    // padding: containerPadding,
     borderRadius: definedSizes.borderRadius,
 };
 
@@ -56,7 +53,6 @@ export const halfVerticalInfinite: CSSObject = {
     ...commonContainer,
     width: halfWidth,
     minHeight: fullHeight,
-    // minWidth: 600,
     margin: containerMargin,
     padding: containerPadding,
     // "@media(max-width: 1600px)": {
@@ -66,7 +62,6 @@ export const halfVerticalInfinite: CSSObject = {
 
 export const half: CSSObject = {
     ...commonContainer,
-    // width: `calc(50% - ${containerMargin} * 2)`,
     width: halfWidth,
     height: fullHeight,
     margin: containerMargin,
@@ -99,18 +94,26 @@ export const fullDynamic: CSSObject = {
 export const networkContainer: CSSObject = {
     ...commonContainer,
     width: "100%",
-    minHeight: networkHeight,
-    margin: networkMargin,
-    padding: "1.3em",
-    // overflowY: "scroll",
-};
-
-export const divisionContainer: CSSObject = {
-    minHeight: networkHeight,
-    margin: "1em 2em",
-    padding: "1.3em",
-    borderRadius: definedSizes.borderRadius,
-    backgroundColor: colors.content,
+    margin: "16px 0",
+    padding: "15px 30px",
 };
 
 export const fullDropdown: CSSObject = {};
+
+export const divisionContainer: CSSObject = {
+    margin: "18px 15px",
+    padding: "12px 30px",
+    borderRadius: definedSizes.borderRadius,
+    border: standardBorders[1],
+    backgroundColor: colors.content,
+};
+
+export const bracketContainer: CSSObject = {
+    margin: "18px 15px",
+    padding: "12px 30px",
+    borderRadius: definedSizes.borderRadius,
+    // needs a transparent border to prevent slight move when switching to divisionContainer
+    border: "1px solid transparent",
+    boxShadow: standardShadows[1],
+    backgroundColor: colors.background,
+};

@@ -1,11 +1,6 @@
 import React from "react";
-import { MenuItem } from "@mui/material";
-import { FieldArray } from "formik";
-import { MaterialTextInput } from "../../../common/inputs";
-import { Sport } from "../../../utilities/enums/commonEnum";
-import { LeagueModel } from "../../../models/contests/LeagueModel";
-import { FormikDivision } from "./Division";
-import { DivisionModel } from "../../../models/contests/DivisionModel";
+import { Field } from "formik";
+import { MaterialNumberInput, MaterialTextInput } from "../../../common/inputs";
 import { BracketModel } from "../../../models/contests/BracketModel";
 
 interface props {
@@ -21,17 +16,75 @@ export function FormikBracket({ bindex, bracket, dindex, lindex, removeBracket }
         <div>
             <span>Bracket: {bindex + 1}</span>
 
-            <MaterialTextInput
-                name={`leagues.${lindex}.divisions.${dindex}.brackets.${bindex}.name`}
-                label="Name"
+            {/* daychoices */}
+            <div>
+                <label>
+                    <Field
+                        type="checkbox"
+                        name={`leagues.${lindex}.divisions.${dindex}.brackets.${bindex}.dayChoices`}
+                        value="1"
+                    />
+                    Monday
+                </label>
+                <label>
+                    <Field
+                        type="checkbox"
+                        name={`leagues.${lindex}.divisions.${dindex}.brackets.${bindex}.dayChoices`}
+                        value="2"
+                    />
+                    Tuesday
+                </label>
+                <label>
+                    <Field
+                        type="checkbox"
+                        name={`leagues.${lindex}.divisions.${dindex}.brackets.${bindex}.dayChoices`}
+                        value="3"
+                    />
+                    Wednesday
+                </label>
+                <label>
+                    <Field
+                        type="checkbox"
+                        name={`leagues.${lindex}.divisions.${dindex}.brackets.${bindex}.dayChoices`}
+                        value="4"
+                    />
+                    Thursday
+                </label>
+                <label>
+                    <Field
+                        type="checkbox"
+                        name={`leagues.${lindex}.divisions.${dindex}.brackets.${bindex}.dayChoices`}
+                        value="5"
+                    />
+                    Friday
+                </label>
+                <label>
+                    <Field
+                        type="checkbox"
+                        name={`leagues.${lindex}.divisions.${dindex}.brackets.${bindex}.dayChoices`}
+                        value="6"
+                    />
+                    Saturday
+                </label>
+                <label>
+                    <Field
+                        type="checkbox"
+                        name={`leagues.${lindex}.divisions.${dindex}.brackets.${bindex}.dayChoices`}
+                        value="7"
+                    />
+                    Sunday
+                </label>
+            </div>
+
+            <MaterialNumberInput
+                name={`leagues.${lindex}.divisions.${dindex}.brackets.${bindex}.maxTeamAmount`}
+                label="Max Amount of Teams"
             />
-            <MaterialTextInput name={`leagues.${lindex}.sport`} label="Sport">
-                {(Object.keys(Sport) as Array<Sport>).map((option) => (
-                    <MenuItem key={option} value={option}>
-                        {option}
-                    </MenuItem>
-                ))}
-            </MaterialTextInput>
+            <MaterialTextInput
+                name={`leagues.${lindex}.divisions.${dindex}.brackets.${bindex}.timeChoices`}
+                label="Time Choices (comma separate)"
+            />
+
             <button type="button" onClick={() => removeBracket(lindex)}>
                 Remove
             </button>

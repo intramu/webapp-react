@@ -36,6 +36,8 @@ export const standardFontSizes = {
     xs: "8px",
     sm: "10px",
     md: "13px",
+    lg: "20px",
+    xl: "25px",
 };
 
 export const standardFontStyles = {};
@@ -83,6 +85,10 @@ export const colors = {
     content: "#f6f7f9",
 
     primary: "#2b71e2",
+    primaryHover: "#2b71e299",
+
+    base: "#000000",
+    baseHover: "#00000010",
 
     iconPrimary: "#4e4e4e",
 

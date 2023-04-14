@@ -1,11 +1,15 @@
 /** @jsxImportSource @emotion/react */
 import { CSSObject } from "@emotion/react";
 import React, { useEffect, useReducer, useState } from "react";
-import { Link, NavLink, useLocation } from "react-router-dom";
-import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
+import dayjs from "dayjs";
+import { NavLink, useLocation } from "react-router-dom";
+import { observer } from "mobx-react-lite";
+import { Badge } from "@mui/material";
 import MailOutlinedIcon from "@mui/icons-material/MailOutlined";
+import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import { colors, flexRow } from "../../styles/player/common";
+import { userRootStore } from "../../pages/_routes";
 
 const link: CSSObject = {
     marginLeft: 14,
@@ -24,9 +28,11 @@ const icon: CSSObject = {
     color: "black",
 };
 
-export function NavbarDashboard() {
+export const NavbarDashboard = observer(() => {
     const [, forceUpdate] = useReducer((x) => x + 1, 0);
     const location = useLocation();
+
+    const { inviteStore } = userRootStore;
 
     useEffect(() => {
         forceUpdate();
@@ -61,7 +67,9 @@ export function NavbarDashboard() {
                     <Clock />
                     <div>
                         <NavLink css={link} to="/messages">
-                            <MailOutlinedIcon css={icon} />
+                            <Badge badgeContent={inviteStore.invites.length ?? 0} color="primary">
+                                <MailOutlinedIcon css={icon} />
+                            </Badge>
                         </NavLink>
                         <NavLink css={link} to="/profile">
                             <AccountCircleOutlinedIcon css={icon} />
@@ -74,39 +82,23 @@ export function NavbarDashboard() {
             </div>
         </header>
     );
-}
+});
 
 function Clock() {
-    const [time, setTime] = useState<Date>(new Date());
-    const weekday = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-    const months = [
-        "January",
-        "February",
-        "March",
-        "April",
-        "May",
-        "June",
-        "July",
-        "August",
-        "September",
-        "October",
-        "November",
-        "December",
-    ];
+    const [time, setTime] = useState(dayjs());
+
+    const clockLeft = "DD MMMM YYYY, dddd";
+    const clockRight = "h:mm A";
 
     useEffect(() => {
-        const timerId = setInterval(() => setTime(new Date()), 1000);
+        const timerId = setInterval(() => setTime(dayjs()), 1000);
         return () => clearInterval(timerId);
     });
 
     return (
-        <>
-            <span css={{ color: colors.navbarText }}>{`${time.getDate()} ${
-                months[time.getMonth()]
-            } ${time.getFullYear()}, ${weekday[time.getDay()]}`}</span>
-            <span css={{ margin: "0 1em", color: colors.navbarText }}>{`${
-                time.getHours() > 12 ? time.getHours() - 12 : time.getHours()
-            }:${time.getMinutes()} ${time.getHours() > 11 ? "PM" : "AM"}`}</span>
-        </>
+        <div css={{ color: colors.navbarText }}>
+            <span>{time.format(clockLeft)}</span>
+            <span css={{ margin: "0 16px" }}>{time.format(clockRight)}</span>
+        </div>
     );
 }

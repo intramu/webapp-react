@@ -1,42 +1,37 @@
-import { observer } from "mobx-react-lite";
+/** @jsxImportSource @emotion/react */
 import React, { useEffect, useState } from "react";
-import { PlayerInviteModel } from "../../models/PlayerInviteModel";
+import { observer } from "mobx-react-lite";
+import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
+import { userRootStore } from "../../pages/_routes";
+import { flexColumn } from "../../styles/player/common";
+import { GreyButton } from "../Buttons";
 
 export const Requests = observer(() => {
-    const [player] = useState(() => new PlayerInviteModel());
+    const { inviteStore: store } = userRootStore;
 
-    // const acceptInvite = async (teamId: number) => {
-    //     player.acceptInvite(teamId);
-    // };
+    const { acceptInvite, declineInvite } = store;
 
-    const { acceptInvite, declineInvite } = player;
-
-    // const declineInvite = (teamId: number) => {
-    //     player.declineInvite(teamId);
-    // };
-
-    useEffect(() => {
-        player.fetchRequests();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    const decline = () => {
+        // eslint-disable-next-line no-alert, no-restricted-globals
+        const response = confirm("are you sure");
+    };
 
     return (
         <>
-            <div>
-                {player.invites.map((invite) => (
-                    <span key={invite.requestingTeamName}>
+            <div css={[flexColumn, { borderTop: "2px solid grey" }]}>
+                {store.invites.map((invite) => (
+                    <span css={{ padding: "20px 0" }} key={invite.requestingTeamName}>
+                        <AccountCircleOutlinedIcon />
                         <b>{invite.requestingPlayerFullName}</b> wants you to join their team,{" "}
                         <b>{invite.requestingTeamName}</b>
-                        <button onClick={() => acceptInvite(invite.teamId)}>Accept</button>
-                        <button onClick={() => declineInvite(invite.teamId)}>
-                            Reject (Doesnt work)
-                        </button>
+                        <GreyButton onClick={() => acceptInvite(invite.teamId)}>Accept</GreyButton>
+                        <GreyButton onClick={decline}>Reject (Doesnt work)</GreyButton>
                     </span>
                 ))}
-                {player.invites.length === 0 && <span>No Requests</span>}
+                {store.invites.length === 0 && <span>No Requests</span>}
             </div>
-            {player.state === "pending" && <span>Loading</span>}
-            <button onClick={player.fetchRequests}>Refresh</button>
+            {store.state === "pending" && <span>Loading</span>}
+            <GreyButton onClick={store.fetchInvites}>Refresh</GreyButton>
         </>
     );
 });

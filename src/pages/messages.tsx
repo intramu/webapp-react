@@ -11,7 +11,7 @@ export function Messages() {
                 <title>Messages</title>
             </Helmet>
             <div css={[fullDynamic]}>
-                <h3>Requests</h3>
+                <h3>Invites</h3>
                 <Requests />
             </div>
 

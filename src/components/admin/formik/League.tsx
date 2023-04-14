@@ -19,7 +19,7 @@ export function FormikLeague({ formik, league, lindex, removeLeague }: props) {
         <div>
             <span>League: {lindex + 1}</span>
 
-            <MaterialTextInput name={`leagues.${lindex}.name`} label="Name" />
+            <MaterialTextInput name={`leagues.${lindex}.name`} label="Optional: Name" />
             <MaterialSelectInput name={`leagues.${lindex}.sport`} enumValue={Sport} label="Sport" />
             <button type="button" onClick={() => removeLeague(lindex)}>
                 Remove

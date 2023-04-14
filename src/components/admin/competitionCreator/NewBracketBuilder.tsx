@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { observer } from "mobx-react-lite";
-import { FieldArray, Form, Formik } from "formik";
+import { Field, FieldArray, Form, Formik } from "formik";
 import { MenuItem } from "@mui/material";
 import { LeagueStore } from "../../../models/contests/LeagueStore";
 import { LeagueModel } from "../../../models/contests/LeagueModel";
@@ -18,6 +18,7 @@ import {
 
 export const NewBracketBuilder = observer(() => {
     const [store] = useState(() => new LeagueStore());
+    const [isName, setIsName] = useState(false);
 
     return (
         // <>
@@ -45,7 +46,33 @@ export const NewBracketBuilder = observer(() => {
             {(formik) => (
                 <Form>
                     <h5>Contest Details</h5>
-                    <MaterialTextInput name="name" label="Optional: Name" />
+                    <div>
+                        <label>
+                            <input type="radio" onChange={() => setIsName(true)} checked={isName} />
+                            Name
+                        </label>
+                        <label>
+                            <input
+                                type="radio"
+                                onChange={() => setIsName(false)}
+                                checked={!isName}
+                            />
+                            Season/Term/Year
+                        </label>
+                    </div>
+                    {isName ? (
+                        <MaterialTextInput name="name" label="Name" />
+                    ) : (
+                        <>
+                            <MaterialSelectInput
+                                name="season"
+                                label="Season"
+                                enumValue={CompetitionSeason}
+                            />
+                            <MaterialNumberInput name="term" label="Term" />
+                            <MaterialTextInput name="year" label="Year" />
+                        </>
+                    )}
 
                     <MaterialSelectInput
                         name="visibility"
@@ -57,13 +84,6 @@ export const NewBracketBuilder = observer(() => {
                         label="Status"
                         enumValue={CompetitionStatus}
                     />
-                    <MaterialSelectInput
-                        name="season"
-                        label="Season"
-                        enumValue={CompetitionSeason}
-                    />
-                    <MaterialNumberInput name="term" label="Term" />
-                    <MaterialTextInput name="year" label="Year" />
 
                     <FieldArray name="leagues">
                         {({ push, remove }) => (

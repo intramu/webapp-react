@@ -16,3 +16,13 @@ export enum OrganizationStatus {
     CLOSING = "CLOSING",
     DISABLED = "DISABLED",
 }
+
+export enum Day {
+    Monday,
+    Tuesday,
+    Wednesday,
+    Thursday,
+    Friday,
+    Saturday,
+    Sunday,
+}

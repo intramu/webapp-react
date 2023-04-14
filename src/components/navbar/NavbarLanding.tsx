@@ -1,32 +1,34 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import React from "react";
 import { Link } from "react-router-dom";
-import LoginButton from "../LoginButton";
-import LogoutButton from "../LogoutButton";
 
 function NavbarLanding() {
     const { loginWithRedirect } = useAuth0();
     return (
         <header>
-            <div className="navs">
-                <img src="/logo192.png" alt="logo" />
+            <div className="navs" id="left">
+                <Link to="/">
+                    <img src="/logo192.png" alt="logo" />
+                </Link>
+
                 <span>
-                    <Link to="/">Mobile App</Link>
+                    {/* <Link to="#section-two">Mobile App</Link> */}
+                    <a href="/#mobile-app">Mobile App</a>
                 </span>
                 <span>
-                    <Link to="/">Schools</Link>
+                    <a href="/#schools-testimonials">Schools</a>
                 </span>
                 <span>
-                    <Link to="/">Testimonials</Link>
+                    <a href="/#schools-testimonials">Testimonials</a>
                 </span>
             </div>
 
             <div id="landing-logo">
-                <img src="/logo192.png" alt="logo" />
+                <img src="/intramulogo.png" alt="logo" />
             </div>
-            <div className="navs">
+            <div className="navs" id="right">
                 <span>
-                    <Link to="/">About Us</Link>
+                    <Link to="/about">About Us</Link>
                 </span>
                 <span>
                     <Link to="/">Contact Us</Link>
@@ -49,20 +51,19 @@ function NavbarLanding() {
                         Sign Up
                     </button>
                     OR
-                    <span id="login">
-                        <button
-                            className="button"
-                            onClick={() =>
-                                loginWithRedirect({
-                                    appState: {
-                                        returnTo: "/dashboard",
-                                    },
-                                })
-                            }>
-                            Log In
-                        </button>
+                    <button
+                        id="login"
+                        className="button"
+                        onClick={() =>
+                            loginWithRedirect({
+                                appState: {
+                                    returnTo: "/dashboard",
+                                },
+                            })
+                        }>
+                        Log In
                         <img src="/logo192.png" alt="icon" />
-                    </span>
+                    </button>
                 </span>
             </div>
         </header>

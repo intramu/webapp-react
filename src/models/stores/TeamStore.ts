@@ -1,6 +1,6 @@
 import { makeAutoObservable } from "mobx";
 import { TeamModel } from "../team/TeamModel";
-import { result } from "../modelResult";
+import { result } from "../../utilities/modelResult";
 import { newGetRequest } from "../../common/functions/axiosRequests";
 import { isErrorResponse } from "../../interfaces/ErrorResponse";
 

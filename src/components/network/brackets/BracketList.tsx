@@ -7,16 +7,12 @@ interface IBracketList {
     brackets: BracketModel[];
 }
 function BracketList({ brackets }: IBracketList) {
-    useEffect(() => {
-        brackets.forEach((bracket) => console.log(bracket.maxTeamAmount));
-    });
-
     return (
-        <div style={{ marginLeft: "20px" }}>
+        <>
             {brackets.map((bracket, index) => (
                 <BracketBox key={index} bracket={bracket} />
             ))}
-        </div>
+        </>
     );
 }
 

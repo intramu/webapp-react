@@ -1,0 +1,125 @@
+@use 'common';
+
+#landing{
+    position: relative;
+    min-height: 100%;
+
+    .container-max{
+        width: 1700px;
+        margin: auto;
+    }
+
+    .button{
+        background-color: transparent;
+        border-radius: 16px;
+        padding: 0px 18px;
+        transition: all .2s ease-in-out;
+        
+        &:hover {
+            background-color: #00000005;
+        }
+    }
+
+    header{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+    
+        a{
+            color: common.$primary-color;  
+        }
+    
+        #signup{
+            color: common.$primary-color;
+            border-radius: common.$border-radius-1;
+            margin: 0 8px;
+            border: 1px solid common.$primary-color;
+        }
+    
+        #login{
+            border: 1px solid common.$primary-color;
+            background-color: common.$primary-color;
+            border-radius: common.$border-radius-1;
+            color: white;
+            margin: 0 8px;
+
+            &:hover {
+                background-color: #00000099;
+            }
+    
+            img{
+                margin-left: .4em;
+            }
+        }
+    }
+    
+    #landing-logo{
+        flex: 2;
+        text-align: center;
+    
+        img{
+            height: 170px;
+            width: 170px;
+        }
+    }
+
+    #right{
+        justify-content: space-between;
+    }
+
+    #left{
+        justify-content: space-around;
+    }
+    
+    .navs{
+        flex: 2;
+        img{
+            max-width: 20px;
+            max-height: 20px;
+        }
+            
+        display: flex;
+        align-items: center;
+    }
+    
+    footer{
+        background-color: common.$primary-color;
+        height: 8em;
+        display: flex;
+        align-items: center;
+        padding: 0 20vw;
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+    
+        img{
+            height: 1.5em;
+            width: 1.5em;
+        }
+    
+        #links{
+            flex: 1;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+    
+            color: white;
+        }
+        
+        #trademark{
+            position: absolute;
+            color: grey;
+            bottom: 5%;
+            right: 50%;
+            transform: translate(50%, 0%);
+            font-size: .8em;
+        }
+
+        a{
+            color: white;
+        }
+    
+        
+    }    
+}

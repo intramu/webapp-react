@@ -3,7 +3,7 @@ import { newPutRequest } from "../../common/functions/axiosRequests";
 import { isErrorResponse } from "../../interfaces/ErrorResponse";
 import { TeamRole } from "../../utilities/enums/teamEnum";
 import { PlayerGender, PlayerStatus } from "../../utilities/enums/userEnum";
-import { result } from "../modelResult";
+import { result } from "../../utilities/modelResult";
 
 export class RosterPlayerModel {
     authId = "";

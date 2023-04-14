@@ -1,13 +1,11 @@
 /** @jsxImportSource @emotion/react */
-import { useAuth0 } from "@auth0/auth0-react";
+import React from "react";
 import { observer } from "mobx-react-lite";
-import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import useSWR from "../../common/hooks/useSWR";
 import { Roster } from "../../components/team/Roster";
 import { Schedule } from "../../components/team/Schedule";
 import { IJoinRequest } from "../../interfaces/IJoinRequest";
-import { TeamModel } from "../../models/team/TeamModel";
 import {
     containerHolder,
     full,
@@ -15,50 +13,46 @@ import {
     quarter,
     quarterHolder,
 } from "../../styles/player/containers";
+import { userRootStore } from "../_routes";
+import { standardFontSizes } from "../../styles/player/common";
 
 export const OneTeam = observer(() => {
     const { teamId } = useParams();
-    const { getAccessTokenSilently } = useAuth0();
+    const { teamStore } = userRootStore;
 
-    const [team] = useState(() => new TeamModel());
+    const currentTeam = teamStore.find((x) => x.id === Number(teamId));
 
-    // const { data: team, error, isLoading } = useSWR<ITeam>(`/teams/${teamId}`);
     const { data: requests } = useSWR<IJoinRequest[]>(`/teams/${teamId}/requests`);
 
-    useEffect(() => {
-        const fetch = async () => {
-            const token = await getAccessTokenSilently();
-            team.fetchTeam(Number(teamId));
-        };
-        fetch();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    // useEffect(() => {
+    //     const fetch = async () => {
+    //         const token = await getAccessTokenSilently();
+    //         team.fetchTeam(Number(teamId));
+    //     };
+    //     fetch();
+    //     // eslint-disable-next-line react-hooks/exhaustive-deps
+    // }, []);
+
+    if (!currentTeam) {
+        return <div>Error</div>;
+    }
 
     const declineRequest = async (userId: string) => {
-        team.declineRequest(userId);
+        currentTeam.declineRequest(userId);
     };
 
     const acceptRequest = async (userId: string) => {
-        team.acceptRequest(userId);
+        currentTeam.acceptRequest(userId);
     };
-
-    console.log(team.players[0]);
 
     return (
         <>
             <span>
-                <span>{team.name}</span>
-                <span>Soccer</span>
+                <span css={{ fontSize: standardFontSizes.xl }}>{currentTeam.name}</span>
             </span>
-
             <div css={[containerHolder]}>
                 <div css={[half]}>
-                    {/* <MobxRoster
-                        teamId={Number(teamId)}
-                        roster={store.players ?? []}
-                        removePlayer={store.removePlayer}
-                    /> */}
-                    <Roster team={team} />
+                    <Roster team={currentTeam} />
                 </div>
                 <div css={[quarterHolder]}>
                     <div css={[quarter]}>

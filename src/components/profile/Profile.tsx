@@ -8,16 +8,18 @@ import { SelectInput, TextInput } from "../../common/inputs";
 import { dynamicButton } from "../../styles/player/buttons";
 import { PlayerModel } from "../../models/PlayerModel";
 import { Language, PlayerGender, PlayerVisibility } from "../../utilities/enums/userEnum";
+import { userRootStore } from "../../pages/_routes";
+import { GreyButton } from "../Buttons";
 
 export const Profile = observer(() => {
-    const [player] = useState(() => new PlayerModel());
-    const { editPlayer, fetchPlayer } = player;
+    const { player } = userRootStore;
+    const { editPlayer } = player;
 
     const [isEditing, setIsEditing] = useState(false);
 
-    useEffect(() => {
-        fetchPlayer();
-    }, [fetchPlayer]);
+    // useEffect(() => {
+    //     fetchPlayer();
+    // }, [fetchPlayer]);
 
     const convertDate = (date: string): string => {
         const newDate = new Date(date);
@@ -30,14 +32,15 @@ export const Profile = observer(() => {
     if (player.error) {
         return <div>Error sorry :(</div>;
     }
+
     return (
         <>
             <h5>
                 <u>Profile</u>
             </h5>
-            <button css={[dynamicButton]} onClick={() => setIsEditing((x) => !x)}>
+            <GreyButton onClick={() => setIsEditing((x) => !x)}>
                 {isEditing ? "Cancel" : "Edit"}
-            </button>
+            </GreyButton>
 
             <Formik
                 enableReinitialize

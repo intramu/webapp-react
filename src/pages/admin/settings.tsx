@@ -26,6 +26,7 @@ export const Settings = observer(() => {
         <div>
             <h1>Settings</h1>
             <p>Heres what we have so far</p>
+            {organization.name}
 
             <Formik
                 enableReinitialize

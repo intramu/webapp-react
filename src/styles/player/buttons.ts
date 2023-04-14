@@ -26,5 +26,6 @@ export const dynamicButton: CSSObject = {
 };
 
 export const unstyledButton: CSSObject = {
-    ...commonButton,
+    backgroundColor: "unset",
+    border: "none",
 };

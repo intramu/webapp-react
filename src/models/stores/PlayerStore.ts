@@ -2,7 +2,7 @@ import { makeAutoObservable } from "mobx";
 import { PlayerModel } from "../PlayerModel";
 import { newGetRequest } from "../../common/functions/axiosRequests";
 import { isErrorResponse } from "../../interfaces/ErrorResponse";
-import { result } from "../modelResult";
+import { result } from "../../utilities/modelResult";
 
 export class PlayerStore {
     players: PlayerModel[] = [];

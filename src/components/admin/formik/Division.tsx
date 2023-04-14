@@ -1,8 +1,5 @@
 import React from "react";
-import { MenuItem } from "@mui/material";
 import { FieldArray } from "formik";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 
@@ -12,7 +9,6 @@ import {
     MaterialSelectInput,
     MaterialTextInput,
 } from "../../../common/inputs";
-import { Sport } from "../../../utilities/enums/commonEnum";
 import { DivisionModel } from "../../../models/contests/DivisionModel";
 import { BracketModel } from "../../../models/contests/BracketModel";
 import { FormikBracket } from "./Bracket";

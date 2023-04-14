@@ -1,7 +1,7 @@
 import { makeAutoObservable } from "mobx";
 import { newGetRequest, newPatchRequest } from "../common/functions/axiosRequests";
 import { isErrorResponse } from "../interfaces/ErrorResponse";
-import { result } from "./modelResult";
+import { result } from "../utilities/modelResult";
 
 interface OrganizationModelProps {
     id: string;

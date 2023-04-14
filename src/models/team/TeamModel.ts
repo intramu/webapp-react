@@ -8,7 +8,7 @@ import {
 import { isErrorResponse } from "../../interfaces/ErrorResponse";
 import { JoinRequestModel } from "./JoinRequestModel";
 import { TeamRole } from "../../utilities/enums/teamEnum";
-import { result } from "../modelResult";
+import { result } from "../../utilities/modelResult";
 import { RosterPlayerModel } from "./RosterPlayerModel";
 
 interface TeamModelProps {

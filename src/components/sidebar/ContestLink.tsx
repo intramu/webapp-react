@@ -7,22 +7,25 @@ import { IContest } from "../../interfaces/competition/IContest";
 interface ContestLinkProps {
     contest: IContest;
     overflowControl: CSSObject;
-    spacedLink: CSSObject;
+    styling: CSSObject[];
+    setActive(x: string): void;
 }
 
-export function ContestLink({ contest, overflowControl, spacedLink }: ContestLinkProps) {
+export function ContestLink({ contest, overflowControl, styling, setActive }: ContestLinkProps) {
     if (contest.name) {
         return (
-            <NavLink css={[spacedLink]} to={`/network/${contest.id}`}>
+            <NavLink
+                css={[styling]}
+                to={`/network/${contest.id}`}
+                onClick={() => setActive("network")}>
                 <span css={[overflowControl]}>{contest.name}</span>
             </NavLink>
         );
     }
 
     return (
-        <NavLink css={[spacedLink]} to={`/network/${contest.id}`}>
+        <NavLink css={styling} to={`/network/${contest.id}`} onClick={() => setActive("network")}>
             <span css={[overflowControl]}>{contest.season}</span>
-            {/* <span css={[overflowControl]}>Hello this league is big wow it doesnt overflow</span> */}
             <span>T{contest.term}</span>
         </NavLink>
     );

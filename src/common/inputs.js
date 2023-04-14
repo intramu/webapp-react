@@ -3,7 +3,7 @@ import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { useField } from "formik";
 import React from "react";
-import { Input, Label } from "reactstrap";
+import { Input } from "reactstrap";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 
@@ -102,7 +102,6 @@ export function MaterialSelectInput({ name, label, enumValue, ...props }) {
             onBlur={field.onBlur}
             select
             {...props}>
-            {/* <MenuItem defaultChecked key="" value="" /> */}
             {Object.keys(enumValue).map((option) => (
                 <MenuItem key={option} value={option}>
                     {option}

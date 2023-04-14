@@ -53,7 +53,7 @@ export const Players = observer(() => {
                                     <TableCell>{player.emailAddress}</TableCell>
                                     <TableCell>{player.visibility}</TableCell>
                                     <TableCell>{player.status}</TableCell>
-                                    {/* <TableCell>{player.dateCreated)}</TableCell> */}
+                                    <TableCell>N/A</TableCell>
                                     <TableCell size="small">
                                         <GreyButton>Message</GreyButton>
                                     </TableCell>

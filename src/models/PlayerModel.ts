@@ -4,7 +4,7 @@ import { newGetRequest, newPatchRequest, newPostRequest } from "../common/functi
 import { isErrorResponse } from "../interfaces/ErrorResponse";
 import { IPlayer } from "../interfaces/IPlayer";
 import { Language } from "../utilities/enums/userEnum";
-import { result } from "./modelResult";
+import { result } from "../utilities/modelResult";
 
 interface PlayerModelProps {
     authId: string;

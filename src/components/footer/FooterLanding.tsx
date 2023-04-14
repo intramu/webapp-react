@@ -6,9 +6,9 @@ function FooterLanding() {
             <div id="links">
                 <img src="/logo192.png" alt="home" />
 
-                <span>Terms and Conditions</span>
-                <span>Privacy Policy</span>
-                <span>Data Protection Policy</span>
+                <a href="#">Terms and Conditions</a>
+                <a href="#">Privacy Policy</a>
+                <a href="#">Data Protection Policy</a>
                 <div>
                     <img src="/logo192.png" alt="home" />
                     <img src="/logo192.png" alt="home" />

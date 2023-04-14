@@ -9,11 +9,11 @@ interface IDivisionList {
 
 function DivisionList({ divisions }: IDivisionList) {
     return (
-        <div>
+        <>
             {divisions.map((division) => (
                 <DivisionBox key={division.id} division={division} />
             ))}
-        </div>
+        </>
     );
 }
 
