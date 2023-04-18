@@ -32,4 +32,8 @@ export class ContestGameStore {
 
         this.games = response;
     }
+
+    sortGamesByDate() {
+        this.games.sort((a, b) => a.gameDate.date() - b.gameDate.date());
+    }
 }

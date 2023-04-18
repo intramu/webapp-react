@@ -65,9 +65,7 @@ export async function newPostRequest<Return, Body>(
             headers: commonAxiosHeaders,
         })
         .then((res) => res.data)
-        .catch((err) => {
-            return handleError(err);
-        });
+        .catch((err) => handleError(err));
 }
 
 export async function newDeleteRequest(url: string): Promise<boolean | ErrorResponse> {
@@ -76,9 +74,7 @@ export async function newDeleteRequest(url: string): Promise<boolean | ErrorResp
             headers: commonAxiosHeaders,
         })
         .then(() => true)
-        .catch((err) => {
-            return handleError(err);
-        });
+        .catch((err) => handleError(err));
 }
 
 export async function newGetRequest<Return>(url: string): Promise<Return | ErrorResponse> {
@@ -87,9 +83,7 @@ export async function newGetRequest<Return>(url: string): Promise<Return | Error
             headers: commonAxiosHeaders,
         })
         .then((res) => res.data)
-        .catch((err) => {
-            return handleError(err);
-        });
+        .catch((err) => handleError(err));
 }
 
 export async function newPatchRequest<Return, Body>(
@@ -101,9 +95,7 @@ export async function newPatchRequest<Return, Body>(
             headers: commonAxiosHeaders,
         })
         .then((res) => res.data)
-        .catch((err) => {
-            return handleError(err);
-        });
+        .catch((err) => handleError(err));
 }
 
 export async function newPutRequest<Return, Body>(url: string, body?: Body) {
@@ -112,7 +104,5 @@ export async function newPutRequest<Return, Body>(url: string, body?: Body) {
             headers: commonAxiosHeaders,
         })
         .then((res) => res.data)
-        .catch((err) => {
-            return handleError(err);
-        });
+        .catch((err) => handleError(err));
 }

@@ -23,7 +23,7 @@ export function AuthProvider() {
             onRedirectCallback={onRedirectCallback}
             authorizationParams={{
                 audience: "https://server-authorization/",
-                redirect_uri: "http://localhost:3000/redirect",
+                redirect_uri: "http://localhost:5173/redirect",
                 scope: "all:application all:organization",
             }}>
             <>

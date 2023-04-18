@@ -1,4 +1,3 @@
-/** @jsxImportSource @emotion/react */
 import React, { useEffect, useState } from "react";
 import { observer } from "mobx-react-lite";
 import { useParams } from "react-router-dom";
@@ -21,6 +20,7 @@ export const OneTeam = observer(() => {
 
     useEffect(() => {
         team.fetchTeam(Number(teamId));
+        team.contestGameStore.sortGamesByDate();
     }, [team, team.fetchTeam, teamId]);
 
     // useEffect(() => {
@@ -45,7 +45,6 @@ export const OneTeam = observer(() => {
             <span>
                 <span css={{ fontSize: standardFontSizes.xl }}>{team.name}</span>
             </span>
-            <button onClick={() => team.removePlayer("")}>test</button>
             <div css={[containerHolder]}>
                 <div css={[half]}>
                     <Roster team={team} />
@@ -53,9 +52,15 @@ export const OneTeam = observer(() => {
                 <div css={[quarterHolder]}>
                     <div css={[quarter]}>
                         <h3>Details</h3>
+                        <span>
+                            Record: {team.wins} - {team.ties} - {team.losses}
+                        </span>
                     </div>
                     <div css={[quarter]}>
                         <h3>Next Game</h3>
+                        {team.contestGameStore.games.length > 0 && (
+                            <span>VS {team.contestGameStore.games[0].awayTeam.name}</span>
+                        )}
                     </div>
                 </div>
                 <div css={[full]}>

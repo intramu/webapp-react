@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Formik } from "formik";
-import { Form as ReactForm, FormGroup, Input, Label } from "reactstrap";
 import LogoutButton from "../LogoutButton";
 
 // import { TextInputBootstrap } from "../common/inputs";
@@ -42,7 +41,7 @@ function Settings() {
                 </Form>
             </Formik> */}
 
-            <ReactForm>
+            {/* <ReactForm>
                 <FormGroup switch>
                     <Input
                         type="switch"
@@ -53,7 +52,7 @@ function Settings() {
                     <Label>Developer Mode</Label>
                 </FormGroup>
                 <LogoutButton />
-            </ReactForm>
+            </ReactForm> */}
             {developer && (
                 <div>
                     <h6>Developer Mode</h6>

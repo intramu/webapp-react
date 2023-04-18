@@ -4,38 +4,38 @@ import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { useField } from "formik";
 import React from "react";
-import { Input } from "reactstrap";
+// import { Input } from "reactstrap";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 
 dayjs.extend(utc);
 
 /* eslint-disable react/jsx-props-no-spreading */
-export function TextInput(props) {
-    const [field, meta] = useField(props);
-    const { id, name, label } = props;
-    return (
-        <>
-            {/* <Label htmlFor={id || name}>{label}</Label> */}
-            <Input className="text-input" {...field} {...props} />
-            {meta.touched && meta.error ? <div className="error">{meta.error}</div> : null}
-        </>
-    );
-}
+// export function TextInput(props) {
+//     const [field, meta] = useField(props);
+//     const { id, name, label } = props;
+//     return (
+//         <>
+//             {/* <Label htmlFor={id || name}>{label}</Label> */}
+//             <Input className="text-input" {...field} {...props} />
+//             {meta.touched && meta.error ? <div className="error">{meta.error}</div> : null}
+//         </>
+//     );
+// }
 
-export function SelectInput(props) {
-    const [field, meta] = useField(props);
-    const { id, name, label } = props;
-    return (
-        <>
-            {/* <Label htmlFor={id || name}>{label}</Label> */}
+// export function SelectInput(props) {
+//     const [field, meta] = useField(props);
+//     const { id, name, label } = props;
+//     return (
+//         <>
+//             {/* <Label htmlFor={id || name}>{label}</Label> */}
 
-            <Input type="select" {...field} {...props} />
+//             <Input type="select" {...field} {...props} />
 
-            {meta.touched && meta.error ? <div className="error">{meta.error}</div> : null}
-        </>
-    );
-}
+//             {meta.touched && meta.error ? <div className="error">{meta.error}</div> : null}
+//         </>
+//     );
+// }
 
 export function MaterialTextInput({ name, label, ...props }) {
     const [field, meta] = useField(name);

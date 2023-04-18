@@ -4,11 +4,9 @@ import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { newGetRequest } from "../common/functions/axiosRequests";
 import { IPlayer } from "../interfaces/IPlayer";
 import { isErrorResponse } from "../interfaces/ErrorResponse";
-import { usePlayer } from "../common/hooks/usePlayer";
 
 export function AuthPlayer() {
     const { isAuthenticated, loginWithRedirect, isLoading, error, getIdTokenClaims } = useAuth0();
-    const { player, isLoading: playerLoading, error: playerError, setIsLoading } = usePlayer();
 
     const [isAuthorized, setIsAuthorized] = useState(false);
     const [pageLoading, setPageLoading] = useState(true);
@@ -103,16 +101,6 @@ export function AuthPlayer() {
     //         </div>
     //     );
     // }
-
-    /**
-     * In a production build of the project a post registration auth0 action will
-     * be used to add the users id to my external database which will store additional
-     * user info like:
-     *  - team
-     *  - stats
-     *
-     * On logging in the id can be retrieved through the auth0 hook
-     */
 
     return isAuthenticated && <Outlet />;
 }

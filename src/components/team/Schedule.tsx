@@ -1,19 +1,10 @@
 import React from "react";
 import { observer } from "mobx-react-lite";
-import {
-    Paper,
-    Table,
-    TableBody,
-    TableCell,
-    TableContainer,
-    TableHead,
-    TableRow,
-} from "@mui/material";
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import dayjs from "dayjs";
 import { TeamModel } from "../../models/team/TeamModel";
 import { StyledTableCell, StyledTableRow } from "./Roster";
-import { ContestGameStatus } from "../../utilities/enums/competitionEnum";
 
 interface ScheduleProps {
     team: TeamModel;
@@ -52,8 +43,10 @@ export const Schedule = observer(({ team }: ScheduleProps) => {
             <TableContainer>
                 <Table aria-label="simple table">
                     <TableHead>
-                        <TableRow css>
-                            <TableCell align="left">Date</TableCell>
+                        <TableRow>
+                            <TableCell css={{ padding: 0 }} align="left">
+                                Date
+                            </TableCell>
                             <TableCell>Score</TableCell>
                             <TableCell>Opposing Team</TableCell>
                             <TableCell>Time</TableCell>
@@ -77,11 +70,11 @@ export const Schedule = observer(({ team }: ScheduleProps) => {
                                     <StyledTableCell>
                                         {showScore(game.scoreHome, game.scoreAway)}
                                     </StyledTableCell>
-                                    <StyledTableCell>VS {awayTeam.id}</StyledTableCell>
+                                    <StyledTableCell>VS {awayTeam.name}</StyledTableCell>
                                     <StyledTableCell>
                                         {game.gameDate?.hour() ?? "TBD"}
                                     </StyledTableCell>
-                                    <StyledTableCell>{game.location.name}</StyledTableCell>
+                                    <StyledTableCell>@{game.location.name}</StyledTableCell>
                                 </StyledTableRow>
                             );
                         })}
