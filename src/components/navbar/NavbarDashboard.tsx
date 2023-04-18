@@ -36,7 +36,7 @@ export const NavbarDashboard = observer(() => {
 
     useEffect(() => {
         forceUpdate();
-    }, [location]);
+    }, [location.pathname]);
 
     return (
         <header
@@ -67,7 +67,7 @@ export const NavbarDashboard = observer(() => {
                     <Clock />
                     <div>
                         <NavLink css={link} to="/messages">
-                            <Badge badgeContent={inviteStore.invites.length ?? 0} color="primary">
+                            <Badge badgeContent={inviteStore.invites.length} color="primary">
                                 <MailOutlinedIcon css={icon} />
                             </Badge>
                         </NavLink>

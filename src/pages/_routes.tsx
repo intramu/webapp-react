@@ -27,6 +27,7 @@ import { LandingLayout } from "../layouts/LandingLayout";
 import { About } from "./landing/about";
 import { Home } from "./landing/home";
 
+import { UIStore } from "../models/stores/UIStore";
 import { UserRootStore } from "../models/stores/user/UserRootStore";
 import { OrganizationRootStore } from "../models/stores/admin/OrganizationRootStore";
 
@@ -34,7 +35,9 @@ import { Test } from "../Test";
 import { Initializer } from "./_initializer";
 
 import "../styles/globals.css";
+import { ContestGame } from "./network/games/[id]";
 
+export const uiStore = new UIStore();
 export const organizationStore = new OrganizationRootStore();
 export const userRootStore = new UserRootStore();
 
@@ -44,8 +47,11 @@ export const routes = createBrowserRouter(
             <Route element={<AuthPlayer />}>
                 <Route element={<Initializer />}>
                     <Route element={<PlayerLayout />}>
+                        <Route
+                            path="/redirect"
+                            element={<div style={{ backgroundColor: "red" }}>here loading</div>}
+                        />
                         <Route path="/dashboard" element={<Dashboard />} />
-                        <Route path="/redirect" element={<div>Loading</div>} />
                         <Route path="/messages" element={<Messages />} />
                         <Route path="/help" element={<Help />} />
                         <Route path="/profile" element={<ProfileSettings />} />
@@ -55,6 +61,7 @@ export const routes = createBrowserRouter(
                             <Route path="new" element={<NewTeam />} />
                         </Route>
                         <Route path="/network/:compId" element={<Term />} />
+                        <Route path="/network/games/:compId" element={<ContestGame />} />
                         <Route path="/administration" element={<Fake />} />
                         <Route path="/test" element={<Test />} />
                     </Route>

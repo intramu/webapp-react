@@ -10,6 +10,7 @@ import { JoinRequestModel } from "./JoinRequestModel";
 import { TeamRole } from "../../utilities/enums/teamEnum";
 import { result } from "../../utilities/modelResult";
 import { RosterPlayerModel } from "./RosterPlayerModel";
+import { ContestGameStore } from "../stores/ContestGameStore";
 
 interface TeamModelProps {
     id: number;
@@ -56,7 +57,11 @@ export class TeamModel {
 
     requests: JoinRequestModel[] = [];
 
+    contestGameStore = new ContestGameStore();
+
     // loading variables
+    fetching = "pending";
+
     state = "pending";
 
     error = "";
@@ -97,20 +102,26 @@ export class TeamModel {
         this.dateCreated = dateCreated;
     }
 
-    *fetchTeam(id: number) {
-        this.state = "pending";
+    fetchTeam(id: number) {
+        this.fetchTeamById(id);
+        this.fetchRequests();
+        this.contestGameStore.fetchTeamGames(id);
+    }
+
+    *fetchTeamById(id: number) {
+        this.fetching = "pending";
         this.error = "";
 
         const response = yield* result(newGetRequest<TeamModel>(`/teams/${id}`));
 
         if (isErrorResponse(response)) {
             this.error = response.errorMessage;
-            this.state = "done";
+            this.fetching = "done";
             return;
         }
 
         this.construct(response);
-        this.state = "success";
+        this.fetching = "success";
     }
 
     *updateTeam() {
@@ -173,12 +184,34 @@ export class TeamModel {
         this.state = "success";
     }
 
+    *fetchRequests() {
+        console.log("here");
+
+        const response = yield* result(
+            newGetRequest<JoinRequestModel[]>(`/teams/${this.id}/requests`)
+        );
+
+        if (isErrorResponse(response)) {
+            this.state = "done";
+            this.state = response.errorMessage;
+            return;
+        }
+
+        this.requests = response;
+    }
+
     removePlayer(authId: string) {
+        console.log("wow");
+
         this.players = this.players.filter((player) => player.authId !== authId);
     }
 
     updatePlayerRole(authId: string, role: TeamRole) {
+        console.log("what");
+
         const player = this.players.find((x) => x.authId === authId);
+        console.log(player?.authId);
+
         player?.updateRole(role, this.id);
     }
 
@@ -195,36 +228,5 @@ export class TeamModel {
     //             this.state = "pending";
     //         }
     //     }
-    // }
-
-    // async removePlayer(authId: string) {
-    //     const response = await newDeleteRequest(`/teams/${this.id}/players/${authId}`);
-
-    //     runInAction(() => {
-    //         if (isErrorResponse(response)) {
-    //             this.error = response.errorMessage;
-    //             this.state = "done";
-    //             return;
-    //         }
-
-    //         this.players = this.players.filter((player) => player.authId !== authId);
-    //         this.state = "success";
-    //     });
-    // }
-
-    // async fetchTeam(id: number, token: string) {
-    //     const team = await getRequest<TeamModel>(`/teams/${id}`, token);
-
-    //     console.log(team);
-
-    //     if (isErrorResponse(team)) {
-    //         throw Error(team.errorMessage);
-    //     }
-
-    //     runInAction(() => {
-    //         this.id = team.id;
-    //         this.players = team.players;
-    //         this.visibility = team.visibility;
-    //     });
     // }
 }

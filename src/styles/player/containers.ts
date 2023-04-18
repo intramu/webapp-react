@@ -8,11 +8,20 @@ const fullHeight = "35vh";
 const quarterHeight = "47%";
 // const containerRadius =
 
-const commonContainer: CSSObject = {
+export const commonContainer: CSSObject = {
     backgroundColor: colors.background,
     position: "relative",
     boxShadow: standardShadows[0],
     borderRadius: definedSizes.borderRadius,
+};
+
+// maybe replace the common with this
+export const newCommonContainer: CSSObject = {
+    backgroundColor: colors.background,
+    position: "relative",
+    boxShadow: standardShadows[0],
+    borderRadius: definedSizes.borderRadius,
+    padding: containerPadding,
 };
 
 export const header: CSSObject = {

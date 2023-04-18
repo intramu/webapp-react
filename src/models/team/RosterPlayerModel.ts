@@ -1,4 +1,4 @@
-import { makeAutoObservable } from "mobx";
+import { action, makeAutoObservable, makeObservable, observable } from "mobx";
 import { newPutRequest } from "../../common/functions/axiosRequests";
 import { isErrorResponse } from "../../interfaces/ErrorResponse";
 import { TeamRole } from "../../utilities/enums/teamEnum";
@@ -24,7 +24,15 @@ export class RosterPlayerModel {
 
     constructor() {
         makeAutoObservable(this, {}, { autoBind: true });
+        // makeObservable(this, {
+        //     authId: observable,
+        //     updateRole: action,
+        // });
     }
+
+    // updateRole(role: TeamRole, teamId: number) {
+    //     this.role = role;
+    // }
 
     *updateRole(role: TeamRole, teamId: number) {
         this.state = "pending";

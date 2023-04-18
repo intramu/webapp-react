@@ -1,8 +1,8 @@
 import { makeAutoObservable } from "mobx";
 import { ContestStore } from "../ContestStore";
+import { TeamStore } from "../TeamStore";
 import { PlayerModel } from "../../PlayerModel";
 import { PlayerInvitesModel } from "../../PlayerInvitesModel";
-import { TeamModel } from "../../team/TeamModel";
 import { result } from "../../../utilities/modelResult";
 import { newGetRequest } from "../../../common/functions/axiosRequests";
 import { isErrorResponse } from "../../../interfaces/ErrorResponse";
@@ -14,11 +14,15 @@ export class UserRootStore {
 
     inviteStore: PlayerInvitesModel;
 
-    teamStore: TeamModel[] = [];
+    teamStore: TeamStore;
 
     // announcements:
 
     // faqs
+
+    createTeamState = "pending";
+
+    createTeamError = "";
 
     constructor() {
         makeAutoObservable(this, {}, { autoBind: true });
@@ -26,6 +30,7 @@ export class UserRootStore {
         this.player = new PlayerModel();
         this.contestStore = new ContestStore();
         this.inviteStore = new PlayerInvitesModel();
+        this.teamStore = new TeamStore();
 
         // this.fetchPlayer();
     }
@@ -44,14 +49,11 @@ export class UserRootStore {
         this.inviteStore.fetchInvites();
     }
 
-    *fetchTeams() {
-        const response = yield* result(newGetRequest<TeamModel[]>("/players/teams"));
-        console.log(response);
+    fetchContests() {
+        this.contestStore.fetchContests();
+    }
 
-        if (isErrorResponse(response)) {
-            return;
-        }
-
-        this.teamStore = response;
+    fetchTeams() {
+        this.teamStore.fetchMyTeams();
     }
 }

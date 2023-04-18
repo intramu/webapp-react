@@ -3,9 +3,10 @@ import { CSSObject } from "@emotion/react";
 import React from "react";
 import { NavLink } from "react-router-dom";
 import { IContest } from "../../interfaces/competition/IContest";
+import { ContestModel } from "../../models/contests/ContestModel";
 
 interface ContestLinkProps {
-    contest: IContest;
+    contest: ContestModel;
     overflowControl: CSSObject;
     styling: CSSObject[];
     setActive(x: string): void;

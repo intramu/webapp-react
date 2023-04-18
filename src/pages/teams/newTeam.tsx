@@ -1,45 +1,32 @@
 /** @jsxImportSource @emotion/react */
-import { Formik } from "formik";
+import { Form, Formik } from "formik";
 import React, { useState } from "react";
+import { Grid, MenuItem } from "@mui/material";
 import { Helmet } from "react-helmet";
-import { useLocation, useNavigate } from "react-router-dom";
-import { Button, Col, Form, FormGroup, Label } from "reactstrap";
-import useAxios from "../../common/hooks/useAxios";
-import useSWR from "../../common/hooks/useSWR";
-import { SelectInput, TextInput } from "../../common/inputs";
-import { IContest } from "../../interfaces/competition/IContest";
-import { IDivision } from "../../interfaces/competition/IDivision";
-import { ILeague } from "../../interfaces/competition/ILeague";
-import { isErrorResponse } from "../../interfaces/ErrorResponse";
-import { ITeam } from "../../interfaces/ITeam";
+import { observer } from "mobx-react-lite";
+import { useNavigate } from "react-router-dom";
+import {
+    MaterialExpirmentInput,
+    MaterialSelectInput,
+    MaterialTextInput,
+    TextInput,
+} from "../../common/inputs";
 import { fullDynamic } from "../../styles/player/containers";
 import { TeamVisibility } from "../../utilities/enums/teamEnum";
+import { userRootStore } from "../_routes";
+import { LeagueModel } from "../../models/contests/LeagueModel";
+import { DivisionModel } from "../../models/contests/DivisionModel";
+import { CreateTeamProps } from "../../models/stores/TeamStore";
+import { GreyButton } from "../../components/Buttons";
 
-interface INewTeam {
-    name: string;
-    // image: string;
-    visibility: TeamVisibility;
-    divisionId: number;
-}
-
-export function NewTeam() {
-    const location = useLocation();
-    const { postRequest } = useAxios();
-
-    const [error, setError] = useState<string>();
-    const [isLoading, setIsLoading] = useState<boolean>(false);
-    const [isSuccess, setIsSuccess] = useState<boolean>(false);
-
-    const [divisions, setDivisions] = useState<IDivision[]>([]);
-    const [leagues, setLeagues] = useState<ILeague[]>([]);
-
+export const NewTeam = observer(() => {
     const {
-        data: contests = [],
-        error: fetchError,
-        isLoading: fetchIsLoading,
-    } = useSWR<IContest[]>("contests");
+        contestStore: { contests },
+        teamStore: { createTeam, createTeamError, createTeamState, teams },
+    } = userRootStore;
 
-    console.log(contests);
+    const [divisions, setDivisions] = useState<DivisionModel[]>([]);
+    const [leagues, setLeagues] = useState<LeagueModel[]>([]);
 
     const navigate = useNavigate();
 
@@ -59,184 +46,144 @@ export function NewTeam() {
         );
     };
 
+    // useEffect(() => {
+    //     createTeamState = "pending";
+    // }, []);
+
     // NOTE: maybe when the team is successfully created, play some animation
     // then redirect
-    const handleSubmit = async (team: INewTeam) => {
-        console.log(team);
+    const handleSubmit = async (team: CreateTeamProps) => {
+        createTeam(team);
 
-        setIsLoading(true);
-        const response = await postRequest<ITeam, INewTeam>("teams", team);
-        if (isErrorResponse(response)) {
-            console.log(response.errorMessage);
+        if (!createTeamError && createTeamState === "success") {
+            const newestTeam = teams.splice(-1).pop();
 
-            setError(response.errorMessage);
-            setIsLoading(false);
-            return;
+            setTimeout(() => {
+                if (!newestTeam) {
+                    navigate(`/dashboard`);
+                    return;
+                }
+                navigate(`/teams/${newestTeam.id}`);
+            }, 1000);
         }
-
-        setIsSuccess(true);
-        setIsLoading(false);
-
-        navigate(`/teams/${response.id}`);
     };
+
+    const form = (
+        <Formik
+            initialValues={{
+                name: "",
+                image: "",
+                contest: "",
+                league: "",
+                division: "",
+                visibility: TeamVisibility.PRIVATE,
+            }}
+            onSubmit={(values) => {
+                console.log("nice day", values);
+
+                handleSubmit({
+                    name: values.name,
+                    image: "",
+                    contest: Number(values.contest),
+                    league: Number(values.league),
+                    divisionId: Number(values.division),
+                    visibility: values.visibility,
+                });
+            }}>
+            {(formik) => (
+                <Form onSubmit={formik.handleSubmit}>
+                    <Grid container spacing={2} columns={6}>
+                        <Grid item xs={6}>
+                            <MaterialTextInput name="name" label="Name" />
+                        </Grid>
+                        <Grid item xs={6}>
+                            <TextInput name="image" type="file" />
+                        </Grid>
+                        <Grid item xs={6}>
+                            <MaterialSelectInput
+                                name="visibility"
+                                label="Visibility"
+                                enumValue={TeamVisibility}
+                            />
+                        </Grid>
+                        <Grid item xs={4}>
+                            <MaterialExpirmentInput
+                                name="contest"
+                                label="Contest"
+                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                                    formik.handleChange(e);
+                                    updateLeagues(Number(e.target.value));
+                                }}>
+                                {/* Gives contest choices if organization offers more than one */}
+                                {contests.map((contest) => {
+                                    if (contest.season)
+                                        return (
+                                            <MenuItem key={contest.season} value={contest.id}>
+                                                {contest.season}--{contest.term}
+                                            </MenuItem>
+                                        );
+                                    return (
+                                        <MenuItem key={contest.name} value={contest.id}>
+                                            {contest.name}
+                                        </MenuItem>
+                                    );
+                                })}
+                            </MaterialExpirmentInput>
+                        </Grid>
+                        <Grid item xs={4}>
+                            <MaterialExpirmentInput
+                                name="league"
+                                label="League"
+                                disabled={!formik.values.contest}
+                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                                    formik.handleChange(e);
+                                    updateDivisions(Number(e.target.value));
+                                }}>
+                                {/* Gives contest choices if organization offers more than one */}
+                                {leagues.map((league, index) => {
+                                    return (
+                                        <MenuItem key={index} value={league.id}>
+                                            {league.sport}
+                                        </MenuItem>
+                                    );
+                                })}
+                            </MaterialExpirmentInput>
+                        </Grid>
+                        <Grid item xs={4}>
+                            <MaterialExpirmentInput
+                                name="division"
+                                label="Division"
+                                disabled={!formik.values.league}>
+                                {/* Gives contest choices if organization offers more than one */}
+                                {divisions.map((division, index) => {
+                                    return (
+                                        <MenuItem key={index} value={division.id}>
+                                            {`${division.type} - ${division.level}`}
+                                        </MenuItem>
+                                    );
+                                })}
+                            </MaterialExpirmentInput>
+                        </Grid>
+                        <Grid item xs={3}>
+                            <GreyButton type="submit">Create</GreyButton>
+                        </Grid>
+                    </Grid>
+                </Form>
+            )}
+        </Formik>
+    );
     return (
         <>
             <Helmet>
                 <title>New Team</title>
             </Helmet>
             <h1>New Team</h1>
-            <div css={fullDynamic}>
-                <Formik
-                    initialValues={{
-                        name: "",
-                        image: "",
-                        contest: "",
-                        league: "",
-                        division: "",
-                        visibility: TeamVisibility.PRIVATE,
-                    }}
-                    onSubmit={(values) => {
-                        console.log("nice day", values);
-
-                        handleSubmit({
-                            name: values.name,
-                            // image: "",
-                            divisionId: Number(values.division),
-                            visibility: values.visibility,
-                        });
-                    }}>
-                    {(formik) => (
-                        <Form onSubmit={formik.handleSubmit}>
-                            <FormGroup row>
-                                <Label for="name" sm={2}>
-                                    Name
-                                </Label>
-                                <Col sm={10}>
-                                    SelectInput
-                                    <TextInput
-                                        id="name"
-                                        name="name"
-                                        placeholder="Team Name"
-                                        type="text"
-                                    />
-                                </Col>
-                            </FormGroup>
-                            <FormGroup row>
-                                <Label for="image" sm={2}>
-                                    Image
-                                </Label>
-                                <Col sm={10}>
-                                    SelectInput
-                                    <TextInput id="image" name="image" type="file" />
-                                </Col>
-                            </FormGroup>
-                            <FormGroup row>
-                                <Label for="visibility" sm={2}>
-                                    Visibility
-                                </Label>
-                                <Col sm={10}>
-                                    <SelectInput id="visibility" name="visibility">
-                                        <option value={TeamVisibility.PUBLIC}>Public</option>
-                                        <option defaultChecked value={TeamVisibility.PRIVATE}>
-                                            Private
-                                        </option>
-                                    </SelectInput>
-                                </Col>
-                            </FormGroup>
-                            <FormGroup row>
-                                <Label for="sport" sm={2}>
-                                    Contest
-                                </Label>
-                                <Col sm={10}>
-                                    <SelectInput
-                                        id="contest"
-                                        name="contest"
-                                        onChange={(e: any) => {
-                                            // I couldn't find the type for the select event so it is any for now
-                                            formik.handleChange(e);
-                                            updateLeagues(Number(e.target.value));
-                                        }}>
-                                        <option value="" defaultChecked>
-                                            {" "}
-                                        </option>
-                                        {/* Gives contest choices if organization offers more than one */}
-                                        {contests.map((contest) => {
-                                            if (contest.season)
-                                                return (
-                                                    <option key={contest.season} value={contest.id}>
-                                                        {contest.season}--{contest.term}
-                                                    </option>
-                                                );
-                                            return (
-                                                <option key={contest.name} value={contest.id}>
-                                                    {contest.name}
-                                                </option>
-                                            );
-                                        })}
-                                    </SelectInput>
-                                </Col>
-                            </FormGroup>
-                            <FormGroup row>
-                                <Label for="sport" sm={2}>
-                                    League
-                                </Label>
-                                <Col sm={10}>
-                                    <SelectInput
-                                        id="league"
-                                        name="league"
-                                        disabled={!formik.values.contest}
-                                        onChange={(e: any) => {
-                                            formik.handleChange(e);
-                                            updateDivisions(Number(e.target.value));
-                                        }}>
-                                        <option value="" defaultChecked>
-                                            {" "}
-                                        </option>
-                                        {/* Maps out leagues into sport choices */}
-                                        {leagues.map((league, index) => (
-                                            <option key={index} value={league.id}>
-                                                {league.sport}
-                                            </option>
-                                        ))}
-                                    </SelectInput>
-                                </Col>
-                            </FormGroup>
-                            <FormGroup row>
-                                <Label for="sport" sm={2}>
-                                    Division
-                                </Label>
-                                <Col sm={10}>
-                                    <SelectInput
-                                        id="division"
-                                        name="division"
-                                        disabled={!formik.values.league}>
-                                        <option value="" defaultChecked>
-                                            {" "}
-                                        </option>
-                                        {/* Maps out divisions for user */}
-                                        {divisions.map((division, index) => (
-                                            <option key={index} value={division.id}>
-                                                {`${division.type} - ${division.level}`}
-                                            </option>
-                                        ))}
-                                    </SelectInput>
-                                </Col>
-                            </FormGroup>
-
-                            <FormGroup row>
-                                <Col>
-                                    <Button type="submit">Create</Button>
-                                </Col>
-
-                                <Col sm={10}>
-                                    <p>{error}</p>
-                                    <p>{isSuccess && "Team Created!"}</p>
-                                </Col>
-                            </FormGroup>
-                        </Form>
-                    )}
-                </Formik>
-            </div>
+            <div css={fullDynamic}>{form}</div>
         </>
     );
-}
+});
+
+// /* <Col sm={10}>
+//                                 <p>{createTeamError}</p>
+//                                 <p>{createTeamState === "success" && "Team Created!"}</p>
+//                             </Col> */

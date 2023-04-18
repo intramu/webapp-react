@@ -104,10 +104,8 @@ export default function TempCompetitionCreator() {
                 </span>
             </div>
             <br />
+            <br />
             {/* <BracketBuilder competitionType={competitionType} /> */}
-            <br />
-            <br />
-            <br />
             <NewBracketBuilder />
         </div>
     );

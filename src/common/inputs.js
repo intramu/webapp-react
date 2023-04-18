@@ -1,3 +1,4 @@
+/** @jsxImportSource @emotion/react */
 import { MenuItem, TextField } from "@mui/material";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -40,6 +41,7 @@ export function MaterialTextInput({ name, label, ...props }) {
     const [field, meta] = useField(name);
     return (
         <TextField
+            css={{ borderRadius: 15 }}
             id={field.id}
             name={field.name}
             label={label}
@@ -48,6 +50,7 @@ export function MaterialTextInput({ name, label, ...props }) {
             value={field.value ?? ""}
             onChange={field.onChange}
             onBlur={field.onBlur}
+            fullWidth
             {...props}
         />
     );
@@ -66,6 +69,7 @@ export function MaterialNumberInput({ name, label, ...props }) {
             onChange={field.onChange}
             onBlur={field.onBlur}
             inputProps={{ type: "number" }}
+            fullWidth
             {...props}
         />
     );
@@ -100,6 +104,7 @@ export function MaterialSelectInput({ name, label, enumValue, ...props }) {
             value={field.value ?? ""}
             onChange={field.onChange}
             onBlur={field.onBlur}
+            fullWidth
             select
             {...props}>
             {Object.keys(enumValue).map((option) => (
@@ -107,6 +112,47 @@ export function MaterialSelectInput({ name, label, enumValue, ...props }) {
                     {option}
                 </MenuItem>
             ))}
+        </TextField>
+    );
+}
+
+export function MaterialExpirmentInput({ name, label, ...props }) {
+    const [field, meta] = useField(name);
+
+    if (props.enumValue) {
+        <TextField
+            id={field.id}
+            name={field.name}
+            label={label}
+            helperText={meta.touched ? meta.error : ""}
+            error={meta.touched && Boolean(meta.error)}
+            value={field.value ?? ""}
+            onChange={field.onChange}
+            onBlur={field.onBlur}
+            fullWidth
+            select
+            {...props}>
+            {Object.keys(props.enumValue).map((option) => (
+                <MenuItem key={option} value={option}>
+                    {option}
+                </MenuItem>
+            ))}
+        </TextField>;
+    }
+    return (
+        <TextField
+            id={field.id}
+            name={field.name}
+            label={label}
+            helperText={meta.touched ? meta.error : ""}
+            error={meta.touched && Boolean(meta.error)}
+            value={field.value ?? ""}
+            onChange={field.onChange}
+            onBlur={field.onBlur}
+            fullWidth
+            select
+            {...props}>
+            {props.children}
         </TextField>
     );
 }

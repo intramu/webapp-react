@@ -5,12 +5,13 @@ import { userRootStore } from "./_routes";
 
 /** The Initializer will hopefully be used to initialize high level  */
 export const Initializer = observer(() => {
-    const { fetchPlayer, fetchInvites, fetchTeams } = userRootStore;
+    const { fetchPlayer, fetchInvites, fetchTeams, fetchContests } = userRootStore;
     useEffect(() => {
         fetchPlayer();
         fetchInvites();
         fetchTeams();
-    }, [fetchPlayer, fetchInvites, fetchTeams]);
+        fetchContests();
+    }, [fetchPlayer, fetchInvites, fetchTeams, fetchContests]);
 
     return <Outlet />;
 });

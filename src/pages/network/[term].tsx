@@ -2,7 +2,7 @@
 import { observer } from "mobx-react-lite";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import useSWR from "../../common/hooks/useSWR";
+import { Helmet } from "react-helmet";
 import LeaguesList from "../../components/network/leagues/LeagueList";
 import { IContest } from "../../interfaces/competition/IContest";
 import { ContestModel } from "../../models/contests/ContestModel";
@@ -24,12 +24,19 @@ export const Term = observer(() => {
     if (contest.state === "pending") return <div>Loading</div>;
 
     return (
-        <div>
-            <span css={{ fontSize: standardFontSizes.xl, fontWeight: "500" }}>
-                {contest.season} {contest.year}
-            </span>
-            <span css={{ color: colors.footerText, margin: "0 10px" }}>Term {contest.term}</span>
-            <LeaguesList leagues={contest.leagues} />
-        </div>
+        <>
+            <Helmet>
+                <title>Network</title>
+            </Helmet>
+            <div>
+                <span css={{ fontSize: standardFontSizes.xl, fontWeight: "500" }}>
+                    {contest.season} {contest.year}
+                </span>
+                <span css={{ color: colors.footerText, margin: "0 10px" }}>
+                    Term {contest.term}
+                </span>
+                <LeaguesList leagues={contest.leagues} />
+            </div>
+        </>
     );
 });

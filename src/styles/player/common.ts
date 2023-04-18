@@ -4,7 +4,7 @@ import { createStyleMap } from "./stylemap";
 export const definedSizes = {
     navbarHeight: "11vh",
     rightSidePageSpace: "6vw",
-    footerHeight: "4vh",
+    footerHeight: "50px",
     iconHeight: "1.5em",
     iconWidth: "1.5em",
     borderRadius: 15,

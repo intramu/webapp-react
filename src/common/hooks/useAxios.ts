@@ -1,5 +1,4 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import { AxiosError } from "axios";
 import { ErrorResponse } from "../../interfaces/ErrorResponse";
 import { instance } from "../../utilities/axiosInstance";
 import { handleError } from "../handleApiError";

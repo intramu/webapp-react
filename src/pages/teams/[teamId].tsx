@@ -1,11 +1,9 @@
 /** @jsxImportSource @emotion/react */
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { observer } from "mobx-react-lite";
 import { useParams } from "react-router-dom";
-import useSWR from "../../common/hooks/useSWR";
 import { Roster } from "../../components/team/Roster";
 import { Schedule } from "../../components/team/Schedule";
-import { IJoinRequest } from "../../interfaces/IJoinRequest";
 import {
     containerHolder,
     full,
@@ -15,14 +13,15 @@ import {
 } from "../../styles/player/containers";
 import { userRootStore } from "../_routes";
 import { standardFontSizes } from "../../styles/player/common";
+import { TeamModel } from "../../models/team/TeamModel";
 
 export const OneTeam = observer(() => {
     const { teamId } = useParams();
-    const { teamStore } = userRootStore;
+    const [team] = useState(() => new TeamModel());
 
-    const currentTeam = teamStore.find((x) => x.id === Number(teamId));
-
-    const { data: requests } = useSWR<IJoinRequest[]>(`/teams/${teamId}/requests`);
+    useEffect(() => {
+        team.fetchTeam(Number(teamId));
+    }, [team, team.fetchTeam, teamId]);
 
     // useEffect(() => {
     //     const fetch = async () => {
@@ -33,26 +32,23 @@ export const OneTeam = observer(() => {
     //     // eslint-disable-next-line react-hooks/exhaustive-deps
     // }, []);
 
-    if (!currentTeam) {
-        return <div>Error</div>;
-    }
-
     const declineRequest = async (userId: string) => {
-        currentTeam.declineRequest(userId);
+        team.declineRequest(userId);
     };
 
     const acceptRequest = async (userId: string) => {
-        currentTeam.acceptRequest(userId);
+        team.acceptRequest(userId);
     };
 
     return (
         <>
             <span>
-                <span css={{ fontSize: standardFontSizes.xl }}>{currentTeam.name}</span>
+                <span css={{ fontSize: standardFontSizes.xl }}>{team.name}</span>
             </span>
+            <button onClick={() => team.removePlayer("")}>test</button>
             <div css={[containerHolder]}>
                 <div css={[half]}>
-                    <Roster team={currentTeam} />
+                    <Roster team={team} />
                 </div>
                 <div css={[quarterHolder]}>
                     <div css={[quarter]}>
@@ -63,15 +59,15 @@ export const OneTeam = observer(() => {
                     </div>
                 </div>
                 <div css={[full]}>
-                    <Schedule />
+                    <Schedule team={team} />
                 </div>
                 <div css={[half]}>
                     <h1>Requests</h1>
-                    {requests && requests.length > 0
-                        ? requests?.map((request, index) => (
+                    {team.requests && team.requests.length > 0
+                        ? team.requests?.map((request, index) => (
                               <span key={index}>
-                                  {`${request.requesting_player_full_name} wants to join your team`}
-                                  <button onClick={() => acceptRequest(request.player_auth_id)}>
+                                  {`${request.requestingPlayerFullName} wants to join your team`}
+                                  <button onClick={() => acceptRequest(request.playerAuthId)}>
                                       Accept
                                   </button>
                                   <button>Decline</button>

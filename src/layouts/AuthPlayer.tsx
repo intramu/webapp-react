@@ -80,7 +80,7 @@ export function AuthPlayer() {
     }
 
     if (isLoading || pageLoading) {
-        return <div>Loading...</div>;
+        return <div style={{ backgroundColor: "red" }}>Loading...</div>;
     }
 
     if (!isAuthenticated) {
@@ -89,7 +89,7 @@ export function AuthPlayer() {
                 returnTo: window.location.pathname,
             },
         });
-        return null;
+        return <div style={{ backgroundColor: "red" }}>new loading</div>;
     }
 
     // if (!isAuthorized) {

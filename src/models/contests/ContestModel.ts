@@ -6,11 +6,6 @@ import { ILeague } from "../../interfaces/competition/ILeague";
 import { result } from "../../utilities/modelResult";
 import { LeagueModel } from "./LeagueModel";
 
-const test = {
-    id: "id",
-    name: "name",
-};
-
 export class ContestModel {
     id = 0;
 

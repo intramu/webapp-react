@@ -1,7 +1,8 @@
 /** @jsxImportSource @emotion/react */
-import { CSSObject } from "@emotion/react";
 import React, { useState } from "react";
+import { CSSObject } from "@emotion/react";
 import { Link, NavLink } from "react-router-dom";
+import { observer } from "mobx-react-lite";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import PeopleIcon from "@mui/icons-material/People";
 import PublicIcon from "@mui/icons-material/Public";
@@ -9,10 +10,6 @@ import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 import CloudOffIcon from "@mui/icons-material/CloudOff";
 import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
 import PersonIcon from "@mui/icons-material/Person";
-import useSWR from "../../common/hooks/useSWR";
-
-import { IContest } from "../../interfaces/competition/IContest";
-import { ITeam } from "../../interfaces/ITeam";
 import { smallButton } from "../../styles/player/buttons";
 import {
     colors,
@@ -83,7 +80,6 @@ const linkHover: CSSObject = {
 
 const listItemLink: CSSObject = {
     ...listItemHeader,
-    // ...linkHover,
 };
 
 const listItemIcon: CSSObject = {
@@ -121,13 +117,14 @@ const overflowControl: CSSObject = {
     display: "inline-block",
 };
 
-function Sidebar() {
-    const { player, teamStore } = userRootStore;
-    // maybe wrap this into a promise all
-    const { data: teams, error: teamsError } = useSWR<ITeam[]>("players/teams");
-    const { data: contests, error: contestsError } = useSWR<IContest[]>("/contests");
+export const Sidebar = observer(() => {
+    const {
+        player,
+        teamStore: { teams, allError },
+        contestStore: { contests, fetchingError },
+    } = userRootStore;
 
-    const [active, setActive] = useState("");
+    const [active, setActive] = useState("dash");
 
     return (
         <aside
@@ -188,7 +185,7 @@ function Sidebar() {
                         <PeopleIcon css={listItemIcon} />
                         Teams
                     </span>
-                    {teams && (
+                    {!allError && (
                         <>
                             <div css={subList}>
                                 {teams.map((team) => (
@@ -210,7 +207,7 @@ function Sidebar() {
                             </div>
                             <div css={buttonContainer}>
                                 {/* If contests is defined then this link should always redirect correctly */}
-                                {contests && (
+                                {contests.length > 0 && (
                                     <Link
                                         onClick={() => setActive("network")}
                                         css={[
@@ -248,7 +245,7 @@ function Sidebar() {
                         </>
                     )}
 
-                    {teamsError && (
+                    {allError && (
                         <span css={listItemHeader}>
                             <CloudOffIcon css={listItemIcon} />
                             Error
@@ -262,9 +259,9 @@ function Sidebar() {
                         Network
                     </span>
 
-                    {contests && (
+                    {!fetchingError && (
                         <div css={subList}>
-                            {contests?.map((contest) => (
+                            {contests.map((contest) => (
                                 <div key={contest.id}>
                                     <ContestLink
                                         contest={contest}
@@ -277,7 +274,7 @@ function Sidebar() {
                             ))}
                         </div>
                     )}
-                    {contestsError && (
+                    {fetchingError && (
                         <span css={listItemHeader}>
                             <CloudOffIcon css={listItemIcon} />
                             Error
@@ -304,6 +301,4 @@ function Sidebar() {
             </ul>
         </aside>
     );
-}
-
-export default Sidebar;
+});
