@@ -1,30 +1,34 @@
-/** @jsxImportSource @emotion/react */
 import React, { useEffect, useState } from "react";
 import { Formik, Form } from "formik";
-import { Button, Col, FormGroup, Label, Row } from "reactstrap";
+import { Button, Grid } from "@mui/material";
+import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
+import EditIcon from "@mui/icons-material/Edit";
+import EditOffIcon from "@mui/icons-material/EditOff";
 import { observer } from "mobx-react-lite";
+import dayjs from "dayjs";
 import * as Yup from "yup";
-import { SelectInput, TextInput } from "../../common/inputs";
-import { dynamicButton } from "../../styles/player/buttons";
-import { PlayerModel } from "../../models/PlayerModel";
+import {
+    MaterialDatePicker,
+    MaterialExperimentInput,
+    MaterialTextInput,
+} from "../../common/inputs";
 import { Language, PlayerGender, PlayerVisibility } from "../../utilities/enums/userEnum";
 import { userRootStore } from "../../pages/_routes";
-import { GreyButton } from "../Buttons";
+import { flexCenterHorizontal, flexRow } from "../../styles/player/common";
+import { GridBreak } from "../admin/competitionCreator/NewBracketBuilder";
+import { unstyledButton } from "../../styles/player/buttons";
+import { PlayerModel } from "../../models/PlayerModel";
 
 export const Profile = observer(() => {
     const { player } = userRootStore;
-    const { editPlayer } = player;
+
+    const [testPlayer] = useState(() => new PlayerModel());
+
+    useEffect(() => {
+        testPlayer.fetchPlayer();
+    }, [testPlayer]);
 
     const [isEditing, setIsEditing] = useState(false);
-
-    // useEffect(() => {
-    //     fetchPlayer();
-    // }, [fetchPlayer]);
-
-    const convertDate = (date: string): string => {
-        const newDate = new Date(date);
-        return newDate.toLocaleDateString("sv-SE");
-    };
 
     if (player.state === "pending") {
         return <div>Loading...</div>;
@@ -32,158 +36,123 @@ export const Profile = observer(() => {
     if (player.error) {
         return <div>Error sorry :(</div>;
     }
+    console.log("woah");
 
     return (
         <>
-            <h5>
-                <u>Profile</u>
-            </h5>
-            <GreyButton onClick={() => setIsEditing((x) => !x)}>
-                {isEditing ? "Cancel" : "Edit"}
-            </GreyButton>
-
+            <div css={[flexRow, { justifyContent: "space-between", marginBottom: 20 }]}>
+                <h5>
+                    <u>Profile</u>
+                </h5>
+                <button css={unstyledButton} onClick={() => setIsEditing((x) => !x)}>
+                    {isEditing ? <EditOffIcon /> : <EditIcon />}
+                </button>
+            </div>
             <Formik
                 enableReinitialize
-                initialValues={player}
+                initialValues={testPlayer}
                 validationSchema={Yup.object({
                     emailAddress: Yup.string().email("Invalid emailAddress"),
                 })}
                 onSubmit={(values, { setSubmitting }) => {
-                    editPlayer(values);
+                    testPlayer.editPlayer(values);
+                    setSubmitting(false);
+                    setIsEditing(false);
                 }}>
-                {(formik) => (
-                    <Form>
-                        <Row>
-                            <Col md={6}>
-                                <FormGroup>
-                                    <Label>First Name</Label>
-                                    <TextInput
+                {(formik) => {
+                    const isDisabled = !isEditing || formik.isSubmitting;
+                    return (
+                        <Form>
+                            <Grid container rowSpacing={4} spacing={2}>
+                                <Grid item xs={5}>
+                                    <MaterialTextInput
                                         label="First Name"
                                         name="firstName"
-                                        type="text"
-                                        disabled={!isEditing || formik.isSubmitting}
+                                        disabled={isDisabled}
                                     />
-                                </FormGroup>
-                            </Col>
-                            <Col md={6}>
-                                <FormGroup>
-                                    <Label>Last Name</Label>
-                                    <TextInput
+                                </Grid>
+                                <Grid item xs={5}>
+                                    <MaterialTextInput
                                         label="Last Name"
                                         name="lastName"
-                                        type="text"
-                                        disabled={!isEditing || formik.isSubmitting}
+                                        disabled={isDisabled}
                                     />
-                                </FormGroup>
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col md={6} style={{ margin: "auto" }}>
-                                <FormGroup>
-                                    <Label>Profile Pic</Label>
-
-                                    <img src="/logo192.png" alt="other" />
-                                </FormGroup>
-                            </Col>
-                            <Col md={6} style={{ margin: "auto" }}>
-                                <FormGroup>
-                                    <button
-                                        style={{ width: "100%" }}
-                                        disabled={!isEditing || formik.isSubmitting}>
+                                </Grid>
+                                <GridBreak />
+                                <Grid item xs={5} css={flexCenterHorizontal}>
+                                    <AccountCircleOutlinedIcon />
+                                </Grid>
+                                <Grid item xs={5}>
+                                    <Button
+                                        css={{ width: "100%" }}
+                                        disabled={isDisabled}
+                                        variant="outlined">
                                         Change Image
-                                    </button>
-                                </FormGroup>
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col md={6}>
-                                <FormGroup>
-                                    <Label>Email Address</Label>
-
-                                    <TextInput
-                                        label="Email"
+                                    </Button>
+                                </Grid>
+                                <GridBreak />
+                                <Grid item xs={10}>
+                                    <MaterialTextInput
                                         name="emailAddress"
-                                        type="text"
-                                        disabled={!isEditing || formik.isSubmitting}
+                                        label="Email Address"
+                                        disabled={isDisabled}
                                     />
-                                </FormGroup>
-                            </Col>
-                            <Col md={6}>
-                                <FormGroup>
-                                    <Label>Gender</Label>
-                                    <SelectInput
-                                        label="Gender"
+                                </Grid>
+                                <GridBreak />
+                                <Grid item xs={5}>
+                                    <MaterialExperimentInput
                                         name="gender"
-                                        disabled={!isEditing || formik.isSubmitting}>
-                                        <option value={PlayerGender.MALE}>Male</option>
-                                        <option defaultChecked value={PlayerGender.FEMALE}>
-                                            Female
-                                        </option>
-                                    </SelectInput>
-                                </FormGroup>
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col md={6}>
-                                <FormGroup>
-                                    <Label>Language</Label>
-                                    <SelectInput
-                                        label="Language"
-                                        name="language"
-                                        disabled={!isEditing || formik.isSubmitting}>
-                                        <option value={Language.ENGLISH}>English</option>
-                                    </SelectInput>
-                                </FormGroup>
-                            </Col>
-                            <Col md={6}>
-                                <FormGroup>
-                                    <Label>Date Of Birth</Label>
-
-                                    <TextInput
-                                        disabled
-                                        label="Date of Birth"
-                                        name="dob"
-                                        type="date"
+                                        label="Gender"
+                                        disabled={isDisabled}
+                                        enumvalue={PlayerGender}
                                     />
-                                </FormGroup>
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col md={6}>
-                                <FormGroup>
-                                    <Label>Graduation Term:</Label>
-                                </FormGroup>
-                            </Col>
-                            <Col md={6}>
-                                <FormGroup>
-                                    <TextInput
+                                </Grid>
+                                <Grid item xs={5}>
+                                    <MaterialExperimentInput
+                                        name="language"
+                                        label="Language"
+                                        disabled={isDisabled}
+                                        enumvalue={Language}
+                                    />
+                                </Grid>
+                                <GridBreak />
+
+                                <Grid item xs={5}>
+                                    <MaterialDatePicker
+                                        setFieldValue={formik.setFieldValue}
+                                        name="dob"
+                                        label="Date of Birth"
+                                        disabled={isDisabled}
+                                    />
+                                </Grid>
+                                <Grid item xs={5}>
+                                    <MaterialExperimentInput
+                                        name="visibility"
+                                        label="Visibility"
+                                        disabled={isDisabled}
+                                        enumvalue={PlayerVisibility}
+                                    />
+                                </Grid>
+                                <GridBreak />
+                                <Grid item xs={5}>
+                                    <MaterialTextInput
                                         disabled
                                         label="Graduation Term"
                                         name="graduationTerm"
-                                        type="text"
                                     />
-                                    {/* <span>{data?.graduationTerm}</span> */}
-                                </FormGroup>
-                            </Col>
-                        </Row>
-                        <FormGroup row>
-                            <Label sm={2}>Visibility:</Label>
-                            <Col sm={4}>
-                                <SelectInput
-                                    label="Visibility"
-                                    name="visibility"
-                                    disabled={!isEditing || formik.isSubmitting}>
-                                    <option value={PlayerVisibility.PRIVATE}>Private</option>
-                                    <option value={PlayerVisibility.OPEN}>Open</option>
-                                    <option value={PlayerVisibility.CLOSED}>Closed</option>
-                                </SelectInput>
-                            </Col>
-                        </FormGroup>
-                        <Button disabled={!isEditing} type="submit">
-                            Update
-                        </Button>
-                    </Form>
-                )}
+                                </Grid>
+                            </Grid>
+
+                            <Button
+                                css={{ padding: 10 }}
+                                disabled={!isEditing}
+                                type="submit"
+                                variant="contained">
+                                Update
+                            </Button>
+                        </Form>
+                    );
+                }}
             </Formik>
         </>
     );

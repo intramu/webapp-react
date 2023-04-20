@@ -34,6 +34,14 @@ export class ContestGameStore {
     }
 
     sortGamesByDate() {
-        this.games.sort((a, b) => a.gameDate.date() - b.gameDate.date());
+        if (this.games.length > 0) {
+            this.games.sort((a, b) => {
+                return (
+                    +(a.gameDate === null) - +(b.gameDate === null) ||
+                    +(a.gameDate > b.gameDate) ||
+                    -(a.gameDate < b.gameDate)
+                );
+            });
+        }
     }
 }

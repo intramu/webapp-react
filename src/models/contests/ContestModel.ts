@@ -30,7 +30,7 @@ export class ContestModel {
     error = "";
 
     constructor() {
-        makeAutoObservable(this);
+        makeAutoObservable(this, {}, { autoBind: true });
     }
 
     *fetchContest(id: number) {
@@ -38,6 +38,8 @@ export class ContestModel {
         this.error = "";
 
         const response = yield* result(newGetRequest<ContestModel>(`/contests/${id}`));
+
+        console.log(response);
 
         if (isErrorResponse(response)) {
             this.state = "pending";

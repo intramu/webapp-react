@@ -35,7 +35,7 @@ import { Test } from "../Test";
 import { Initializer } from "./_initializer";
 
 import "../styles/globals.css";
-import { ContestGame } from "./network/games/[id]";
+import { ContestGame } from "./network/games/[gameId]";
 
 export const uiStore = new UIStore();
 export const organizationStore = new OrganizationRootStore();

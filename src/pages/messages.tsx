@@ -1,7 +1,6 @@
-/** @jsxImportSource @emotion/react */
 import React from "react";
 import { Helmet } from "react-helmet";
-import { Requests } from "../components/messages/Requests";
+import { Invites } from "../components/messages/Invites";
 import { fullDynamic } from "../styles/player/containers";
 
 export function Messages() {
@@ -10,10 +9,8 @@ export function Messages() {
             <Helmet>
                 <title>Messages</title>
             </Helmet>
-            <div css={[fullDynamic]}>
-                <h3>Invites</h3>
-                <Requests />
-            </div>
+
+            <Invites />
 
             {/* <p>
                 Im thinking for here we display chats, when that becomes an actual feature, and

@@ -6,11 +6,11 @@ import {
     newPostRequest,
 } from "../../common/functions/axiosRequests";
 import { isErrorResponse } from "../../interfaces/ErrorResponse";
-import { JoinRequestModel } from "./JoinRequestModel";
-import { TeamRole } from "../../utilities/enums/teamEnum";
+import { TeamRole, TeamVisibility } from "../../utilities/enums/teamEnum";
 import { result } from "../../utilities/modelResult";
 import { RosterPlayerModel } from "./RosterPlayerModel";
 import { ContestGameStore } from "../stores/ContestGameStore";
+import { TeamRequestStore } from "../stores/TeamRequestStore";
 
 interface TeamModelProps {
     id: number;
@@ -55,7 +55,7 @@ export class TeamModel {
 
     players: RosterPlayerModel[] = [];
 
-    requests: JoinRequestModel[] = [];
+    requestStore = new TeamRequestStore();
 
     contestGameStore = new ContestGameStore();
 
@@ -104,7 +104,7 @@ export class TeamModel {
 
     fetchTeam(id: number) {
         this.fetchTeamById(id);
-        this.fetchRequests();
+        this.requestStore.fetchRequests(id);
         this.contestGameStore.fetchTeamGames(id);
     }
 
@@ -150,59 +150,53 @@ export class TeamModel {
         this.construct(response);
     }
 
-    *acceptRequest(userId: string) {
+    // joinTeam = flow(function* (id: number) {
+    //     const response = yield* result(newPostRequest<boolean, null>(`/teams/${id}/requests/`));
+    // });
+
+    *joinTeam() {
         this.state = "pending";
         this.error = "";
 
-        const response = yield* result(
-            newPostRequest<boolean, null>(`/teams/${this.id}/requests/${userId}:accept`)
-        );
-
-        if (isErrorResponse(response)) {
-            this.state = "done";
-            this.state = response.errorMessage;
-        }
-
-        this.filterRequests(this.id, userId);
-        this.state = "success";
-    }
-
-    *declineRequest(userId: string) {
-        this.state = "pending";
-        this.error = "";
-
-        const response = yield* result(
-            newDeleteRequest(`/teams/${this.id}/requests/${userId}:accept`)
-        );
-
-        if (isErrorResponse(response)) {
-            this.state = "done";
-            this.state = response.errorMessage;
-        }
-
-        this.filterRequests(this.id, userId);
-        this.state = "success";
-    }
-
-    *fetchRequests() {
-        console.log("here");
-
-        const response = yield* result(
-            newGetRequest<JoinRequestModel[]>(`/teams/${this.id}/requests`)
-        );
-
-        if (isErrorResponse(response)) {
-            this.state = "done";
-            this.state = response.errorMessage;
+        if (this.visibility === TeamVisibility.PRIVATE) {
+            const response = yield* result(
+                newPostRequest<boolean, null>(`/teams/${this.id}/requests/`)
+            );
+            if (isErrorResponse(response)) {
+                this.error = response.errorMessage;
+                this.state = "done";
+            }
+            this.state = "success";
             return;
         }
 
-        this.requests = response;
+        const response = yield* result(newPostRequest<boolean, null>(`/teams/${this.id}/players/`));
+        if (isErrorResponse(response)) {
+            this.error = response.errorMessage;
+            this.state = "done";
+            return;
+        }
+
+        this.state = "success";
+    }
+
+    *removeFromTeam(authId: string) {
+        this.state = "pending";
+        this.error = "";
+
+        const response = yield* result(newDeleteRequest(`/teams/${this.id}/players/${authId}`));
+        if (isErrorResponse(response)) {
+            this.error = response.errorMessage;
+            this.state = "done";
+            return;
+        }
+
+        this.players = this.players.filter((player) => player.authId !== authId);
+        this.state = "success";
     }
 
     removePlayer(authId: string) {
-        console.log("wow");
-
+        this.removeFromTeam(authId);
         this.players = this.players.filter((player) => player.authId !== authId);
     }
 
@@ -213,12 +207,6 @@ export class TeamModel {
         console.log(player?.authId);
 
         player?.updateRole(role, this.id);
-    }
-
-    private filterRequests(teamId: number, userId: string) {
-        this.requests = this.requests.filter(
-            (request) => request.playerAuthId !== userId && request.teamId !== teamId
-        );
     }
 
     // private changeState(state: State) {

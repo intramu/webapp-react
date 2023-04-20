@@ -1,8 +1,7 @@
 import dayjs from "dayjs";
-import { makeAutoObservable, runInAction } from "mobx";
+import { makeAutoObservable } from "mobx";
 import { newGetRequest, newPatchRequest, newPostRequest } from "../common/functions/axiosRequests";
 import { isErrorResponse } from "../interfaces/ErrorResponse";
-import { IPlayer } from "../interfaces/IPlayer";
 import { Language } from "../utilities/enums/userEnum";
 import { result } from "../utilities/modelResult";
 
@@ -13,11 +12,16 @@ interface PlayerModelProps {
     emailAddress: string;
     gender: string;
     language: string;
-    dateOfBirth: string;
+    dob: dayjs.Dayjs;
     graduationTerm: string;
     visibility: string;
     image: string;
     status: string;
+    dateCreated: dayjs.Dayjs;
+}
+
+interface SubmitProps extends Omit<PlayerModelProps, "dob" | "dateCreated"> {
+    dob: string;
     dateCreated: string;
 }
 
@@ -34,7 +38,7 @@ export class PlayerModel {
 
     language = "";
 
-    dob = dayjs(Date.now());
+    dob = dayjs(null);
 
     graduationTerm = "";
 
@@ -44,7 +48,7 @@ export class PlayerModel {
 
     status = "";
 
-    dateCreated = dayjs(Date.now());
+    dateCreated = dayjs(null);
 
     // request variables
     error = "";
@@ -59,7 +63,8 @@ export class PlayerModel {
         this.state = "pending";
         this.error = "";
 
-        const response = yield* result(newGetRequest<IPlayer>("/players"));
+        const response = yield* result(newGetRequest<PlayerModel>("/players"));
+        // console.log(response);
 
         if (isErrorResponse(response)) {
             this.state = "done";
@@ -67,26 +72,16 @@ export class PlayerModel {
             return;
         }
 
-        this.authId = response.authId;
-        this.firstName = response.firstName;
-        this.lastName = response.lastName;
-        this.emailAddress = response.emailAddress;
-        this.gender = response.gender;
-        this.language = response.language;
-        // this.dob = this.convertDob();
-        this.graduationTerm = response.graduationTerm;
-        this.visibility = response.visibility;
-        this.image = response.image;
-        this.status = response.status;
-        // this.dateCreated = response.dateCreated || dayjs(Date.now());
-
+        this.construct(response);
         this.state = "success";
     }
 
     *editPlayer(player: PlayerModel) {
         this.state = "pending";
         this.error = "";
-        const response = yield* result(newPatchRequest<IPlayer, PlayerModel>("/players", player));
+        const response = yield* result(
+            newPatchRequest<PlayerModel, PlayerModel>("/players", player)
+        );
 
         if (isErrorResponse(response)) {
             this.state = "done";
@@ -94,76 +89,76 @@ export class PlayerModel {
             return;
         }
 
-        this.authId = response.authId;
-        this.firstName = response.firstName;
-        this.lastName = response.lastName;
-        this.emailAddress = response.emailAddress;
-        this.gender = response.gender;
-        this.language = response.language;
-        // this.dob = this.convertDob();
-        this.graduationTerm = response.graduationTerm;
-        this.visibility = response.visibility;
-        this.image = response.image;
-        this.status = response.status;
-        // this.dateCreated = response.dateCreated || new Date();
+        this.construct(response);
         this.state = "success";
     }
 
-    async createPlayer(orgId: string) {
-        runInAction(() => {
-            this.state = "pending";
-            this.error = "";
-        });
+    tryEditPlayer = (player: PlayerModel) => {
+        this.editPlayer(player);
+    };
 
-        console.log(orgId);
+    *createPlayer(orgId: string) {
+        this.state = "pending";
+        this.error = "";
 
-        const response = await newPostRequest<IPlayer, PlayerModelProps>(
-            `/organizations/${orgId}/players`,
-            {
+        const response = yield* result(
+            newPostRequest<PlayerModel, SubmitProps>(`/organizations/${orgId}/players`, {
                 authId: this.authId,
                 firstName: this.firstName,
                 lastName: this.lastName,
                 emailAddress: this.emailAddress,
                 gender: this.gender,
                 language: this.language,
-                dateOfBirth: dayjs(this.dob).format("YYYY-MM-DD"),
+                dob: dayjs(this.dob).format("YYYY-MM-DD"),
                 graduationTerm: this.graduationTerm,
                 visibility: this.visibility,
                 image: this.image,
                 status: this.status,
                 dateCreated: this.dateCreated.toISOString(),
-            }
+            })
         );
 
-        console.log(response);
+        if (isErrorResponse(response)) {
+            this.state = "done";
+            this.error = response.errorMessage;
+            return;
+        }
 
-        runInAction(() => {
-            if (isErrorResponse(response)) {
-                this.state = "done";
-                this.error = response.errorMessage;
-                return;
-            }
+        this.construct(response);
+        this.state = "success";
+    }
 
-            this.authId = response.authId;
-            this.firstName = response.firstName;
-            this.lastName = response.lastName;
-            this.emailAddress = response.emailAddress;
-            this.gender = response.gender;
-            this.language = response.language;
-            // this.dob = this.convertDob();
-            this.graduationTerm = response.graduationTerm;
-            this.visibility = response.visibility;
-            this.image = response.image;
-            this.status = response.status;
-            // this.dateCreated = response.dateCreated || dayjs(Date.now());
+    construct(props: Partial<PlayerModelProps>) {
+        const {
+            authId = "",
+            firstName = "",
+            lastName = "",
+            emailAddress = "",
+            gender = "",
+            status = "",
+            language = "",
+            visibility = "",
+            dob = dayjs(new Date()),
+            image = "",
+            graduationTerm = "",
+            dateCreated = dayjs(new Date()),
+        } = props;
 
-            this.state = "success";
-        });
+        this.authId = authId;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.emailAddress = emailAddress;
+        this.gender = gender;
+        this.status = status;
+        this.visibility = visibility;
+        this.language = language;
+        this.dob = dayjs(dob);
+        this.graduationTerm = graduationTerm;
+        this.image = image;
+        this.dateCreated = dateCreated;
     }
 
     formikToPlayerModel(player: PlayerModel) {
-        console.log("first", this.firstName);
-
         this.authId = player.authId;
         this.firstName = player.firstName;
         this.lastName = player.lastName;
@@ -177,11 +172,4 @@ export class PlayerModel {
         this.status = player.status;
         this.dateCreated = player.dateCreated;
     }
-
-    // async fetchPlayerById() {}
-
-    // convertDob(): Date {
-    //     const newDate = new Date(this.dob);
-    //     return newDate.toLocaleDateString("sv-SE");
-    // }
 }

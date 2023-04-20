@@ -6,63 +6,64 @@ import { IPlayer } from "../interfaces/IPlayer";
 import { isErrorResponse } from "../interfaces/ErrorResponse";
 
 export function AuthPlayer() {
-    const { isAuthenticated, loginWithRedirect, isLoading, error, getIdTokenClaims } = useAuth0();
+    const { isAuthenticated, loginWithRedirect, isLoading, error, getIdTokenClaims, user } =
+        useAuth0();
 
     const [isAuthorized, setIsAuthorized] = useState(false);
-    const [pageLoading, setPageLoading] = useState(true);
+    const [pageLoading, setPageLoading] = useState(false);
 
     const navigate = useNavigate();
     const location = useLocation();
 
     const roleClaimType = "https://intramu.app.com/roles";
 
-    useEffect(() => {
-        // TODO: remove sudo in production
-        const authorizedRoles = ["Player", "Sudo"];
-
-        const fetch = async () => {
-            setPageLoading(true);
-            const claims = await getIdTokenClaims();
-
-            if (!claims) {
-                setIsAuthorized(false);
-                setPageLoading(false);
-                return;
-            }
-
-            const roles: string[] = claims[roleClaimType];
-            const authorize = authorizedRoles.some((role) => roles.includes(role));
-
-            if (!authorize) {
-                setIsAuthorized(false);
-                setPageLoading(false);
-                return;
-            }
-
-            setIsAuthorized(true);
-            setPageLoading(false);
-        };
-        fetch();
-    }, [getIdTokenClaims]);
-
-    // console.log(playerLoading);
-
     // will redirect user to finish profile if they're not found in database
     // will not redirect if there is an internal server error
+    useEffect(() => {
+        const fetch = async () => {
+            const response = await newGetRequest<IPlayer>("/players");
+            if (isErrorResponse(response)) {
+                if (response.statusCode === 404) {
+                    navigate("/finish-profile");
+                }
+            }
+        };
+        if (!isLoading && isAuthenticated && location.pathname !== "/finish-profile") {
+            fetch();
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [isAuthenticated, isLoading]);
+
     // useEffect(() => {
+    //     // TODO: remove sudo in production
+    //     const authorizedRoles = ["Player", "Sudo"];
+
     //     const fetch = async () => {
-    //         const response = await newGetRequest<IPlayer>("/players");
-    //         if (isErrorResponse(response)) {
-    //             if (response.statusCode === 404) {
-    //                 navigate("/finish-profile");
-    //             }
+    //         setPageLoading(true);
+    //         const claims = await getIdTokenClaims();
+
+    //         if (!claims) {
+    //             setIsAuthorized(false);
+    //             setPageLoading(false);
+    //             return;
     //         }
+
+    //         const roles: string[] = claims[roleClaimType];
+    //         const authorize = authorizedRoles.some((role) => roles.includes(role));
+
+    //         if (!authorize) {
+    //             setIsAuthorized(false);
+    //             setPageLoading(false);
+    //             return;
+    //         }
+
+    //         setIsAuthorized(true);
+    //         setPageLoading(false);
     //     };
-    //     if (!isLoading && isAuthenticated && location.pathname !== "/finish-profile") {
-    //         fetch();
-    //     }
-    //     // eslint-disable-next-line react-hooks/exhaustive-deps
-    // }, [isAuthenticated, isLoading]);
+    //     fetch();
+    // }, [getIdTokenClaims]);
+
+    // console.log(playerLoading);
 
     // useEffect(() => {
     //     console.log("check");

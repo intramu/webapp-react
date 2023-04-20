@@ -37,12 +37,15 @@ export class PlayerInvitesModel {
         this.invites = this.invites.filter((invite) => invite.teamId !== teamId);
     }
 
-    *declineInvite(teamId: number) {
-        const response = yield* result(newDeleteRequest(`need url`));
-        if (isErrorResponse(response)) {
-            return;
-        }
-
+    declineInvite(teamId: number) {
         this.invites = this.invites.filter((invite) => invite.teamId !== teamId);
     }
+    // *declineInvite(teamId: number) {
+    //     // const response = yield* result(newDeleteRequest(`need url`));
+    //     // if (isErrorResponse(response)) {
+    //     //     return;
+    //     // }
+
+    //     this.invites = this.invites.filter((invite) => invite.teamId !== teamId);
+    // }
 }

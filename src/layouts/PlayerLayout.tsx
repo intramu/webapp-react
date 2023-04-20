@@ -1,4 +1,3 @@
-/** @jsxImportSource @emotion/react */
 import React from "react";
 import { Outlet } from "react-router-dom";
 import { FooterDashboard } from "../components/footer/FooterDashboard";
@@ -29,7 +28,7 @@ export function PlayerLayout() {
                     <GeneralAlert />
                 </div>
 
-                <div id="spacer" css={{ flexBasis: "auto", flexShrink: 2 }} />
+                <div css={{ flexBasis: "auto", flexShrink: 2 }} />
             </div>
             <FooterDashboard />
         </div>

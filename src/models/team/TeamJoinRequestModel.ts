@@ -1,7 +1,7 @@
 import { makeAutoObservable } from "mobx";
 
-export class JoinRequestModel {
-    playerAuthId = "";
+export class TeamJoinRequestModel {
+    authId = "";
 
     teamId = 0;
 

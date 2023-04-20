@@ -41,7 +41,6 @@ export class TeamStore {
 
     *fetchMyTeams() {
         const response = yield* result(newGetRequest<TeamModel[]>("/players/teams"));
-        console.log(response);
 
         if (isErrorResponse(response)) {
             this.allError = response.errorMessage;

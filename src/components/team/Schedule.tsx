@@ -21,7 +21,11 @@ export const Schedule = observer(({ team }: ScheduleProps) => {
         if (!date) {
             return "TBD";
         }
-        return <span>{`${date.month()} ${date.day()}`}</span>;
+        return (
+            <span>
+                {date.month()} {date.day()}
+            </span>
+        );
     };
 
     const showScore = (homeScore: number, awayScore: number) => {

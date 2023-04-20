@@ -1,4 +1,3 @@
-/** @jsxImportSource @emotion/react */
 import { Form, Formik } from "formik";
 import React, { useState } from "react";
 import { Grid, MenuItem } from "@mui/material";
@@ -6,7 +5,7 @@ import { Helmet } from "react-helmet";
 import { observer } from "mobx-react-lite";
 import { useNavigate } from "react-router-dom";
 import {
-    MaterialExpirmentInput,
+    MaterialExperimentInput,
     MaterialSelectInput,
     MaterialTextInput,
     TextInput,
@@ -107,7 +106,7 @@ export const NewTeam = observer(() => {
                             />
                         </Grid>
                         <Grid item xs={4}>
-                            <MaterialExpirmentInput
+                            <MaterialExperimentInput
                                 name="contest"
                                 label="Contest"
                                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
@@ -128,10 +127,10 @@ export const NewTeam = observer(() => {
                                         </MenuItem>
                                     );
                                 })}
-                            </MaterialExpirmentInput>
+                            </MaterialExperimentInput>
                         </Grid>
                         <Grid item xs={4}>
-                            <MaterialExpirmentInput
+                            <MaterialExperimentInput
                                 name="league"
                                 label="League"
                                 disabled={!formik.values.contest}
@@ -147,10 +146,10 @@ export const NewTeam = observer(() => {
                                         </MenuItem>
                                     );
                                 })}
-                            </MaterialExpirmentInput>
+                            </MaterialExperimentInput>
                         </Grid>
                         <Grid item xs={4}>
-                            <MaterialExpirmentInput
+                            <MaterialExperimentInput
                                 name="division"
                                 label="Division"
                                 disabled={!formik.values.league}>
@@ -162,7 +161,7 @@ export const NewTeam = observer(() => {
                                         </MenuItem>
                                     );
                                 })}
-                            </MaterialExpirmentInput>
+                            </MaterialExperimentInput>
                         </Grid>
                         <Grid item xs={3}>
                             <GreyButton type="submit">Create</GreyButton>
@@ -177,13 +176,7 @@ export const NewTeam = observer(() => {
             <Helmet>
                 <title>New Team</title>
             </Helmet>
-            <h1>New Team</h1>
             <div css={fullDynamic}>{form}</div>
         </>
     );
 });
-
-// /* <Col sm={10}>
-//                                 <p>{createTeamError}</p>
-//                                 <p>{createTeamState === "success" && "Team Created!"}</p>
-//                             </Col> */

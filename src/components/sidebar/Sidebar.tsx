@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
-import React, { useState } from "react";
+import React, { useEffect, useReducer, useState } from "react";
 import { CSSObject } from "@emotion/react";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useLocation } from "react-router-dom";
 import { observer } from "mobx-react-lite";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import PeopleIcon from "@mui/icons-material/People";
@@ -26,6 +26,7 @@ import {
 } from "../../styles/player/common";
 import { ContestLink } from "./ContestLink";
 import { userRootStore } from "../../pages/_routes";
+import { isActive } from "./isActive";
 
 const unorderedList: CSSObject = {
     ...flexCenterVertical,
@@ -124,7 +125,12 @@ export const Sidebar = observer(() => {
         contestStore: { contests, fetchingError },
     } = userRootStore;
 
-    const [active, setActive] = useState("dash");
+    const location = useLocation();
+    const [active, setActive] = useState("");
+
+    useEffect(() => {
+        isActive(location, setActive);
+    }, [location]);
 
     return (
         <aside
@@ -172,7 +178,7 @@ export const Sidebar = observer(() => {
             <ul css={unorderedList}>
                 <li css={listItem}>
                     <Link
-                        onClick={() => setActive("dash")}
+                        // onClick={() => setActive("")}
                         css={[listItemLink, active === "dash" && linkActive]}
                         to="/dashboard">
                         <MenuOutlinedIcon css={listItemIcon} />
@@ -181,7 +187,7 @@ export const Sidebar = observer(() => {
                 </li>
 
                 <li css={listItem}>
-                    <span css={[listItemHeader, active === "team" && linkActive]}>
+                    <span css={[listItemHeader, active === "teams" && linkActive]}>
                         <PeopleIcon css={listItemIcon} />
                         Teams
                     </span>
@@ -191,7 +197,7 @@ export const Sidebar = observer(() => {
                                 {teams.map((team) => (
                                     <div key={team.name}>
                                         <NavLink
-                                            onClick={() => setActive("team")}
+                                            // onClick={() => setActive("team")}
                                             css={[subListLink, subLinkActive]}
                                             to={`/teams/${team.id}`}>
                                             <span css={[overflowControl]}>{team.name}</span>
@@ -209,7 +215,7 @@ export const Sidebar = observer(() => {
                                 {/* If contests is defined then this link should always redirect correctly */}
                                 {contests.length > 0 && (
                                     <Link
-                                        onClick={() => setActive("network")}
+                                        // onClick={() => setActive("network")}
                                         css={[
                                             smallButton,
                                             {
@@ -226,7 +232,7 @@ export const Sidebar = observer(() => {
                                     </Link>
                                 )}
                                 <Link
-                                    onClick={() => setActive("team")}
+                                    // onClick={() => setActive("team")}
                                     css={[
                                         smallButton,
                                         {
@@ -284,7 +290,7 @@ export const Sidebar = observer(() => {
 
                 <li css={listItem}>
                     <Link
-                        onClick={() => setActive("help")}
+                        // onClick={() => setActive("help")}
                         css={[listItemLink, active === "help" && linkActive]}
                         to="/help">
                         <HelpOutlineIcon css={listItemIcon} />

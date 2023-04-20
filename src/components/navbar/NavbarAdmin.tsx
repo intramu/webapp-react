@@ -1,7 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import React from "react";
 import { Link, NavLink } from "react-router-dom";
-import { Collapse, Nav, Navbar, NavbarBrand, NavbarText, NavItem } from "reactstrap";
 import LogoutButton from "../LogoutButton";
 import { colors, flexCenterVertical, flexRow } from "../../styles/player/common";
 

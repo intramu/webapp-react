@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
+import { FormControlLabel, FormGroup, Switch } from "@mui/material";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Formik } from "formik";
 import LogoutButton from "../LogoutButton";
-
-// import { TextInputBootstrap } from "../common/inputs";
 
 function Settings() {
     const [developer, setDeveloper] = useState(false);
@@ -40,23 +39,19 @@ function Settings() {
                     </FormGroup>
                 </Form>
             </Formik> */}
-
-            {/* <ReactForm>
-                <FormGroup switch>
-                    <Input
-                        type="switch"
-                        checked={developer}
-                        onChange={() => setDeveloper(!developer)}
-                        // onClick={() => setDeveloper(!developer)}
-                    />
-                    <Label>Developer Mode</Label>
-                </FormGroup>
-                <LogoutButton />
-            </ReactForm> */}
+            <FormGroup>
+                <FormControlLabel
+                    control={
+                        <Switch checked={developer} onChange={() => setDeveloper((b) => !b)} />
+                    }
+                    label="Developer Mode"
+                />
+            </FormGroup>
+            <LogoutButton />
             {developer && (
                 <div>
                     <h6>Developer Mode</h6>
-                    <p>{token}</p>
+                    <textarea value={token} readOnly />
                 </div>
             )}
         </>

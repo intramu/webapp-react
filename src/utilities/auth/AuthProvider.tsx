@@ -24,7 +24,7 @@ export function AuthProvider() {
             authorizationParams={{
                 audience: "https://server-authorization/",
                 redirect_uri: "http://localhost:5173/redirect",
-                scope: "all:application all:organization",
+                scope: "all:application all:organization openid email profile",
             }}>
             <>
                 <AxiosTokenInitializer />

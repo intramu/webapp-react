@@ -11,17 +11,17 @@ import utc from "dayjs/plugin/utc";
 dayjs.extend(utc);
 
 /* eslint-disable react/jsx-props-no-spreading */
-// export function TextInput(props) {
-//     const [field, meta] = useField(props);
-//     const { id, name, label } = props;
-//     return (
-//         <>
-//             {/* <Label htmlFor={id || name}>{label}</Label> */}
-//             <Input className="text-input" {...field} {...props} />
-//             {meta.touched && meta.error ? <div className="error">{meta.error}</div> : null}
-//         </>
-//     );
-// }
+export function TextInput(props) {
+    const [field, meta] = useField(props);
+    const { id, name, label } = props;
+    return (
+        <>
+            {/* <Label htmlFor={id || name}>{label}</Label> */}
+            <input className="text-input" {...field} {...props} />
+            {meta.touched && meta.error ? <div className="error">{meta.error}</div> : null}
+        </>
+    );
+}
 
 // export function SelectInput(props) {
 //     const [field, meta] = useField(props);
@@ -86,6 +86,7 @@ export function MaterialDatePicker({ name, label, setFieldValue, ...props }) {
                 onChange={(value) => {
                     setFieldValue(name, value, true);
                 }}
+                fullWidth
                 {...props}
             />
         </LocalizationProvider>
@@ -116,28 +117,30 @@ export function MaterialSelectInput({ name, label, enumValue, ...props }) {
     );
 }
 
-export function MaterialExpirmentInput({ name, label, ...props }) {
+export function MaterialExperimentInput({ name, label, ...props }) {
     const [field, meta] = useField(name);
 
-    if (props.enumValue) {
-        <TextField
-            id={field.id}
-            name={field.name}
-            label={label}
-            helperText={meta.touched ? meta.error : ""}
-            error={meta.touched && Boolean(meta.error)}
-            value={field.value ?? ""}
-            onChange={field.onChange}
-            onBlur={field.onBlur}
-            fullWidth
-            select
-            {...props}>
-            {Object.keys(props.enumValue).map((option) => (
-                <MenuItem key={option} value={option}>
-                    {option}
-                </MenuItem>
-            ))}
-        </TextField>;
+    if (props.enumvalue) {
+        return (
+            <TextField
+                id={field.id}
+                name={field.name}
+                label={label}
+                helperText={meta.touched ? meta.error : ""}
+                error={meta.touched && Boolean(meta.error)}
+                value={field.value ?? ""}
+                onChange={field.onChange}
+                onBlur={field.onBlur}
+                fullWidth
+                select
+                {...props}>
+                {Object.keys(props.enumvalue).map((option) => (
+                    <MenuItem key={option} value={option}>
+                        {option}
+                    </MenuItem>
+                ))}
+            </TextField>
+        );
     }
     return (
         <TextField

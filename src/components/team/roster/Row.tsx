@@ -1,18 +1,22 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { observer } from "mobx-react-lite";
+import { Button } from "@mui/material";
+import { CSSObject } from "@emotion/react";
 import { RosterPlayerModel } from "../../../models/team/RosterPlayerModel";
 import { TeamModel } from "../../../models/team/TeamModel";
 import { TeamRole } from "../../../utilities/enums/teamEnum";
 import { StyledTableCell } from "../Roster";
+import { standardFontSizes } from "../../../styles/player/common";
 
 interface RowProps {
     currentRole: string;
     player: RosterPlayerModel;
     team: TeamModel;
 }
+
 export const RosterRow = observer(({ currentRole, player, team }: RowProps) => {
-    console.log("player", player.role);
-    console.log("current", currentRole);
+    // console.log("player", player.role);
+    // console.log("current", currentRole);
 
     if (currentRole === "CAPTAIN") {
         if (player.role === "CAPTAIN") {
@@ -25,23 +29,23 @@ export const RosterRow = observer(({ currentRole, player, team }: RowProps) => {
         }
         return (
             <>
-                <StyledTableCell>
+                <StyledTableCell css={{ padding: 0 }}>
                     {player.role === "COCAPTAIN" ? (
-                        <button
+                        <Button
                             onClick={() => team.updatePlayerRole(player.authId, TeamRole.PLAYER)}>
                             Demote
-                        </button>
+                        </Button>
                     ) : (
-                        <button
+                        <Button
                             onClick={() =>
                                 team.updatePlayerRole(player.authId, TeamRole.COCAPTAIN)
                             }>
                             Promote
-                        </button>
+                        </Button>
                     )}
                 </StyledTableCell>
-                <StyledTableCell>
-                    <button onClick={() => team.removePlayer(player.authId)}>Kick</button>
+                <StyledTableCell css={{ padding: 0 }}>
+                    <Button onClick={() => team.removePlayer(player.authId)}>Kick</Button>
                 </StyledTableCell>
             </>
         );
@@ -51,13 +55,13 @@ export const RosterRow = observer(({ currentRole, player, team }: RowProps) => {
             return (
                 <>
                     <StyledTableCell>
-                        <button
+                        <Button
                             onClick={() => team.updatePlayerRole(player.authId, TeamRole.PLAYER)}>
                             Promote
-                        </button>
+                        </Button>
                     </StyledTableCell>
                     <StyledTableCell>
-                        <button onClick={() => team.removePlayer(player.authId)}>Kick</button>
+                        <Button onClick={() => team.removePlayer(player.authId)}>Kick</Button>
                     </StyledTableCell>
                 </>
             );

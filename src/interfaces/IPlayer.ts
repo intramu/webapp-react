@@ -21,6 +21,21 @@ export interface IPlayer {
     dateCreated: Date | null;
 }
 
+export interface INewPlayer {
+    authId: string;
+    firstName: string;
+    lastName: string;
+    language: string;
+    emailAddress: string;
+    gender: string;
+    dob: string;
+    visibility: string;
+    graduationTerm: string;
+    image: string;
+    status: string;
+    dateCreated: string;
+}
+
 export interface IPlayerEdit {
     authId: string;
     firstName: string;

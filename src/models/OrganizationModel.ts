@@ -78,6 +78,20 @@ export class OrganizationModel {
         this.loadingState = "success";
     }
 
+    *fetchOrganizationPlayer() {
+        this.loadingState = "pending";
+        this.error = "";
+
+        const r = yield* result(newGetRequest<OrganizationModel>(`/organizations/this`));
+        if (isErrorResponse(r)) {
+            return;
+        }
+        console.log(r);
+
+        this.construct(r);
+        this.loadingState = "success";
+    }
+
     *updateOrganization(org: OrganizationModel) {
         this.loadingState = "pending";
         this.error = "";

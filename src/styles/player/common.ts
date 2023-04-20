@@ -124,6 +124,10 @@ export const flexCenterVertical: CSSObject = {
     display: "flex",
     alignItems: "center",
 };
+export const flexCenterHorizontal: CSSObject = {
+    display: "flex",
+    justifyContent: "center",
+};
 
 export const flexColumn: CSSObject = {
     display: "flex",

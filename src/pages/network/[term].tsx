@@ -4,16 +4,12 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import LeaguesList from "../../components/network/leagues/LeagueList";
-import { IContest } from "../../interfaces/competition/IContest";
 import { ContestModel } from "../../models/contests/ContestModel";
 import { colors, standardFontSizes } from "../../styles/player/common";
 
 export const Term = observer(() => {
-    // change to api call to grab season info with id
     const { compId } = useParams();
     const [contest] = useState(() => new ContestModel());
-
-    console.log(contest.season);
 
     useEffect(() => {
         contest.fetchContest(Number(compId));
@@ -21,7 +17,15 @@ export const Term = observer(() => {
     }, []);
 
     if (contest.error) return <div>Error</div>;
-    if (contest.state === "pending") return <div>Loading</div>;
+    if (contest.state === "pending")
+        return (
+            <div>
+                <Helmet>
+                    <title>Network</title>
+                </Helmet>
+                Loading
+            </div>
+        );
 
     return (
         <>

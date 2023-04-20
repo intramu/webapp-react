@@ -6,8 +6,11 @@ import { PlayerInvitesModel } from "../../PlayerInvitesModel";
 import { result } from "../../../utilities/modelResult";
 import { newGetRequest } from "../../../common/functions/axiosRequests";
 import { isErrorResponse } from "../../../interfaces/ErrorResponse";
+import { OrganizationModel } from "../../OrganizationModel";
 
 export class UserRootStore {
+    organization: OrganizationModel;
+
     player: PlayerModel;
 
     contestStore: ContestStore;
@@ -31,6 +34,7 @@ export class UserRootStore {
         this.contestStore = new ContestStore();
         this.inviteStore = new PlayerInvitesModel();
         this.teamStore = new TeamStore();
+        this.organization = new OrganizationModel();
 
         // this.fetchPlayer();
     }
@@ -43,6 +47,10 @@ export class UserRootStore {
         }
 
         this.player = response;
+    }
+
+    fetchOrganization() {
+        this.organization.fetchOrganizationPlayer();
     }
 
     fetchInvites() {

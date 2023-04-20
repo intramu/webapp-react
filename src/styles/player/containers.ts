@@ -49,6 +49,9 @@ export const quarterHolder: CSSObject = {
     width: halfWidth,
     height: fullHeight,
     margin: containerMargin,
+    "@media(max-width: 1600px)": {
+        width: "100%",
+    },
 };
 
 export const fullVerticalInfinite: CSSObject = {
@@ -64,9 +67,9 @@ export const halfVerticalInfinite: CSSObject = {
     minHeight: fullHeight,
     margin: containerMargin,
     padding: containerPadding,
-    // "@media(max-width: 1600px)": {
-    //     width: "92%",
-    // },
+    "@media(max-width: 1600px)": {
+        width: "100%",
+    },
 };
 
 export const half: CSSObject = {
@@ -76,6 +79,9 @@ export const half: CSSObject = {
     margin: containerMargin,
     padding: containerPadding,
     overflowY: "auto",
+    "@media(max-width: 1600px)": {
+        width: "100%",
+    },
 };
 
 export const quarter: CSSObject = {

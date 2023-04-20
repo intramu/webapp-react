@@ -30,28 +30,30 @@ export class RosterPlayerModel {
         // });
     }
 
-    // updateRole(role: TeamRole, teamId: number) {
-    //     this.role = role;
-    // }
-
-    *updateRole(role: TeamRole, teamId: number) {
-        this.state = "pending";
-        this.error = "";
-
-        const response = yield* result(
-            newPutRequest<null, { role: TeamRole }>(`/teams/${teamId}/players/${this.authId}`, {
-                role,
-            })
-        );
-
-        if (isErrorResponse(response)) {
-            this.error = response.errorMessage;
-            this.state = "done";
-        }
-
+    updateRole(role: TeamRole, teamId: number) {
         this.role = role;
-        this.state = "success";
     }
+
+    // *updateRole(role: TeamRole, teamId: number) {
+    //     console.log(this);
+
+    //     this.state = "pending";
+    //     this.error = "";
+
+    //     const response = yield* result(
+    //         newPutRequest<null, { role: TeamRole }>(`/teams/${teamId}/players/${this.authId}`, {
+    //             role,
+    //         })
+    //     );
+
+    //     if (isErrorResponse(response)) {
+    //         this.error = response.errorMessage;
+    //         this.state = "done";
+    //     }
+
+    //     this.role = role;
+    //     this.state = "success";
+    // }
     // async updateRole(role: TeamRole, teamId: number) {
     //     this.state = "pending";
     //     this.error = "";

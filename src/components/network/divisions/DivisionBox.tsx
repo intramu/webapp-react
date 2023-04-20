@@ -39,7 +39,7 @@ function DivisionBox({ division }: IDivisionBox) {
                 </button>
             </div>
             <Collapse in={isOpen} timeout="auto" unmountOnExit>
-                <BracketList brackets={division.brackets} />
+                <BracketList brackets={division.brackets} division={division} />
             </Collapse>
         </div>
     );

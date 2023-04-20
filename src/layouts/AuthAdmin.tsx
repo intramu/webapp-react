@@ -62,7 +62,7 @@ export function AuthAdmin() {
         return (
             <div>
                 <b>Sorry you are not authorized to view this page</b>
-                <button onClick={() => navigate("/landing")}>Back</button>
+                <button onClick={() => navigate(-1)}>Back</button>
             </div>
         );
     }

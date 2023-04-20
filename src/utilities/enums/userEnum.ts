@@ -5,7 +5,7 @@
 export enum PlayerGender {
     MALE = "MALE",
     FEMALE = "FEMALE",
-    APACHE_HELICOPTER = "APACHE HELICOPTER",
+    // APACHE_HELICOPTER = "APACHE HELICOPTER",
 }
 
 export enum Language {

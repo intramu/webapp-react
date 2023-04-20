@@ -19,9 +19,7 @@ export async function getRequest<Return>(
             },
         })
         .then((res) => res.data)
-        .catch((err) => {
-            return handleError(err);
-        });
+        .catch(handleError);
 }
 
 export async function postRequest<Return, Body>(
@@ -37,9 +35,7 @@ export async function postRequest<Return, Body>(
             },
         })
         .then((res) => res.data)
-        .catch((err) => {
-            return handleError(err);
-        });
+        .catch(handleError);
 }
 
 export async function putRequest<Return, Body>(url: string, token: string, body?: Body) {
@@ -51,9 +47,7 @@ export async function putRequest<Return, Body>(url: string, token: string, body?
             },
         })
         .then((res) => res.data)
-        .catch((err) => {
-            return handleError(err);
-        });
+        .catch(handleError);
 }
 
 export async function newPostRequest<Return, Body>(
@@ -65,7 +59,7 @@ export async function newPostRequest<Return, Body>(
             headers: commonAxiosHeaders,
         })
         .then((res) => res.data)
-        .catch((err) => handleError(err));
+        .catch(handleError);
 }
 
 export async function newDeleteRequest(url: string): Promise<boolean | ErrorResponse> {
@@ -74,7 +68,7 @@ export async function newDeleteRequest(url: string): Promise<boolean | ErrorResp
             headers: commonAxiosHeaders,
         })
         .then(() => true)
-        .catch((err) => handleError(err));
+        .catch(handleError);
 }
 
 export async function newGetRequest<Return>(url: string): Promise<Return | ErrorResponse> {
@@ -83,7 +77,7 @@ export async function newGetRequest<Return>(url: string): Promise<Return | Error
             headers: commonAxiosHeaders,
         })
         .then((res) => res.data)
-        .catch((err) => handleError(err));
+        .catch(handleError);
 }
 
 export async function newPatchRequest<Return, Body>(
@@ -95,7 +89,7 @@ export async function newPatchRequest<Return, Body>(
             headers: commonAxiosHeaders,
         })
         .then((res) => res.data)
-        .catch((err) => handleError(err));
+        .catch(handleError);
 }
 
 export async function newPutRequest<Return, Body>(url: string, body?: Body) {
@@ -104,5 +98,5 @@ export async function newPutRequest<Return, Body>(url: string, body?: Body) {
             headers: commonAxiosHeaders,
         })
         .then((res) => res.data)
-        .catch((err) => handleError(err));
+        .catch(handleError);
 }
