@@ -1,10 +1,8 @@
-/** @jsxImportSource @emotion/react */
+import React from "react";
 import { MenuItem, TextField } from "@mui/material";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { useField } from "formik";
-import React from "react";
-// import { Input } from "reactstrap";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 
@@ -13,7 +11,7 @@ dayjs.extend(utc);
 /* eslint-disable react/jsx-props-no-spreading */
 export function TextInput(props) {
     const [field, meta] = useField(props);
-    const { id, name, label } = props;
+    // const { id, name, label } = props;
     return (
         <>
             {/* <Label htmlFor={id || name}>{label}</Label> */}
@@ -77,7 +75,7 @@ export function MaterialNumberInput({ name, label, ...props }) {
 
 // TODO: add textfield props
 export function MaterialDatePicker({ name, label, setFieldValue, ...props }) {
-    const [field, meta] = useField(name);
+    const [field] = useField(name);
     return (
         <LocalizationProvider dateAdapter={AdapterDayjs} dateLibInstance={dayjs.utc}>
             <DatePicker

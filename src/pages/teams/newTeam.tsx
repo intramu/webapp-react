@@ -18,6 +18,7 @@ import { DivisionModel } from "../../models/contests/DivisionModel";
 import { CreateTeamProps } from "../../models/stores/TeamStore";
 import { GreyButton } from "../../components/Buttons";
 
+/** Form for creating new team  */
 export const NewTeam = observer(() => {
     const {
         contestStore: { contests },
@@ -29,6 +30,7 @@ export const NewTeam = observer(() => {
 
     const navigate = useNavigate();
 
+    // updates league list when new contest is chosen in form
     const updateLeagues = (contestId: number) => {
         setLeagues(
             contests.find((contest) => contest.id === contestId)?.leagues.map((league) => league) ??
@@ -37,6 +39,7 @@ export const NewTeam = observer(() => {
         setDivisions([]);
     };
 
+    // updates division list when new league is chosen in form
     const updateDivisions = (leagueId: number) => {
         setDivisions(
             leagues
@@ -54,17 +57,18 @@ export const NewTeam = observer(() => {
     const handleSubmit = async (team: CreateTeamProps) => {
         createTeam(team);
 
-        if (!createTeamError && createTeamState === "success") {
-            const newestTeam = teams.splice(-1).pop();
+        setTimeout(() => {
+            if (!createTeamError && createTeamState === "success") {
+                const newestTeam = teams.splice(-1).pop();
 
-            setTimeout(() => {
+                // checks to see if team exists before redirecting to team page
                 if (!newestTeam) {
                     navigate(`/dashboard`);
                     return;
                 }
                 navigate(`/teams/${newestTeam.id}`);
-            }, 1000);
-        }
+            }
+        }, 1000);
     };
 
     const form = (
@@ -78,8 +82,6 @@ export const NewTeam = observer(() => {
                 visibility: TeamVisibility.PRIVATE,
             }}
             onSubmit={(values) => {
-                console.log("nice day", values);
-
                 handleSubmit({
                     name: values.name,
                     image: "",

@@ -1,5 +1,5 @@
 import { AxiosError } from "axios";
-import { ErrorResponse, StatusCode } from "../../interfaces/ErrorResponse";
+import { ErrorResponse } from "../../interfaces/ErrorResponse";
 import { instance } from "../../utilities/axiosInstance";
 import wrapPromise from "./wrapPromise";
 

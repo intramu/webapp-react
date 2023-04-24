@@ -5,13 +5,16 @@ import { observer } from "mobx-react-lite";
 import { organizationStore } from "../_routes";
 import { GreyButton } from "../../components/Buttons";
 
+/** Will show all players in organization in table view */
 export const Players = observer(() => {
     const { playerStore } = organizationStore;
 
+    // fetches all players from database
     const fetchPlayers = () => {
         playerStore.fetchAllPlayers();
     };
 
+    // calls fetch on render
     useEffect(() => {
         fetchPlayers();
         // eslint-disable-next-line react-hooks/exhaustive-deps

@@ -1,4 +1,3 @@
-/** @jsxImportSource @emotion/react */
 import React from "react";
 import { Outlet } from "react-router-dom";
 import { NavbarAdmin } from "../components/navbar/NavbarAdmin";
@@ -9,9 +8,9 @@ export function AdminLayout() {
     return (
         <div css={[flexColumn, { height: "100vh", overflow: "hidden" }]}>
             <NavbarAdmin />
-            <div css={{ padding: 25, marginBottom: 40, overflow: "auto", flex: "auto" }}>
+            <main css={{ padding: 25, marginBottom: 40, overflow: "auto", flex: "auto" }}>
                 <Outlet />
-            </div>
+            </main>
             <FooterDashboard />
         </div>
     );

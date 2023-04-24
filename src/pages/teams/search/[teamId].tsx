@@ -1,7 +1,8 @@
 import React from "react";
 
+/** Will be used to return team view with more limited information */
 function SearchOneTeam() {
-    return <div>Woah</div>;
+    return <div>Not Implemented</div>;
 }
 
 export default SearchOneTeam;

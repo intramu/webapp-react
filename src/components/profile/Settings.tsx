@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { FormControlLabel, FormGroup, Switch } from "@mui/material";
 import { useAuth0 } from "@auth0/auth0-react";
-import { Formik } from "formik";
 import LogoutButton from "../LogoutButton";
 
 function Settings() {

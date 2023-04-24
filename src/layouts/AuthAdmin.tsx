@@ -3,51 +3,54 @@ import React, { useEffect, useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import Error404 from "../pages/Error404";
 
+/** Performs authentication on admins trying to enter application */
 export function AuthAdmin() {
-    const { getIdTokenClaims, error, isLoading, isAuthenticated, loginWithRedirect } = useAuth0();
     const navigate = useNavigate();
 
-    const [isAuthorized, setIsAuthorized] = useState(false);
-    const [pageLoading, setPageLoading] = useState(true);
+    // auth0 variables
+    const { getIdTokenClaims, error, isLoading, isAuthenticated, loginWithRedirect } = useAuth0();
 
+    // is current user an admin
+    const [isAdmin, setIsAdmin] = useState(false);
+    const [isClaimsLoading, setIsClaimsLoading] = useState(true);
+
+    // role claims from auth0
     const roleClaimType = "https://intramu.app.com/roles";
 
+    /** Checks if current user's role is an admin */
     useEffect(() => {
         const authorizedRoles = ["Admin", "Sudo"];
 
-        const fetch = async () => {
-            setPageLoading(true);
+        const check = async () => {
             const claims = await getIdTokenClaims();
+            if (claims) {
+                // checks if user claims contains authorized role
+                const roles: string[] = claims[roleClaimType];
+                const authorize = authorizedRoles.some((role) => roles.includes(role));
 
-            if (!claims) {
-                setIsAuthorized(false);
-                setPageLoading(false);
-                return;
+                if (authorize) {
+                    setIsAdmin(true);
+                }
             }
 
-            const roles: string[] = claims[roleClaimType];
-            const authorize = authorizedRoles.some((role) => roles.includes(role));
-
-            if (!authorize) {
-                setIsAuthorized(false);
-                setPageLoading(false);
-                return;
-            }
-
-            setIsAuthorized(true);
-            setPageLoading(false);
+            setIsClaimsLoading(false);
         };
-        fetch();
-    }, [getIdTokenClaims]);
+
+        // only check if user is available from auth0
+        if (!isLoading) {
+            check();
+        }
+    }, [getIdTokenClaims, isLoading]);
 
     if (error) {
         return <Error404 />;
     }
 
-    if (isLoading || pageLoading) {
+    if (isLoading || isClaimsLoading) {
         return <b>Loading</b>;
     }
 
+    // if user isn't authenticated with auth0, they're redirected to login page
     if (!isAuthenticated) {
         loginWithRedirect({
             appState: {
@@ -58,7 +61,8 @@ export function AuthAdmin() {
     }
 
     // possibly show a 404 error if were trying to hide the existence of the admin page
-    if (!isAuthorized) {
+    // if user isn't an admin they cannot access admin portal
+    if (!isAdmin) {
         return (
             <div>
                 <b>Sorry you are not authorized to view this page</b>
@@ -67,5 +71,5 @@ export function AuthAdmin() {
         );
     }
 
-    return isAuthenticated && isAuthorized && <Outlet />;
+    return isAuthenticated && isAdmin && <Outlet />;
 }

@@ -1,5 +1,6 @@
 import React from "react";
 
+/** Home page for admins  */
 export function Portal() {
     return (
         <div>

@@ -1,4 +1,3 @@
-/** @jsxImportSource @emotion/react */
 import React, { createRef } from "react";
 import { FieldArray } from "formik";
 import { Grid } from "@mui/material";
@@ -13,6 +12,7 @@ import { GridBreak } from "../competitionCreator/NewBracketBuilder";
 import { newCommonContainer } from "../../../styles/player/containers";
 
 interface props {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     formik(field: string, value: any, shouldValidate?: boolean | undefined): void;
     league: LeagueModel;
     lindex: number;

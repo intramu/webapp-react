@@ -1,12 +1,12 @@
-/** @jsxImportSource @emotion/react */
-import { observer } from "mobx-react-lite";
 import React, { useEffect, useState } from "react";
+import { observer } from "mobx-react-lite";
 import { useParams } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import LeaguesList from "../../components/network/leagues/LeagueList";
 import { ContestModel } from "../../models/contests/ContestModel";
 import { colors, standardFontSizes } from "../../styles/player/common";
 
+/** Network view for each individual term */
 export const Term = observer(() => {
     const { compId } = useParams();
     const [contest] = useState(() => new ContestModel());
@@ -14,7 +14,7 @@ export const Term = observer(() => {
     useEffect(() => {
         contest.fetchContest(Number(compId));
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [compId]);
 
     if (contest.error) return <div>Error</div>;
     if (contest.state === "pending")

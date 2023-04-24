@@ -10,7 +10,7 @@ export interface ITeam {
     losses: number;
     image: string;
     visibility: string;
-    // sport: string;
+    sport: Sport;
     gender: string;
     dateCreated: Date;
     sportsmanshipScore: number | null;
@@ -21,9 +21,11 @@ export interface ITeam {
     // bracketId: number;
 }
 
-export interface ITeamNew {
+export interface INewTeam {
     name: string;
     image: string;
+    contest: number;
+    league: number;
+    divisionId: number;
     visibility: TeamVisibility;
-    sport: Sport;
 }

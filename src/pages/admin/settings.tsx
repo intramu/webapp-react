@@ -1,20 +1,19 @@
-/** @jsxImportSource @emotion/react */
 import React, { useEffect, useState } from "react";
 import { observer } from "mobx-react-lite";
 import { Button } from "@mui/material";
 import { Form, Formik } from "formik";
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import { OrganizationRootStore } from "../../models/stores/admin/OrganizationRootStore";
 import { MaterialTextInput } from "../../common/inputs";
-import { dynamicButton, unstyledButton } from "../../styles/player/buttons";
+import { unstyledButton } from "../../styles/player/buttons";
 import { GreyButton } from "../../components/Buttons";
 import { flexColumn } from "../../styles/player/common";
 import { organizationStore } from "../_routes";
 
+/** Organization settings view where they can make configurations */
 export const Settings = observer(() => {
     const { organization } = organizationStore;
 
+    // fetches organization on render
     useEffect(() => {
         organization.fetchOrganization();
     }, [organization]);
@@ -69,6 +68,7 @@ export const Settings = observer(() => {
                             <br />
                             <span>{`Date Created: ${organization.dateCreated || "Unknown"}`}</span>
 
+                            {/* opens location dropdown */}
                             <span>
                                 Location{" "}
                                 <button
@@ -103,7 +103,7 @@ export const Settings = observer(() => {
                                 </div>
                             )}
 
-                            <GreyButton type="submit">Update</GreyButton>
+                            <Button type="submit">Update</Button>
                             <span>{organization.loadingState}</span>
                         </Form>
                     </>

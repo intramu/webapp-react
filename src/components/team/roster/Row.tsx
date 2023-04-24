@@ -1,12 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { observer } from "mobx-react-lite";
 import { Button } from "@mui/material";
-import { CSSObject } from "@emotion/react";
 import { RosterPlayerModel } from "../../../models/team/RosterPlayerModel";
 import { TeamModel } from "../../../models/team/TeamModel";
 import { TeamRole } from "../../../utilities/enums/teamEnum";
 import { StyledTableCell } from "../Roster";
-import { standardFontSizes } from "../../../styles/player/common";
 
 interface RowProps {
     currentRole: string;

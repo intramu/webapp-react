@@ -1,12 +1,8 @@
 /* eslint-disable no-param-reassign */
-/** @jsxImportSource @emotion/react */
 import React from "react";
 import { observer } from "mobx-react-lite";
-import { MenuItem } from "@mui/material";
-import { Form, Formik } from "formik";
 import { LeagueModel } from "../../../models/contests/LeagueModel";
 import { NewDivision } from "./Division";
-import { MaterialDatePicker, MaterialTextInput } from "../../../common/inputs";
 
 interface LeagueProps {
     league: LeagueModel;
@@ -14,14 +10,12 @@ interface LeagueProps {
     index: number;
 }
 
-interface SubmitProps {
-    name: string;
-    sport: string;
-}
+// interface SubmitProps {
+//     name: string;
+//     sport: string;
+// }
 
 export const NewLeague = observer(({ league, removeLeague, index }: LeagueProps) => {
-    const submittingContext = false;
-
     // const submit = ({ name, sport }: SubmitProps) => {
     //     league.name = name;
     //     league.sport = sport;

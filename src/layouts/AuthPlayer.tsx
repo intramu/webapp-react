@@ -5,83 +5,81 @@ import { newGetRequest } from "../common/functions/axiosRequests";
 import { IPlayer } from "../interfaces/IPlayer";
 import { isErrorResponse } from "../interfaces/ErrorResponse";
 
+/** Performs authentication on players trying to enter application */
 export function AuthPlayer() {
-    const { isAuthenticated, loginWithRedirect, isLoading, error, getIdTokenClaims, user } =
-        useAuth0();
-
-    const [isAuthorized, setIsAuthorized] = useState(false);
-    const [pageLoading, setPageLoading] = useState(false);
-
     const navigate = useNavigate();
     const location = useLocation();
 
+    // auth0 variables
+    const { isAuthenticated, loginWithRedirect, isLoading, error, getIdTokenClaims } = useAuth0();
+
+    // is current user a player
+    const [isPlayer, setIsPlayer] = useState(false);
+    const [isClaimsLoading, setIsClaimsLoading] = useState(true);
+    const [isStatusLoading, setIsStatusLoading] = useState(false);
+
+    // role claims from auth0
     const roleClaimType = "https://intramu.app.com/roles";
 
-    // will redirect user to finish profile if they're not found in database
-    // will not redirect if there is an internal server error
+    /**
+     * Redirects user to finish profile if they're not found in database
+     * Will not redirect on network error
+     */
     useEffect(() => {
         const fetch = async () => {
+            setIsStatusLoading(true);
             const response = await newGetRequest<IPlayer>("/players");
             if (isErrorResponse(response)) {
+                // not found
                 if (response.statusCode === 404) {
                     navigate("/finish-profile");
                 }
             }
+            setIsStatusLoading(false);
         };
+        // only runs once auth0 has authenticated user, stopped loading, and user
+        // isn't already at finish-profile route
         if (!isLoading && isAuthenticated && location.pathname !== "/finish-profile") {
             fetch();
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isAuthenticated, isLoading]);
 
-    // useEffect(() => {
-    //     // TODO: remove sudo in production
-    //     const authorizedRoles = ["Player", "Sudo"];
+    /** Checks if current user's role is a player */
+    useEffect(() => {
+        // TODO: remove sudo in production
+        const authorizedRoles = ["Player", "Sudo"];
 
-    //     const fetch = async () => {
-    //         setPageLoading(true);
-    //         const claims = await getIdTokenClaims();
+        const check = async () => {
+            const claims = await getIdTokenClaims();
+            if (claims) {
+                // checks if user claims contains authorized role
+                const roles: string[] = claims[roleClaimType];
+                const authorize = authorizedRoles.some((role) => roles.includes(role));
 
-    //         if (!claims) {
-    //             setIsAuthorized(false);
-    //             setPageLoading(false);
-    //             return;
-    //         }
+                if (authorize) {
+                    setIsPlayer(true);
+                }
+            }
 
-    //         const roles: string[] = claims[roleClaimType];
-    //         const authorize = authorizedRoles.some((role) => roles.includes(role));
+            setIsClaimsLoading(false);
+        };
 
-    //         if (!authorize) {
-    //             setIsAuthorized(false);
-    //             setPageLoading(false);
-    //             return;
-    //         }
-
-    //         setIsAuthorized(true);
-    //         setPageLoading(false);
-    //     };
-    //     fetch();
-    // }, [getIdTokenClaims]);
-
-    // console.log(playerLoading);
-
-    // useEffect(() => {
-    //     console.log("check");
-
-    //     if (playerError?.statusCode === 404 && location.pathname !== "/finish-profile") {
-    //         navigate("/finish-profile");
-    //     }
-    //     // eslint-disable-next-line react-hooks/exhaustive-deps
-    // }, [isAuthenticated, isLoading, playerError, playerLoading]);
+        // only check if user is available from auth0
+        if (!isLoading) {
+            check();
+        }
+    }, [getIdTokenClaims, isLoading]);
 
     if (error) {
         return <div>Well this is a weird error. Not sure what happened</div>;
     }
 
-    if (isLoading || pageLoading) {
+    if (isLoading || isClaimsLoading || isStatusLoading) {
         return <div style={{ backgroundColor: "red" }}>Loading...</div>;
     }
 
+    // if user isn't authenticated with auth0, they're redirected to login page
     if (!isAuthenticated) {
         loginWithRedirect({
             appState: {
@@ -91,17 +89,18 @@ export function AuthPlayer() {
         return <div style={{ backgroundColor: "red" }}>new loading</div>;
     }
 
-    // if (!isAuthorized) {
-    //     return (
-    //         <div>
-    //             <b>
-    //                 Sorry, you cant access this page as an admin. If you wish to particpate please
-    //                 create another account
-    //             </b>
-    //             <button onClick={() => navigate("/admin/portal")}>Back</button>
-    //         </div>
-    //     );
-    // }
+    // if user is admin they cannot access dashboard
+    if (!isPlayer) {
+        return (
+            <div>
+                <b>
+                    Sorry, you cant access this page as an admin. If you wish to particpate please
+                    create another account
+                </b>
+                <button onClick={() => navigate("/admin/portal")}>Back</button>
+            </div>
+        );
+    }
 
-    return isAuthenticated && <Outlet />;
+    return isAuthenticated && isPlayer && <Outlet />;
 }

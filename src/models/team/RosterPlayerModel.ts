@@ -1,9 +1,6 @@
-import { action, makeAutoObservable, makeObservable, observable } from "mobx";
-import { newPutRequest } from "../../common/functions/axiosRequests";
-import { isErrorResponse } from "../../interfaces/ErrorResponse";
+import { makeAutoObservable } from "mobx";
 import { TeamRole } from "../../utilities/enums/teamEnum";
 import { PlayerGender, PlayerStatus } from "../../utilities/enums/userEnum";
-import { result } from "../../utilities/modelResult";
 
 export class RosterPlayerModel {
     authId = "";
@@ -30,7 +27,7 @@ export class RosterPlayerModel {
         // });
     }
 
-    updateRole(role: TeamRole, teamId: number) {
+    updateRole(role: TeamRole) {
         this.role = role;
     }
 

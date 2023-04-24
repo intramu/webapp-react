@@ -1,5 +1,4 @@
-/** @jsxImportSource @emotion/react */
-import React, { useEffect, useReducer, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { CSSObject } from "@emotion/react";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { observer } from "mobx-react-lite";
@@ -180,7 +179,7 @@ export const Sidebar = observer(() => {
                     <Link
                         // onClick={() => setActive("")}
                         css={[listItemLink, active === "dash" && linkActive]}
-                        to="/dashboard">
+                        to="/">
                         <MenuOutlinedIcon css={listItemIcon} />
                         Dashboard
                     </Link>
@@ -299,7 +298,7 @@ export const Sidebar = observer(() => {
                 </li>
 
                 <li css={listItem}>
-                    <Link css={listItemLink} to="/admin/portal">
+                    <Link css={listItemLink} to="/admin">
                         <AdminPanelSettingsIcon css={listItemIcon} />
                         Admin
                     </Link>

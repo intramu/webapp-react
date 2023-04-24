@@ -50,7 +50,7 @@ export class OrganizationModel {
         const {
             id = "",
             name = "",
-            image = "",
+            // image = "",
             info = "",
             mainColor = "",
             approvalStatus = "",
@@ -65,7 +65,7 @@ export class OrganizationModel {
         this.dateCreated = dateCreated;
     }
 
-    *fetchOrganization() {
+    *fetchAdminOrganization() {
         this.loadingState = "pending";
         this.error = "";
 
@@ -78,11 +78,11 @@ export class OrganizationModel {
         this.loadingState = "success";
     }
 
-    *fetchOrganizationPlayer() {
+    *fetchPlayerOrganization() {
         this.loadingState = "pending";
         this.error = "";
 
-        const r = yield* result(newGetRequest<OrganizationModel>(`/organizations/this`));
+        const r = yield* result(newGetRequest<OrganizationModel>(`/organizations/my`));
         if (isErrorResponse(r)) {
             return;
         }

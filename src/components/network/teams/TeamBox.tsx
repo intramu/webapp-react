@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { observer } from "mobx-react-lite";
-import { useNavigate } from "react-router-dom";
 import { CSSObject } from "@emotion/react";
 import { useAuth0 } from "@auth0/auth0-react";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
-import useAxios from "../../../common/hooks/useAxios";
 import { TeamModel } from "../../../models/team/TeamModel";
 import { colors, flexCenterVertical } from "../../../styles/player/common";
 import { unstyledButton } from "../../../styles/player/buttons";
@@ -31,7 +29,7 @@ export const TeamBox = observer(({ team, index, division }: RowProps) => {
     const { user } = useAuth0();
 
     const [testTeam] = useState(() => new TeamModel());
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
 
     if (!team) {
         return (

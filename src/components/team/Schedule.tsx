@@ -61,8 +61,8 @@ export const Schedule = observer(({ team }: ScheduleProps) => {
                         {games.map((game) => {
                             console.log(game);
 
-                            const homeTeam =
-                                game.homeTeam.id === team.id ? game.homeTeam : game.awayTeam;
+                            // const homeTeam =
+                            //     game.homeTeam.id === team.id ? game.homeTeam : game.awayTeam;
                             const awayTeam =
                                 game.awayTeam.id === team.id ? game.homeTeam : game.awayTeam;
 

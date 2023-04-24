@@ -206,7 +206,7 @@ export class TeamModel {
         const player = this.players.find((x) => x.authId === authId);
         console.log(player?.authId);
 
-        player?.updateRole(role, this.id);
+        player?.updateRole(role);
     }
 
     // private changeState(state: State) {

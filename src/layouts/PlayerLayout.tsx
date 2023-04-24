@@ -6,6 +6,7 @@ import { Sidebar } from "../components/sidebar/Sidebar";
 import { colors, definedSizes, flexColumn, flexRow } from "../styles/player/common";
 import { GeneralAlert } from "../components/GeneralAlert";
 
+/** Layout for player space */
 export function PlayerLayout() {
     return (
         <div css={[flexColumn, { height: "100%" }]}>
@@ -14,7 +15,7 @@ export function PlayerLayout() {
 
                 <div css={[flexColumn, { flexBasis: 1400, height: "100vh", position: "relative" }]}>
                     <NavbarDashboard />
-                    <div
+                    <main
                         css={{
                             flex: "auto",
                             borderRadius: "24px 24px 0 0",
@@ -24,7 +25,7 @@ export function PlayerLayout() {
                             overflowWrap: "anywhere",
                         }}>
                         <Outlet />
-                    </div>
+                    </main>
                     <GeneralAlert />
                 </div>
 

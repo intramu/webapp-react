@@ -3,15 +3,20 @@ import React from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import { AxiosTokenInitializer } from "./AxiosTokenInitializer";
 
-type AuthProviderProps = {
-    appState?: {
-        returnTo: string;
-    };
-};
+// type AuthProviderProps = (
+//     appState?: AppState | undefined,
+//     user?: User | undefined
+// ) => void | undefined;
 
+/**
+ * Creates Auth0Provider wrapper for application while initializing token for axios
+ * @returns
+ */
 export function AuthProvider() {
     const navigate = useNavigate();
 
+    // cant figure out typing for this
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const onRedirectCallback = (appState: any) => {
         navigate(appState && appState.returnTo ? appState.returnTo : window.location.href);
     };

@@ -24,6 +24,8 @@ export class ContestGameStore {
     }
 
     *fetchAllGames(orgId: number) {
+        console.log(orgId);
+
         const response = yield* result(newGetRequest<ContestGameModel[]>(`need url`));
 
         if (isErrorResponse(response)) {

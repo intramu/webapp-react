@@ -1,4 +1,4 @@
-import { action, makeAutoObservable, makeObservable, observable } from "mobx";
+import { makeAutoObservable } from "mobx";
 import { LeagueModel } from "./LeagueModel";
 
 export class LeagueStore {

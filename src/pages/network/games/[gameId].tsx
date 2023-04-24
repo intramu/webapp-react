@@ -6,7 +6,11 @@ import { useNavigate } from "react-router-dom";
 import { fullDynamic } from "../../../styles/player/containers";
 import { flexColumn, flexRow } from "../../../styles/player/common";
 
+// api key for google maps api
+// Google doesn't charge for this so I don't see it needing to be stored securely
 const apiKey = "AIzaSyBK_NiutcgZetnwf8vRt3W1ombP4UI5Glo";
+
+/** Returns detailed contest game view */
 export function ContestGame() {
     const navigate = useNavigate();
     return (

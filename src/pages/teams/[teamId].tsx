@@ -15,12 +15,16 @@ import { flexCenterVertical, standardFontSizes } from "../../styles/player/commo
 import { TeamModel } from "../../models/team/TeamModel";
 import { TeamRequests } from "../../components/team/Requests";
 
+/** Returns team view when team is clicked on from sidebar */
 export const OneTeam = observer(() => {
+    // from team that was clicked on
     const { teamId } = useParams();
     const [team] = useState(() => new TeamModel());
 
+    // fetches the team with the given id
     useEffect(() => {
         team.fetchTeam(Number(teamId));
+        // sorts contest games by upcoming date
         team.contestGameStore.sortGamesByDate();
     }, [team, team.fetchTeam, teamId]);
 

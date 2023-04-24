@@ -1,5 +1,4 @@
 import { makeAutoObservable } from "mobx";
-import { newGetRequest } from "../../../common/functions/axiosRequests";
 import { OrganizationModel } from "../../OrganizationModel";
 import { TeamStore } from "../TeamStore";
 import { PlayerStore } from "../PlayerStore";

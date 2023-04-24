@@ -13,6 +13,7 @@ interface TextInputProps {
 export const Input = observer((props: TextInputProps) => {
     const { mobbinInput } = props;
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const onChange = (e: any) => {
         const { value: test } = e.target;
 

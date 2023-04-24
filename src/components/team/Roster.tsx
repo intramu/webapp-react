@@ -1,5 +1,4 @@
-/** @jsxImportSource @emotion/react */
-import { useAuth0 } from "@auth0/auth0-react";
+import React, { useEffect, useState } from "react";
 import {
     Button,
     Paper,
@@ -12,34 +11,24 @@ import {
     TableRow,
 } from "@mui/material";
 import MilitaryTechIcon from "@mui/icons-material/MilitaryTech";
-import { CSSObject } from "@emotion/react";
-import { toJS } from "mobx";
 import { observer } from "mobx-react-lite";
-import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import useAxios from "../../common/hooks/useAxios";
-import { IRosterPlayer } from "../../interfaces/IPlayer";
 import { TeamModel } from "../../models/team/TeamModel";
-import { TeamRole, TeamVisibility } from "../../utilities/enums/teamEnum";
-import InviteMembers from "./InviteMembers";
 import { userRootStore } from "../../pages/_routes";
-import { unstyledButton } from "../../styles/player/buttons";
-import { colors, standardFontSizes } from "../../styles/player/common";
-import { RosterPlayerModel } from "../../models/team/RosterPlayerModel";
+import { standardFontSizes } from "../../styles/player/common";
 import { RosterRow } from "./roster/Row";
 
 interface RosterProps {
     team: TeamModel;
 }
 
-const button: CSSObject = {
-    fontSize: standardFontSizes.sm,
-    fontStyle: "italic",
-};
+// const button: CSSObject = {
+//     fontSize: standardFontSizes.sm,
+//     fontStyle: "italic",
+// };
 
 export const Roster = observer(({ team }: RosterProps) => {
     const { player: user } = userRootStore;
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
 
     // useEffect(() => {
     //     currentTeam.fetchTeam(18);
@@ -103,216 +92,14 @@ export const Roster = observer(({ team }: RosterProps) => {
                                 <StyledTableCell padding="none">
                                     {player.authId === user.authId && <Button>Leave</Button>}
                                 </StyledTableCell>
-                                {/* <StyledTableCell>
-                                    <button
-                                        onClick={() => player.updateRole(TeamRole.PLAYER, team.id)}>
-                                        demote
-                                    </button>
-                                </StyledTableCell> */}
-                                {/* {currentRole === TeamRole.CAPTAIN && (
-                                    <>
-                                        <StyledTableCell> </StyledTableCell>
-                                        <StyledTableCell>
-                                            <button>Leave</button>
-                                        </StyledTableCell>
-                                    </>
-                                )}
-                                {currentRole === TeamRole.COCAPTAIN &&
-                                    player.role === TeamRole.PLAYER && (
-                                        <>
-                                            <StyledTableCell>
-                                                <button
-                                                    onClick={() =>
-                                                        updatePlayerRole(
-                                                            player.authId,
-                                                            TeamRole.COCAPTAIN
-                                                        )
-                                                    }>
-                                                    Promote
-                                                </button>
-                                            </StyledTableCell>
-                                            <StyledTableCell>
-                                                <button
-                                                    onClick={() =>
-                                                        team.removePlayer(player.authId)
-                                                    }>
-                                                    Kick
-                                                </button>
-                                            </StyledTableCell>
-                                        </>
-                                    )}
-
-                                {currentRole === TeamRole.CAPTAIN &&
-                                    player.role === TeamRole.PLAYER && (
-                                        <>
-                                            <StyledTableCell>
-                                                <button
-                                                    onClick={() =>
-                                                        updatePlayerRole(
-                                                            player.authId,
-                                                            TeamRole.COCAPTAIN
-                                                        )
-                                                    }>
-                                                    Promote
-                                                </button>
-                                            </StyledTableCell>
-                                            <StyledTableCell>
-                                                <button
-                                                    onClick={() =>
-                                                        team.removePlayer(player.authId)
-                                                    }>
-                                                    Kick
-                                                </button>
-                                            </StyledTableCell>
-                                        </>
-                                    )}
-                                {player.role === TeamRole.COCAPTAIN && (
-                                    <>
-                                        <StyledTableCell>
-                                            <button
-                                                onClick={() =>
-                                                    // player.updateRole(TeamRole.PLAYER, team.id)
-                                                    team.updatePlayerRole(
-                                                        player.authId,
-                                                        TeamRole.PLAYER
-                                                    )
-                                                }>
-                                                Demote
-                                            </button>
-                                        </StyledTableCell>
-                                        <StyledTableCell>
-                                            <button
-                                                onClick={() => team.removePlayer(player.authId)}>
-                                                Kick
-                                            </button>
-                                        </StyledTableCell>
-                                    </>
-                                )} */}
                             </StyledTableRow>
                         ))}
                     </TableBody>
                 </Table>
             </TableContainer>
-            {/* {!team.players.some((player) => player.authId === user.authId) &&
-                currentRole === TeamRole.VISITOR && (
-                    <>
-                        {team.visibility === TeamVisibility.PRIVATE && (
-                            <button onClick={() => console.log(`${user.authId} wants to join`)}>
-                                Request
-                            </button>
-                        )}
-
-                        {team.visibility === TeamVisibility.PUBLIC && (
-                            <button onClick={() => console.log(`${user.authId} joined the team`)}>
-                                Join
-                            </button>
-                        )}
-                    </>
-                )} */}
         </>
     );
 });
-
-// interface RowProps {
-//     currentRole: string;
-//     player: RosterPlayerModel;
-//     team: TeamModel;
-// }
-// const FirstRow = observer(({ currentRole, player, team }: RowProps) => {
-//     if (currentRole === "CAPTAIN") {
-//         if (player.role === "CAPTAIN") {
-//             return (
-//                 <>
-//                     <StyledTableCell> </StyledTableCell>
-//                     <StyledTableCell> </StyledTableCell>
-//                 </>
-//             );
-//         }
-//         return (
-//             <>
-//                 <StyledTableCell>
-//                     {player.role === "COCAPTAIN" ? (
-//                         <button
-//                             onClick={() => team.updatePlayerRole(player.authId, TeamRole.PLAYER)}>
-//                             Demote
-//                         </button>
-//                     ) : (
-//                         <button
-//                             onClick={() =>
-//                                 team.updatePlayerRole(player.authId, TeamRole.COCAPTAIN)
-//                             }>
-//                             Promote
-//                         </button>
-//                     )}
-//                 </StyledTableCell>
-//                 <StyledTableCell>
-//                     <button onClick={() => team.removePlayer(player.authId)}>Kick</button>
-//                 </StyledTableCell>
-//             </>
-//         );
-//     }
-//     if (currentRole === "COCAPTAIN") {
-//         if (player.role === "PLAYER") {
-//             return (
-//                 <>
-//                     <StyledTableCell>
-//                         <button
-//                             onClick={() => team.updatePlayerRole(player.authId, TeamRole.PLAYER)}>
-//                             Promote
-//                         </button>
-//                     </StyledTableCell>
-//                     <StyledTableCell>
-//                         <button onClick={() => team.removePlayer(player.authId)}>Kick</button>
-//                     </StyledTableCell>
-//                 </>
-//             );
-//         }
-//         return (
-//             <>
-//                 <StyledTableCell> </StyledTableCell>
-//                 <StyledTableCell> </StyledTableCell>
-//             </>
-//         );
-//     }
-//     return (
-//         <>
-//             <StyledTableCell> </StyledTableCell>
-//             <StyledTableCell> </StyledTableCell>
-//         </>
-//     );
-// });
-
-// switch (currentRole) {
-//     case "CAPTAIN":
-//         <>
-//             <StyledTableCell> </StyledTableCell>
-//             <StyledTableCell>
-//                 <button>Leave</button>
-//             </StyledTableCell>
-//         </>;
-//         break;
-//     case "COCAPTAIN":
-//         if (player.role === TeamRole.PLAYER) {
-//             return (
-//                 <>
-//                     <StyledTableCell>
-//                         <button onClick={() => removePlayer(player.authId)}>Kick</button>
-//                     </StyledTableCell>
-//                 </>
-//             );
-//         }
-//         return (
-//             <>
-//                 <StyledTableCell> </StyledTableCell>
-//                 <StyledTableCell>
-//                     <button>Leave</button>
-//                 </StyledTableCell>
-//             </>
-//         );
-
-//     default:
-// <div>woah</div>;
-// }
 
 export const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {

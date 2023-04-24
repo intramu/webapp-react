@@ -3,12 +3,11 @@ import { useParams } from "react-router-dom";
 import useSWR from "../../common/hooks/useSWR";
 import { IPlayer } from "../../interfaces/IPlayer";
 
+/** Returns search view on player with limited information */
 export function OnePlayer() {
     const { userId } = useParams();
 
-    const { data: player, error, isLoading } = useSWR<IPlayer>(`/players/search/${userId}`);
-
-    console.log(player);
+    const { data: player } = useSWR<IPlayer>(`/players/search/${userId}`);
 
     if (!player) {
         return (

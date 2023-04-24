@@ -1,6 +1,4 @@
 /* eslint-disable react/require-default-props */
-/** @jsxImportSource @emotion/react */
-import { CSSObject } from "@emotion/react";
 import React from "react";
 import { dynamicButton } from "../styles/player/buttons";
 import { standardFontSizes } from "../styles/player/common";

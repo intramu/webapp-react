@@ -1,23 +1,21 @@
-/** @jsxImportSource @emotion/react */
 import React from "react";
 import { Grid } from "@mui/material";
 import { Field } from "formik";
 import { MaterialNumberInput, MaterialTextInput } from "../../../common/inputs";
-import { BracketModel } from "../../../models/contests/BracketModel";
 import { flexColumn } from "../../../styles/player/common";
 import { newCommonContainer } from "../../../styles/player/containers";
 import { GridBreak } from "../competitionCreator/NewBracketBuilder";
 import { GreyButton } from "../../Buttons";
 
 interface props {
-    bracket: BracketModel;
+    // bracket: BracketModel;
     lindex: number;
     dindex: number;
     bindex: number;
     removeBracket(index: number): void;
 }
 
-export function FormikBracket({ bindex, bracket, dindex, lindex, removeBracket }: props) {
+export function FormikBracket({ bindex, dindex, lindex, removeBracket }: props) {
     return (
         <div css={[flexColumn, newCommonContainer, { margin: "25px 0 0 25px" }]}>
             <h5>Bracket: {bindex + 1}</h5>

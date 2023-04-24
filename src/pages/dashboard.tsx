@@ -1,23 +1,14 @@
-/** @jsxImportSource @emotion/react */
-import React, { useEffect } from "react";
+import React from "react";
 import { Helmet } from "react-helmet";
 import { observer } from "mobx-react-lite";
-import { toJS } from "mobx";
 import { fullDynamic } from "../styles/player/containers";
 import { userRootStore } from "./_routes";
 
+/** Main dashboard page where every user will land on login
+ * Will also show announcements from Organization and Intramu in future versions
+ */
 export const Dashboard = observer(() => {
     const { organization } = userRootStore;
-    console.log(toJS(organization));
-
-    // useEffect(() => {
-    //     setLoading(true);
-
-    //     setTimeout(() => {
-    //         setLoading(false);
-    //     }, 4000);
-    //     // eslint-disable-next-line react-hooks/exhaustive-deps
-    // }, []);
 
     return (
         <>

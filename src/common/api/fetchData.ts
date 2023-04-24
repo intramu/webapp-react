@@ -1,4 +1,3 @@
-import axios from "axios";
 import wrapPromise from "./wrapPromise";
 
 function fetchData(url: string) {

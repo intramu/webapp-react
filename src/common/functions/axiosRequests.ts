@@ -1,4 +1,3 @@
-import { AxiosError } from "axios";
 import { ErrorResponse } from "../../interfaces/ErrorResponse";
 import { instance } from "../../utilities/axiosInstance";
 import { handleError } from "../handleApiError";

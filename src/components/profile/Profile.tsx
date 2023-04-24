@@ -5,7 +5,6 @@ import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined
 import EditIcon from "@mui/icons-material/Edit";
 import EditOffIcon from "@mui/icons-material/EditOff";
 import { observer } from "mobx-react-lite";
-import dayjs from "dayjs";
 import * as Yup from "yup";
 import {
     MaterialDatePicker,
@@ -36,7 +35,6 @@ export const Profile = observer(() => {
     if (player.error) {
         return <div>Error sorry :(</div>;
     }
-    console.log("woah");
 
     return (
         <>

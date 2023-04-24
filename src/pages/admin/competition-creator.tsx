@@ -28,12 +28,13 @@ const toolTipText: CSSObject = {
     zIndex: 1,
 };
 
+/** Returns competition creation view with some starting configuration information */
 export default function TempCompetitionCreator() {
+    // the type of competition
     const [competition, setCompetition] = useState("");
-    const [competitionType, setCompetitionType] = useState("");
 
-    const handleCompetition = (e: any) => setCompetition(e.target.value);
-    const handleCompetitionType = (e: any) => setCompetitionType(e.target.value);
+    const handleCompetition = (e: React.ChangeEvent<HTMLInputElement>) =>
+        setCompetition(e.target.value);
 
     return (
         <div>
@@ -88,7 +89,6 @@ export default function TempCompetitionCreator() {
             </div>
             <br />
             <br />
-            {/* <BracketBuilder competitionType={competitionType} /> */}
             <NewBracketBuilder />
         </div>
     );

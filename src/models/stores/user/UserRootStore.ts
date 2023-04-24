@@ -50,7 +50,7 @@ export class UserRootStore {
     }
 
     fetchOrganization() {
-        this.organization.fetchOrganizationPlayer();
+        this.organization.fetchPlayerOrganization();
     }
 
     fetchInvites() {

@@ -1,9 +1,7 @@
-/** @jsxImportSource @emotion/react */
 import React, { useState } from "react";
 import { observer } from "mobx-react-lite";
-import { Field, FieldArray, Form, Formik } from "formik";
-import { Grid, MenuItem } from "@mui/material";
-import { LeagueStore } from "../../../models/contests/LeagueStore";
+import { FieldArray, Form, Formik } from "formik";
+import { Grid } from "@mui/material";
 import { LeagueModel } from "../../../models/contests/LeagueModel";
 import { FormikLeague } from "../formik/League";
 import {
@@ -16,18 +14,16 @@ import {
     CompetitionStatus,
     CompetitionSeason,
 } from "../../../utilities/enums/competitionEnum";
-import { flexColumn } from "../../../styles/player/common";
-import { commonContainer, newCommonContainer } from "../../../styles/player/containers";
 import { GreyButton } from "../../Buttons";
 import { ContestModel } from "../../../models/contests/ContestModel";
-import { newGetRequest, newPostRequest } from "../../../common/functions/axiosRequests";
+import { newPostRequest } from "../../../common/functions/axiosRequests";
 
 export function GridBreak() {
     return <Grid css={{ width: "100%" }} />;
 }
 
 export const NewBracketBuilder = observer(() => {
-    const [store] = useState(() => new LeagueStore());
+    // const [store] = useState(() => new LeagueStore());
     const [isName, setIsName] = useState(false);
 
     const handleSubmit = async (values: ContestModel) => {
@@ -36,19 +32,6 @@ export const NewBracketBuilder = observer(() => {
     };
 
     return (
-        // <>
-        //     <div>
-        //         {store.leagues.map((league, index) => (
-        //             <NewLeague
-        //                 key={index}
-        //                 league={league}
-        //                 removeLeague={store.removeLeague}
-        //                 index={index}
-        //             />
-        //         ))}
-        //     </div>
-        //     <button onClick={store.pushLeague}>Push League</button>
-        // </>
         <Formik
             initialValues={new ContestModel()}
             onSubmit={(values) => {
@@ -152,3 +135,17 @@ export const NewBracketBuilder = observer(() => {
         </Formik>
     );
 });
+
+// <>
+//     <div>
+//         {store.leagues.map((league, index) => (
+//             <NewLeague
+//                 key={index}
+//                 league={league}
+//                 removeLeague={store.removeLeague}
+//                 index={index}
+//             />
+//         ))}
+//     </div>
+//     <button onClick={store.pushLeague}>Push League</button>
+// </>

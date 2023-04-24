@@ -1,6 +1,8 @@
 import { CSSObject } from "@emotion/react";
 import { standardBorderRadius } from "./common";
 
+/** Common buttons for application */
+
 const commonButton: CSSObject = {
     backgroundColor: "unset",
     border: "none",

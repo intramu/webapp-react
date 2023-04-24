@@ -1,6 +1,5 @@
-/** @jsxImportSource @emotion/react */
 import React from "react";
-import { Link, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import LogoutButton from "../LogoutButton";
 import { colors, flexCenterVertical, flexRow } from "../../styles/player/common";
 
@@ -45,35 +44,8 @@ export function NavbarAdmin() {
                         <NavLink to="/admin/settings">Settings</NavLink>
                     </li>
                 </ul>
+                <LogoutButton />
             </div>
         </nav>
     );
-    // return (
-    //     <Navbar color="dark" expand dark>
-    //         <NavbarBrand>Admin</NavbarBrand>
-    //         <Collapse navbar>
-    //             <Nav className="me-auto" navbar>
-    //                 <NavItem>
-    //                     <Link to="/admin" className="nav-link">
-    //                         Home
-    //                     </Link>
-    //                 </NavItem>
-    //                 <NavItem>
-    //                     <Link to="/admin/score-reporter" className="nav-link">
-    //                         Score Reporter
-    //                     </Link>
-    //                 </NavItem>
-    //                 <NavItem>
-    //                     <Link to="/admin/competition-creator" className="nav-link">
-    //                         Competition Creator
-    //                     </Link>
-    //                 </NavItem>
-    //                 <NavItem>
-    //                     <LogoutButton />
-    //                 </NavItem>
-    //             </Nav>
-    //             <NavbarText>Simple Text</NavbarText>
-    //         </Collapse>
-    //     </Navbar>
-    // );
 }

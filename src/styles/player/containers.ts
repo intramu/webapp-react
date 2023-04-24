@@ -1,13 +1,16 @@
 import { CSSObject } from "@emotion/react";
 import { colors, definedSizes, standardBorders, standardShadows } from "./common";
 
+/** CSS styling for containers all around application */
+
+// common sizes
 const containerMargin = "9px 0";
 const containerPadding = "1.5em";
 const halfWidth = "49%";
 const fullHeight = "35vh";
 const quarterHeight = "47%";
-// const containerRadius =
 
+// used in controlling box sizing for the content area
 export const commonContainer: CSSObject = {
     backgroundColor: colors.background,
     position: "relative",
@@ -106,14 +109,15 @@ export const fullDynamic: CSSObject = {
     padding: containerPadding,
 };
 
+export const fullDropdown: CSSObject = {};
+
+// used in network tab for displaying boxes
 export const networkContainer: CSSObject = {
     ...commonContainer,
     width: "100%",
     margin: "16px 0",
     padding: "15px 30px",
 };
-
-export const fullDropdown: CSSObject = {};
 
 export const divisionContainer: CSSObject = {
     margin: "18px 15px",

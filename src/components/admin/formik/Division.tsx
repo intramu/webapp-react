@@ -26,6 +26,7 @@ import { GreyButton } from "../../Buttons";
 dayjs.extend(utc);
 
 interface props {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     formik(field: string, value: any, shouldValidate?: boolean | undefined): void;
     division: DivisionModel;
     lindex: number;
@@ -136,7 +137,7 @@ export function FormikDivision({ formik, division, lindex, dindex, removeDivisio
                             <FormikBracket
                                 key={bindex}
                                 bindex={bindex}
-                                bracket={bracket}
+                                // bracket={bracket}
                                 dindex={dindex}
                                 lindex={lindex}
                                 removeBracket={remove}

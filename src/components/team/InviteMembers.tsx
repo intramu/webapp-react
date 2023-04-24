@@ -1,39 +1,8 @@
 import React, { useEffect, useState } from "react";
-import Popup from "reactjs-popup";
+// import Popup from "reactjs-popup";
 import useAxios from "../../common/hooks/useAxios";
 import { isErrorResponse } from "../../interfaces/ErrorResponse";
 import { IPlayer } from "../../interfaces/IPlayer";
-
-// const tempPlayerList = [
-//     {
-//         id: "fff1",
-//         firstName: "Noah",
-//         lastName: "Roerig",
-//         email: "noahr1936@gmail.com",
-//         image: "",
-//     },
-//     {
-//         id: "fff2",
-//         firstName: "Stevan",
-//         lastName: "Perrino",
-//         email: "noahr1936@gmail.com",
-//         image: "",
-//     },
-//     {
-//         id: "fff3",
-//         firstName: "Jimmy",
-//         lastName: "Cannon",
-//         email: "noahr1936@gmail.com",
-//         image: "",
-//     },
-//     {
-//         id: "fff4",
-//         firstName: "Jacob",
-//         lastName: "Hropoff",
-//         email: "noahr1936@gmail.com",
-//         image: "",
-//     },
-// ];
 
 interface IInviteMembers {
     teamId: number;

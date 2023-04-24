@@ -1,5 +1,6 @@
 import React from "react";
 
+/** Easter egg component that redirects user to rick roll */
 export function Fake() {
     return (
         <>

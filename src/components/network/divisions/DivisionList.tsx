@@ -1,5 +1,4 @@
 import React from "react";
-import { IDivision } from "../../../interfaces/competition/IDivision";
 import DivisionBox from "./DivisionBox";
 import { DivisionModel } from "../../../models/contests/DivisionModel";
 

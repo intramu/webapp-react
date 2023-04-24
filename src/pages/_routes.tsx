@@ -23,35 +23,35 @@ import { Players } from "./admin/players";
 import { Teams } from "./admin/teams";
 import TempCompetitionCreator from "./admin/competition-creator";
 
-import { LandingLayout } from "../layouts/LandingLayout";
-import { About } from "./landing/about";
-import { Home } from "./landing/home";
-
 import { UIStore } from "../models/stores/UIStore";
 import { UserRootStore } from "../models/stores/user/UserRootStore";
 import { OrganizationRootStore } from "../models/stores/admin/OrganizationRootStore";
 
-import { Test } from "../Test";
 import { Initializer } from "./_initializer";
 
 import "../styles/globals.css";
 import { ContestGame } from "./network/games/[gameId]";
+//-------------------------------------------------------------------
 
+/** route list for entire application */
+
+// mobx data stores are initialized here and reused around application
 export const uiStore = new UIStore();
 export const organizationStore = new OrganizationRootStore();
 export const userRootStore = new UserRootStore();
 
+// exported browser router is used in index.tsx
 export const routes = createBrowserRouter(
     createRoutesFromElements(
         <Route element={<AuthProvider />}>
             <Route element={<AuthPlayer />}>
                 <Route element={<Initializer />}>
+                    <Route
+                        path="/redirect"
+                        element={<div style={{ backgroundColor: "red" }}>here loading</div>}
+                    />
                     <Route element={<PlayerLayout />}>
-                        <Route
-                            path="/redirect"
-                            element={<div style={{ backgroundColor: "red" }}>here loading</div>}
-                        />
-                        <Route path="/dashboard" element={<Dashboard />} />
+                        <Route path="/" element={<Dashboard />} />
                         <Route path="/messages" element={<Messages />} />
                         <Route path="/help" element={<Help />} />
                         <Route path="/profile" element={<ProfileSettings />} />
@@ -63,7 +63,6 @@ export const routes = createBrowserRouter(
                         <Route path="/network/:compId" element={<Term />} />
                         <Route path="/network/games/:compId" element={<ContestGame />} />
                         <Route path="/administration" element={<Fake />} />
-                        <Route path="/test" element={<Test />} />
                     </Route>
                 </Route>
 
@@ -71,7 +70,7 @@ export const routes = createBrowserRouter(
             </Route>
             <Route element={<AuthAdmin />}>
                 <Route element={<AdminLayout />}>
-                    <Route path="/admin/portal" element={<Portal />} />
+                    <Route path="/admin/" element={<Portal />} />
                     <Route path="/admin/competition-creator" element={<TempCompetitionCreator />} />
                     <Route path="/admin/settings" element={<Settings />} />
                     <Route path="/admin/players" element={<Players />} />
@@ -79,10 +78,6 @@ export const routes = createBrowserRouter(
                 </Route>
             </Route>
 
-            <Route element={<LandingLayout />}>
-                <Route path="/" element={<Home />} />
-                <Route path="/about" element={<About />} />
-            </Route>
             <Route path="*" element={<div>Uh oh, couldnt find that</div>} />
         </Route>
     )

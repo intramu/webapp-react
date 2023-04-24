@@ -1,17 +1,10 @@
-/** @jsxImportSource @emotion/react */
-import { CSSObject } from "@emotion/react";
 import React from "react";
 import { Helmet } from "react-helmet";
 import { Profile } from "../components/profile/Profile";
 import Settings from "../components/profile/Settings";
 import { containerHolder, halfVerticalInfinite } from "../styles/player/containers";
 
-const font: CSSObject = {
-    "@media(max-width: 800px)": {
-        fontSize: 50,
-    },
-};
-
+/** Parent for settings and profile */
 export function ProfileSettings() {
     return (
         <>

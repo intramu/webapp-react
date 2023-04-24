@@ -1,14 +1,8 @@
-/** @jsxImportSource @emotion/react */
 import React, { useState } from "react";
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import { Collapse } from "@mui/material";
 import { CSSObject } from "@emotion/react";
-import {
-    colors,
-    flexCenterVertical,
-    flexRow,
-    standardFontSizes,
-} from "../../../styles/player/common";
+import { colors, flexCenterVertical, standardFontSizes } from "../../../styles/player/common";
 import { networkContainer } from "../../../styles/player/containers";
 import DivisionList from "../divisions/DivisionList";
 import { LeagueModel } from "../../../models/contests/LeagueModel";

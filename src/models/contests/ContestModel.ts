@@ -1,8 +1,6 @@
-import { makeAutoObservable, runInAction } from "mobx";
+import { makeAutoObservable } from "mobx";
 import { newGetRequest } from "../../common/functions/axiosRequests";
 import { isErrorResponse } from "../../interfaces/ErrorResponse";
-import { IContest } from "../../interfaces/competition/IContest";
-import { ILeague } from "../../interfaces/competition/ILeague";
 import { result } from "../../utilities/modelResult";
 import { LeagueModel } from "./LeagueModel";
 

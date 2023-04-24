@@ -1,4 +1,3 @@
-/** @jsxImportSource @emotion/react */
 import React from "react";
 import HomeIcon from "@mui/icons-material/Home";
 import { colors, flexCenterVertical, standardFontSizes } from "../../styles/player/common";

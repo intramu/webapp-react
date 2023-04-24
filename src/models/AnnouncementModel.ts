@@ -3,7 +3,7 @@ import { getRequest } from "../common/functions/axiosRequests";
 import { isErrorResponse } from "../interfaces/ErrorResponse";
 import { IAnnouncement } from "../interfaces/IAnnouncement";
 
-class AnnouncementModel {
+export class AnnouncementModel {
     organizationAnnouncements: IAnnouncement[] = [];
 
     globalAnnouncements: IAnnouncement[] = [];

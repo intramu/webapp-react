@@ -1,4 +1,4 @@
-import { AxiosPromise } from "axios";
+// import { AxiosPromise } from "axios";
 
 function wrapPromise<Return>(promise: Promise<Return>) {
     let status = "pending";

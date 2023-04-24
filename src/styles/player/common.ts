@@ -1,6 +1,9 @@
 import { CSSObject } from "@emotion/react";
 import { createStyleMap } from "./stylemap";
 
+/** Common CSS styling for entire application
+ * random configuration variables that can quickly be changed
+ */
 export const definedSizes = {
     navbarHeight: "11vh",
     rightSidePageSpace: "6vw",
@@ -101,6 +104,7 @@ export const colors = {
     // text2:
 };
 
+// reusable flex box styling elements
 export const center: CSSObject = {
     position: "absolute",
     top: "50%",

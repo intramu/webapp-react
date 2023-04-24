@@ -1,8 +1,10 @@
 import React from "react";
 import { Helmet } from "react-helmet";
 import { Invites } from "../components/messages/Invites";
-import { fullDynamic } from "../styles/player/containers";
 
+/** Parent page for displaying invites
+ * Will include chat messages in future
+ */
 export function Messages() {
     return (
         <div>

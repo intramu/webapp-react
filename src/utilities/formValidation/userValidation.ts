@@ -1,5 +1,7 @@
 import * as Yup from "yup";
 
+/** Yup validation schemas for user forms */
+
 export const finishProfileSchema = Yup.object().shape({
     player: Yup.object({
         firstName: Yup.string().min(2, "Too Short").max(30, "Too Long").required("Required"),
@@ -10,5 +12,5 @@ export const finishProfileSchema = Yup.object().shape({
         graduationTerm: Yup.string().required("Required"),
         dob: Yup.date().required("Required"),
     }),
-    // testName: Yup.string().min(2, "Too Short").max(30, "Too Long").required("Required"),
+    organizationId: Yup.string().uuid("Not in UUID format").required("Required"),
 });
