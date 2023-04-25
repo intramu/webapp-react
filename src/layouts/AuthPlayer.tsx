@@ -10,7 +10,7 @@ export function AuthPlayer() {
     const navigate = useNavigate();
     const location = useLocation();
 
-    console.log(import.meta.env.VITE_PUBLIC_DOMAIN);
+    console.log(import.meta.env);
 
     // auth0 variables
     const { isAuthenticated, loginWithRedirect, isLoading, error, getIdTokenClaims } = useAuth0();
