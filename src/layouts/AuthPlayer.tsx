@@ -10,6 +10,8 @@ export function AuthPlayer() {
     const navigate = useNavigate();
     const location = useLocation();
 
+    console.log(import.meta.env.VITE_PUBLIC_DOMAIN);
+
     // auth0 variables
     const { isAuthenticated, loginWithRedirect, isLoading, error, getIdTokenClaims } = useAuth0();
 
@@ -19,7 +21,7 @@ export function AuthPlayer() {
     const [isStatusLoading, setIsStatusLoading] = useState(false);
 
     // role claims from auth0
-    const roleClaimType = "https://intramu.app.com/roles";
+    const roleClaimType = import.meta.env.VITE_ROLE_CLAIMS_URL;
 
     /**
      * Redirects user to finish profile if they're not found in database
@@ -69,7 +71,7 @@ export function AuthPlayer() {
         if (!isLoading) {
             check();
         }
-    }, [getIdTokenClaims, isLoading]);
+    }, [getIdTokenClaims, isLoading, roleClaimType]);
 
     if (error) {
         return <div>Well this is a weird error. Not sure what happened</div>;

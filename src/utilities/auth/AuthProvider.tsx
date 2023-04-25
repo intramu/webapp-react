@@ -14,6 +14,8 @@ import { AxiosTokenInitializer } from "./AxiosTokenInitializer";
  */
 export function AuthProvider() {
     const navigate = useNavigate();
+    const { VITE_AUDIENCE, VITE_CLIENT_ID, VITE_DOMAIN, VITE_REDIRECT_URI, VITE_SCOPE } =
+        import.meta.env;
 
     // cant figure out typing for this
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -23,13 +25,13 @@ export function AuthProvider() {
 
     return (
         <Auth0Provider
-            domain="dev-5p-an07k.us.auth0.com"
-            clientId="fSMneHc4uoLgAmfFZA9WUyHWULdXku4O"
+            domain={VITE_DOMAIN}
+            clientId={VITE_CLIENT_ID}
             onRedirectCallback={onRedirectCallback}
             authorizationParams={{
-                audience: "https://server-authorization/",
-                redirect_uri: "https://webapp-react-olive.vercel.app/redirect",
-                scope: "all:application all:organization openid email profile",
+                audience: VITE_AUDIENCE,
+                redirect_uri: VITE_REDIRECT_URI,
+                scope: VITE_SCOPE,
             }}>
             <>
                 <AxiosTokenInitializer />

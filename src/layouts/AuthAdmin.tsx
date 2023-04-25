@@ -15,7 +15,7 @@ export function AuthAdmin() {
     const [isClaimsLoading, setIsClaimsLoading] = useState(true);
 
     // role claims from auth0
-    const roleClaimType = "https://intramu.app.com/roles";
+    const roleClaimType = import.meta.env.VITE_ROLE_CLAIMS_URL;
 
     /** Checks if current user's role is an admin */
     useEffect(() => {
@@ -40,7 +40,7 @@ export function AuthAdmin() {
         if (!isLoading) {
             check();
         }
-    }, [getIdTokenClaims, isLoading]);
+    }, [getIdTokenClaims, isLoading, roleClaimType]);
 
     if (error) {
         return <Error404 />;

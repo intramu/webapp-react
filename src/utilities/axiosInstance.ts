@@ -1,11 +1,10 @@
 import axios from "axios";
 
-// appended section of url after base
-const appendedUrl = "api/user/v1/";
+const { VITE_AXIOS_APPENDED_URL, VITE_AXIOS_BASE_URL } = import.meta.env;
 
 // creates base axios instance used around application
 export const instance = axios.create({
-    baseURL: `http://rest.intramu.com/${appendedUrl}`,
+    baseURL: `${VITE_AXIOS_BASE_URL}/${VITE_AXIOS_APPENDED_URL}`,
 });
 
 /**
