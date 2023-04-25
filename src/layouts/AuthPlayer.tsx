@@ -73,6 +73,8 @@ export function AuthPlayer() {
         }
     }, [getIdTokenClaims, isLoading, roleClaimType]);
 
+    console.log("here", error);
+
     if (error) {
         return <div>Well this is a weird error. Not sure what happened</div>;
     }
