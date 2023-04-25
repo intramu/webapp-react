@@ -28,7 +28,7 @@ export function AuthProvider() {
             onRedirectCallback={onRedirectCallback}
             authorizationParams={{
                 audience: "https://server-authorization/",
-                redirect_uri: "http://localhost:5173/redirect",
+                redirect_uri: "https://webapp-react-olive.vercel.app/redirect",
                 scope: "all:application all:organization openid email profile",
             }}>
             <>
