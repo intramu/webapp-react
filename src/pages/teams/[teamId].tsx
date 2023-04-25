@@ -1,78 +1,69 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import { observer } from "mobx-react-lite";
 import { useParams } from "react-router-dom";
-import { IsLoadingHOC } from "../../common/hoc/IsLoadingHOC";
-import useAxios from "../../common/hooks/useAxios";
-import useSWR from "../../common/hooks/useSWR";
-import Roster from "../../components/team/Roster";
-import { isErrorResponse } from "../../interfaces/ErrorResponse";
-import { IJoinRequest } from "../../interfaces/IJoinRequest";
-import { ITeam } from "../../interfaces/ITeam";
+import { Helmet } from "react-helmet";
+import { Roster } from "../../components/team/Roster";
+import { Schedule } from "../../components/team/Schedule";
+import {
+    containerHolder,
+    full,
+    half,
+    quarter,
+    quarterHolder,
+} from "../../styles/player/containers";
+import { flexCenterVertical, standardFontSizes } from "../../styles/player/common";
+import { TeamModel } from "../../models/team/TeamModel";
+import { TeamRequests } from "../../components/team/Requests";
 
-interface IOneTeam {
-    setLoading(setLoading: boolean): void;
-    setError(setError: string): void;
-}
-
-function OneTeam({ setError, setLoading }: IOneTeam) {
+/** Returns team view when team is clicked on from sidebar */
+export const OneTeam = observer(() => {
+    // from team that was clicked on
     const { teamId } = useParams();
+    const [team] = useState(() => new TeamModel());
 
-    const { deleteRequest, postRequest } = useAxios();
-
-    const { data: team, error, isLoading } = useSWR<ITeam>(`/teams/${teamId}`);
-    const {
-        data: requests,
-        isLoading: fetchIsLoading,
-        error: fetchError,
-    } = useSWR<IJoinRequest[]>(`/teams/${teamId}/requests`);
-
-    console.log(requests);
-
+    // fetches the team with the given id
     useEffect(() => {
-        if (fetchError) {
-            setError(fetchError.errorMessage);
-        }
-        setLoading(false);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [fetchIsLoading]);
-    // const declineRequest = async () => {};
-
-    const acceptRequest = async (userId: string) => {
-        console.log("here");
-
-        const response = await postRequest(`/teams/${teamId}/requests/${userId}:accept`);
-
-        if (isErrorResponse(response)) {
-            return;
-        }
-
-        requests?.filter((x) => x.player_auth_id !== userId);
-        // const index = requests?.map((x) => x.authId).indexOf(userId);
-        // requests?.splice(index, 1);
-    };
-    console.log(requests);
+        team.fetchTeam(Number(teamId));
+        // sorts contest games by upcoming date
+        team.contestGameStore.sortGamesByDate();
+    }, [team, team.fetchTeam, teamId]);
 
     return (
         <>
-            <div className="container">
-                <h1>{team?.name}</h1>
-            </div>
-
-            <Roster roster={team?.players ?? []} />
-            <div className="container">Schedule</div>
-            <div className="container">
-                <h1>Requests</h1>
-                {requests?.map((request, index) => (
-                    <span key={index}>
-                        {`${request.requesting_player_full_name} wants to join your team`}
-                        <button onClick={() => acceptRequest(request.player_auth_id)}>
-                            Accept
-                        </button>
-                        <button>Decline</button>
-                    </span>
-                ))}
+            <Helmet>
+                <title>Team</title>
+            </Helmet>
+            <span>
+                <span css={{ fontSize: standardFontSizes.xl }}>{team.name}</span>
+            </span>
+            <div css={[containerHolder, { "& h3": { marginBottom: 15 } }]}>
+                <div css={[half]}>
+                    <Roster team={team} />
+                </div>
+                <div css={[quarterHolder]}>
+                    <div css={[quarter]}>
+                        <h3>Details</h3>
+                        <span>
+                            Record: {team.wins} - {team.ties} - {team.losses}
+                        </span>
+                    </div>
+                    <div css={quarter}>
+                        <h3 css={{ marginBottom: 20 }}>Next Game</h3>
+                        <div css={[flexCenterVertical]}>
+                            {team.contestGameStore.games.length > 0 && (
+                                <span>
+                                    VS {team.contestGameStore.games[0].awayTeam.name} @
+                                    {team.contestGameStore.games[0].location.name}
+                                </span>
+                            )}
+                        </div>
+                    </div>
+                </div>
+                <div css={[full]}>
+                    <Schedule team={team} />
+                </div>
+                <TeamRequests requestStore={team.requestStore} />
             </div>
         </>
     );
-}
-
-export default IsLoadingHOC(OneTeam, "Loading");
+});

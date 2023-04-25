@@ -1,53 +1,39 @@
-/** @jsxImportSource @emotion/react */
-
-import { css } from "@emotion/react";
-import React, { useState } from "react";
-import { IBracket } from "../../../interfaces/competition/IBracket";
-import { sizes } from "../../../styles/scss/player/commonStyles";
-import TeamRow from "../teams/TeamRow";
+import React from "react";
+import { CSSObject } from "@emotion/react";
+import { BracketModel } from "../../../models/contests/BracketModel";
+import { colors, standardFontSizes } from "../../../styles/player/common";
+import { DivisionModel } from "../../../models/contests/DivisionModel";
+import { TeamList } from "../teams/TeamList";
 
 interface IBracketBox {
-    bracket: IBracket;
-    maxTeamSize: number;
+    bracket: BracketModel;
+    division: DivisionModel;
 }
 
-const test = {
-    container: css({
-        backgroundColor: "grey",
-        width: sizes.containerWidth,
-        position: "relative",
-        borderRadius: sizes.containerRadius,
-        margin: "1em",
-        padding: "1em",
-    }),
+const bracketHeader: CSSObject = {
+    fontSize: standardFontSizes.md,
+    color: colors.footer,
+    fontWeight: "500",
+    margin: "10px 0px",
 };
 
-export function BracketBox({ bracket, maxTeamSize }: IBracketBox) {
-    const createTeam = () => {
-        // create team in bracket waitlist
-    };
-
-    console.log(bracket);
-
-    return (
-        <div>
-            {/* will be changed later with database update */}
-            {bracket.maxTeamAmount > 100 ? (
-                <span>Waitlist</span>
-            ) : (
-                <span>
-                    {bracket.dayChoices.map((day, index) => (
-                        <span key={index}>{day} - </span>
-                    ))}
-                </span>
-            )}
-            <hr />
-            <div>
-                {bracket.teams.map((team, index) => (
-                    <TeamRow key={index} team={team} maxTeamSize={maxTeamSize} />
-                ))}
-                <button onClick={() => createTeam()}>Create Team</button>
+export function BracketBox({ bracket, division }: IBracketBox) {
+    if (bracket.maxTeamAmount === 0) {
+        return (
+            <div css={{ marginBottom: 30 }}>
+                <p css={bracketHeader}>Waitlist</p>
+                <TeamList division={division} teams={bracket.teams} isWaitlist />
             </div>
+        );
+    }
+    return (
+        <div css={{ marginBottom: 30 }}>
+            <p css={bracketHeader}>
+                <span css={{ marginRight: 50 }}>Monday - Wednesday - Friday</span>
+                <span>5:00 PM - 5:45 PM - 6:30 PM</span>
+            </p>
+
+            <TeamList division={division} teams={bracket.teams} isWaitlist={false} />
         </div>
     );
 }

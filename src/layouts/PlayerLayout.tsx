@@ -1,34 +1,37 @@
 import React from "react";
-import { createUseStyles } from "react-jss";
 import { Outlet } from "react-router-dom";
-import Footer from "../components/Footer";
-import Navbar from "../components/navbar/NavbarDashboard";
-import Sidebar from "../components/Sidebar";
-import "../styles/scss/main.scss";
+import { FooterDashboard } from "../components/footer/FooterDashboard";
+import { NavbarDashboard } from "../components/navbar/NavbarDashboard";
+import { Sidebar } from "../components/sidebar/Sidebar";
+import { colors, definedSizes, flexColumn, flexRow } from "../styles/player/common";
+import { GeneralAlert } from "../components/GeneralAlert";
 
-const useStyles = createUseStyles({
-    mainContainer: {
-        minHeight: "100vh",
-        position: "relative",
-    },
-});
-
-export default function PlayerLayout() {
-    const classes = useStyles();
-
+/** Layout for player space */
+export function PlayerLayout() {
     return (
-        <main id="player">
-            <Navbar />
-
-            <div id="main-page">
+        <div css={[flexColumn, { height: "100%" }]}>
+            <div css={[flexRow, { overflow: "hidden", flex: 1 }]}>
                 <Sidebar />
 
-                <div id="content">
-                    <Outlet />
+                <div css={[flexColumn, { flexBasis: 1400, height: "100vh", position: "relative" }]}>
+                    <NavbarDashboard />
+                    <main
+                        css={{
+                            flex: "auto",
+                            borderRadius: "24px 24px 0 0",
+                            backgroundColor: colors.content,
+                            padding: definedSizes.contentPadding,
+                            overflow: "scroll",
+                            overflowWrap: "anywhere",
+                        }}>
+                        <Outlet />
+                    </main>
+                    <GeneralAlert />
                 </div>
-            </div>
 
-            <Footer />
-        </main>
+                <div css={{ flexBasis: "auto", flexShrink: 2 }} />
+            </div>
+            <FooterDashboard />
+        </div>
     );
 }

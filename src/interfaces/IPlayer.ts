@@ -1,18 +1,39 @@
-import { Gender, Language, Role, Status, Visibility } from "../common/enums";
+import { TeamRole } from "../utilities/enums/teamEnum";
+import {
+    Language,
+    PlayerGender,
+    PlayerStatus,
+    PlayerVisibility,
+} from "../utilities/enums/userEnum";
 
 export interface IPlayer {
-    authId: string | null;
+    authId: string;
     firstName: string;
     lastName: string;
     language: Language;
     emailAddress: string;
-    gender: Gender;
+    gender: PlayerGender;
     dob: string;
-    visibility: Visibility;
+    visibility: PlayerVisibility;
     graduationTerm: string;
     image: string;
-    status: Status;
+    status: PlayerStatus;
     dateCreated: Date | null;
+}
+
+export interface INewPlayer {
+    authId: string;
+    firstName: string;
+    lastName: string;
+    language: string;
+    emailAddress: string;
+    gender: string;
+    dob: string;
+    visibility: string;
+    graduationTerm: string;
+    image: string;
+    status: string;
+    dateCreated: string;
 }
 
 export interface IPlayerEdit {
@@ -29,7 +50,7 @@ export interface IPlayerEdit {
 
 export interface IRosterPlayer {
     authId: string;
-    role: string;
+    role: TeamRole;
     firstName: string;
     lastName: string;
     gender: string;

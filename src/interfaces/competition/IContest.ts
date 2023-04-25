@@ -1,17 +1,19 @@
+import {
+    CompetitionSeason,
+    CompetitionStatus,
+    CompetitionVisibility,
+} from "../../utilities/enums/competitionEnum";
 import { ILeague } from "./ILeague";
 
 export interface IContest {
     id: number;
     name: string;
-    visibility: string;
-    status: string;
-    dateCreated: Date | null;
-    startDate: Date | null;
-    endDate: Date | null;
-    playoff: boolean;
-    playoffType: string;
-    playoffSeedingType: string;
-    contestType: string;
+    visibility: CompetitionVisibility;
+    status: CompetitionStatus;
+    season: CompetitionSeason;
+    term: number;
+    year: string;
+    dateCreated: Date;
     leagues: ILeague[];
-    organizationId: string;
+    organization_id: string;
 }

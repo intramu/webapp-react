@@ -1,4 +1,5 @@
-import { Sport, Visibility } from "../common/enums";
+import { Sport } from "../utilities/enums/commonEnum";
+import { TeamVisibility } from "../utilities/enums/teamEnum";
 import { IRosterPlayer } from "./IPlayer";
 
 export interface ITeam {
@@ -9,19 +10,22 @@ export interface ITeam {
     losses: number;
     image: string;
     visibility: string;
-    sport: string;
+    sport: Sport;
+    gender: string;
     dateCreated: Date;
     sportsmanshipScore: number | null;
     status: string;
     maxTeamSize: number | null;
     players: IRosterPlayer[];
-    organizationId: string;
-    bracketId: number;
+    // organizationId: string;
+    // bracketId: number;
 }
 
-export interface ITeamNew {
+export interface INewTeam {
     name: string;
     image: string;
-    visibility: Visibility;
-    sport: Sport;
+    contest: number;
+    league: number;
+    divisionId: number;
+    visibility: TeamVisibility;
 }

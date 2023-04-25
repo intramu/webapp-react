@@ -1,41 +1,47 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
 import React, { useState } from "react";
-import { IDivision } from "../../../interfaces/competition/IDivision";
-import { sizes } from "../../../styles/scss/player/commonStyles";
-import { BracketBox } from "../brackets/BracketBox";
+import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
+import { Collapse } from "@mui/material";
+import { CSSObject } from "@emotion/react";
+import { flexCenterVertical } from "../../../styles/player/common";
+import { bracketContainer, divisionContainer } from "../../../styles/player/containers";
+import BracketList from "../brackets/BracketList";
+import { DivisionModel } from "../../../models/contests/DivisionModel";
+import { unstyledButton } from "../../../styles/player/buttons";
 
 interface IDivisionBox {
-    division: IDivision;
+    division: DivisionModel;
 }
 
-const test = {
-    container: css({
-        width: sizes.containerWidth,
-        position: "relative",
-        borderRadius: sizes.containerRadius,
-        margin: "1em",
-        padding: "1em",
-    }),
-    button: css({
-        float: "right",
-    }),
+const icon: CSSObject = {
+    fontSize: 30,
 };
 
 function DivisionBox({ division }: IDivisionBox) {
     const [isOpen, setIsOpen] = useState<boolean>(false);
+
+    const toggle = () => setIsOpen((x) => !x);
+
     return (
-        <div css={test.container} style={{ backgroundColor: isOpen ? "white" : "grey" }}>
-            <span>
-                {division.type} {division.level}
-            </span>
-            <button css={test.button} onClick={() => setIsOpen((x) => !x)}>
-                Toggle
-            </button>
-            {isOpen &&
-                division.brackets.map((bracket, index) => (
-                    <BracketBox key={index} bracket={bracket} maxTeamSize={division.maxTeamSize} />
-                ))}
+        <div css={[isOpen ? bracketContainer : divisionContainer]}>
+            <div css={[flexCenterVertical]}>
+                <span css={{ flex: 1, fontWeight: "500" }}>{division.type}</span>
+                <button onClick={toggle} css={unstyledButton}>
+                    <KeyboardArrowLeftIcon
+                        css={[
+                            icon,
+                            {
+                                transform: isOpen ? "rotate(270deg)" : "initial",
+                                transition: "200ms",
+                            },
+                        ]}
+                    />
+                </button>
+            </div>
+            <Collapse in={isOpen} timeout="auto" unmountOnExit>
+                <BracketList brackets={division.brackets} division={division} />
+            </Collapse>
         </div>
     );
 }

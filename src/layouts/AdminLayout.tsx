@@ -1,29 +1,17 @@
 import React from "react";
-import { createUseStyles } from "react-jss";
 import { Outlet } from "react-router-dom";
-import Footer from "../components/Footer";
-import NavbarAdmin from "../components/navbar/NavbarAdmin";
+import { NavbarAdmin } from "../components/navbar/NavbarAdmin";
+import { FooterDashboard } from "../components/footer/FooterDashboard";
+import { flexColumn } from "../styles/player/common";
 
-const useStyles = createUseStyles({
-    mainContainer: {
-        minHeight: "100vh",
-        position: "relative",
-        // paddingTop: '9vh'
-    },
-
-    content: {
-        marginTop: "5vh",
-    },
-});
-
-export default function AdminLayout() {
-    const classes = useStyles();
-
+export function AdminLayout() {
     return (
-        <div className={classes.mainContainer}>
+        <div css={[flexColumn, { height: "100vh", overflow: "hidden" }]}>
             <NavbarAdmin />
-            <Outlet />
-            <Footer />
+            <main css={{ padding: 25, marginBottom: 40, overflow: "auto", flex: "auto" }}>
+                <Outlet />
+            </main>
+            <FooterDashboard />
         </div>
     );
 }
