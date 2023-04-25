@@ -82,3 +82,15 @@ export enum ContestGameStatus {
     RESCHEDULED,
     OTHER,
 }
+// export enum ContestGameStatus {
+//     NULL = "NULL",
+//     NOTPLAYED = "NOT PLAYED",
+//     TOBEDETERMINED = "TO BE DETERMINED",
+//     WON = "WON",
+//     LOST = "LOST",
+//     FORFEIT = "FORFEIT",
+//     SUSPENDED = "SUSPENDED",
+//     WEATHER = "WEATHER",
+//     RESCHEDULED = "RESCHEDULED",
+//     OTHER = "OTHER",
+// }

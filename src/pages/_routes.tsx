@@ -31,6 +31,9 @@ import { Initializer } from "./_initializer";
 
 import "../styles/globals.css";
 import { ContestGame } from "./network/games/[gameId]";
+import { ScoreReporter } from "./admin/score-reporter";
+import { Games } from "./admin/games";
+import { Admins } from "./admin/admins";
 //-------------------------------------------------------------------
 
 /** route list for entire application */
@@ -75,6 +78,9 @@ export const routes = createBrowserRouter(
                     <Route path="/admin/settings" element={<Settings />} />
                     <Route path="/admin/players" element={<Players />} />
                     <Route path="/admin/teams" element={<Teams />} />
+                    <Route path="/admin/score-reporter" element={<ScoreReporter />} />
+                    <Route path="/admin/admins" element={<Admins />} />
+                    <Route path="/admin/games" element={<Games />} />
                 </Route>
             </Route>
 

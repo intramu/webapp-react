@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { observer } from "mobx-react-lite";
-import { Button } from "@mui/material";
+import { Button, Grid } from "@mui/material";
 import { Form, Formik } from "formik";
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import { MaterialTextInput } from "../../common/inputs";
 import { unstyledButton } from "../../styles/player/buttons";
-import { GreyButton } from "../../components/Buttons";
 import { flexColumn } from "../../styles/player/common";
 import { organizationStore } from "../_routes";
 
@@ -15,7 +14,7 @@ export const Settings = observer(() => {
 
     // fetches organization on render
     useEffect(() => {
-        organization.fetchOrganization();
+        organization.fetchAdminOrganization();
     }, [organization]);
 
     const [isLocationOpen, setIsLocationOpen] = useState(false);
@@ -34,80 +33,104 @@ export const Settings = observer(() => {
                     organization.updateOrganization(values);
                     setSubmitting(false);
                 }}>
-                {(formik) => (
-                    <>
-                        <GreyButton type="button" onClick={() => setIsEditing((x) => !x)}>
-                            {isEditing ? "Cancel" : "Edit"}
-                        </GreyButton>
-                        <Form css={[flexColumn, { width: "45%" }]}>
-                            <MaterialTextInput
-                                name="name"
-                                label="Name"
-                                disabled={!isEditing || formik.isSubmitting}
-                            />
-                            <MaterialTextInput
-                                name="info"
-                                label="Info"
-                                multiline
-                                disabled={!isEditing || formik.isSubmitting}
-                            />
-                            <MaterialTextInput
-                                name="primaryContactEmail"
-                                label="Primary Contact Email"
-                                disabled={!isEditing || formik.isSubmitting}
-                            />
-                            <MaterialTextInput
-                                name="studentContactEmail"
-                                label="Student Contact Email"
-                                disabled={!isEditing || formik.isSubmitting}
-                            />
-                            <br />
-                            <span>
-                                {`Approval Status: ${organization.approvalStatus || "Unknown"}`}
-                            </span>
-                            <br />
-                            <span>{`Date Created: ${organization.dateCreated || "Unknown"}`}</span>
+                {(formik) => {
+                    return (
+                        <>
+                            <Button type="button" onClick={() => setIsEditing((x) => !x)}>
+                                {isEditing ? "Cancel" : "Edit"}
+                            </Button>
+                            <Form css={[flexColumn, { width: "45%" }]}>
+                                <Grid container spacing={2}>
+                                    <Grid item xs={6}>
+                                        <MaterialTextInput
+                                            name="name"
+                                            label="Name"
+                                            disabled={!isEditing || formik.isSubmitting}
+                                        />
+                                    </Grid>
+                                    <Grid item xs={6}>
+                                        <MaterialTextInput
+                                            name="info"
+                                            label="Info"
+                                            multiline
+                                            disabled={!isEditing || formik.isSubmitting}
+                                        />
+                                    </Grid>
+                                    <Grid item xs={6}>
+                                        <MaterialTextInput
+                                            name="primaryContactEmail"
+                                            label="Primary Contact Email"
+                                            disabled={!isEditing || formik.isSubmitting}
+                                        />
+                                    </Grid>
 
-                            {/* opens location dropdown */}
-                            <span>
-                                Location{" "}
-                                <button
-                                    type="button"
-                                    css={unstyledButton}
-                                    onClick={() => setIsLocationOpen((current) => !current)}>
-                                    <KeyboardArrowLeftIcon />
-                                </button>
-                            </span>
-                            {isLocationOpen && (
-                                <div css={flexColumn}>
-                                    <MaterialTextInput
-                                        name="address"
-                                        label="Address"
-                                        disabled={!isEditing || formik.isSubmitting}
-                                    />
-                                    <MaterialTextInput
-                                        name="city"
-                                        label="City"
-                                        disabled={!isEditing || formik.isSubmitting}
-                                    />
-                                    <MaterialTextInput
-                                        name="state"
-                                        label="State"
-                                        disabled={!isEditing || formik.isSubmitting}
-                                    />
-                                    <MaterialTextInput
-                                        name="zipCode"
-                                        label="Zip Code"
-                                        disabled={!isEditing || formik.isSubmitting}
-                                    />
-                                </div>
-                            )}
+                                    <Grid item xs={6}>
+                                        <MaterialTextInput
+                                            name="studentContactEmail"
+                                            label="Student Contact Email"
+                                            disabled={!isEditing || formik.isSubmitting}
+                                        />
+                                    </Grid>
+                                </Grid>
 
-                            <Button type="submit">Update</Button>
-                            <span>{organization.loadingState}</span>
-                        </Form>
-                    </>
-                )}
+                                <br />
+                                <span>
+                                    {`Approval Status: ${organization.approvalStatus || "Unknown"}`}
+                                </span>
+                                <br />
+                                <span>{`Date Created: ${
+                                    organization.dateCreated || "Unknown"
+                                }`}</span>
+
+                                {/* opens location dropdown */}
+                                <span>
+                                    Location{" "}
+                                    <button
+                                        type="button"
+                                        css={unstyledButton}
+                                        onClick={() => setIsLocationOpen((current) => !current)}>
+                                        <KeyboardArrowLeftIcon />
+                                    </button>
+                                </span>
+                                {isLocationOpen && (
+                                    <Grid container spacing={2}>
+                                        <Grid item xs={6}>
+                                            <MaterialTextInput
+                                                name="address"
+                                                label="Address"
+                                                disabled={!isEditing || formik.isSubmitting}
+                                            />
+                                        </Grid>
+                                        <Grid item xs={6}>
+                                            <MaterialTextInput
+                                                name="city"
+                                                label="City"
+                                                disabled={!isEditing || formik.isSubmitting}
+                                            />
+                                        </Grid>
+                                        <Grid item xs={6}>
+                                            <MaterialTextInput
+                                                name="state"
+                                                label="State"
+                                                disabled={!isEditing || formik.isSubmitting}
+                                            />
+                                        </Grid>
+                                        <Grid item xs={6}>
+                                            <MaterialTextInput
+                                                name="zipCode"
+                                                label="Zip Code"
+                                                disabled={!isEditing || formik.isSubmitting}
+                                            />
+                                        </Grid>
+                                    </Grid>
+                                )}
+
+                                <Button type="submit">Update</Button>
+                                <span>{organization.loadingState}</span>
+                            </Form>
+                        </>
+                    );
+                }}
             </Formik>
         </div>
     );

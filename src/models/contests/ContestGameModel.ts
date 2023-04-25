@@ -1,6 +1,5 @@
 import { makeAutoObservable } from "mobx";
 import dayjs from "dayjs";
-import { ContestGameStatus } from "../../utilities/enums/competitionEnum";
 import { LocationModel } from "../LocationModel";
 import { TeamModel } from "../team/TeamModel";
 
@@ -17,9 +16,9 @@ export class ContestGameModel {
 
     scoreAway = 0;
 
-    statusHome = ContestGameStatus;
+    statusHome = 0;
 
-    statusAway = ContestGameStatus;
+    statusAway = 0;
 
     location = new LocationModel();
 
