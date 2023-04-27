@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import useAxios from "../../common/hooks/useAxios";
 import { isErrorResponse } from "../../interfaces/ErrorResponse";
 import { IPlayer } from "../../interfaces/IPlayer";
+import { colors } from "../../styles/player/common";
 
 interface IInviteMembers {
     teamId: number;
@@ -12,6 +13,7 @@ function InviteMembers({ teamId }: IInviteMembers) {
     const [isLocked, setIsLocked] = useState(false);
     const [option, setOption] = useState<string>("");
     const [players, setPlayers] = useState<IPlayer[]>();
+    const [inviteSent, setInviteSent] = useState(false);
 
     const { getRequest, postRequest } = useAxios();
 
@@ -49,12 +51,12 @@ function InviteMembers({ teamId }: IInviteMembers) {
             return;
         }
 
-        console.log("invite sent");
+        setInviteSent(true);
     };
 
     return (
         // <Popup trigger={<button>Invite Members</button>} modal>
-        <div style={{ backgroundColor: "grey" }}>
+        <div style={{ backgroundColor: "transparent" }}>
             <h6>Search for person to invite to your team</h6>
             <input type="text" name="search" onChange={(e) => searchForUsers(e.target.value)} />
             <br />
@@ -68,6 +70,7 @@ function InviteMembers({ teamId }: IInviteMembers) {
             {/* Function to invite player
                 Probably use HOC to render loading symbol until request completes */}
             <button onClick={() => inviteUser(option)}>Invite</button>
+            {inviteSent && <b>Invite Sent</b>}
         </div>
         // </Popup>
     );

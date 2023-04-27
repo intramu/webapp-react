@@ -5,24 +5,24 @@ import { observer } from "mobx-react-lite";
 import { organizationStore } from "../_routes";
 import { GreyButton } from "../../components/Buttons";
 
-/** Will show all players in organization in table view */
-export const Players = observer(() => {
-    const { playerStore } = organizationStore;
+/** Will show all admins in organization in table view */
+export const Admins = observer(() => {
+    const { adminStore } = organizationStore;
 
     // fetches all players from database
-    const fetchPlayers = () => {
-        playerStore.fetchAllPlayers();
+    const fetchAdmins = () => {
+        adminStore.fetchAllAdmins();
     };
 
     // calls fetch on render
     useEffect(() => {
-        fetchPlayers();
+        fetchAdmins();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [playerStore]);
+    }, [adminStore]);
 
     return (
         <div>
-            <h1>Players</h1>
+            <h1>Admins</h1>
             <TableContainer>
                 <Table>
                     <TableHead>
@@ -30,7 +30,7 @@ export const Players = observer(() => {
                             <TableCell>Image</TableCell>
                             <TableCell>Name</TableCell>
                             <TableCell>Email Address</TableCell>
-                            <TableCell>Visibility</TableCell>
+                            <TableCell>Role</TableCell>
                             <TableCell>Status</TableCell>
                             <TableCell>Date Created</TableCell>
                             <TableCell size="small" />
@@ -40,41 +40,31 @@ export const Players = observer(() => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {playerStore.players.length === 0 ? (
+                        {adminStore.admins.length === 0 ? (
                             <TableRow>
                                 <TableCell>No Teams</TableCell>
                             </TableRow>
                         ) : (
-                            playerStore.players.map((player) => (
-                                <TableRow hover key={player.authId}>
+                            adminStore.admins.map((admin) => (
+                                <TableRow hover key={admin.authId}>
                                     <TableCell>
-                                        {player.image ? (
-                                            <img
-                                                css={{ height: 50, width: 50, borderRadius: "50%" }}
-                                                src={player.image}
-                                                alt="Profile Icon"
-                                            />
-                                        ) : (
-                                            <GroupsIcon css={{ fontSize: 40 }} />
-                                        )}
+                                        <GroupsIcon css={{ fontSize: 40 }} />
                                     </TableCell>
-                                    <TableCell>
-                                        {`${player.firstName} ${player.lastName}`}{" "}
-                                    </TableCell>
-                                    <TableCell>{player.emailAddress}</TableCell>
-                                    <TableCell>{player.visibility}</TableCell>
-                                    <TableCell>{player.status}</TableCell>
-                                    <TableCell>N/A</TableCell>
+                                    <TableCell>{`${admin.firstName} ${admin.lastName}`}</TableCell>
+                                    <TableCell>{admin.emailAddress}</TableCell>
+                                    <TableCell>{admin.role}</TableCell>
+                                    <TableCell>{admin.status}</TableCell>
+                                    <TableCell>{admin.dateCreated}</TableCell>
                                     <TableCell size="small">
                                         <GreyButton>Message</GreyButton>
                                     </TableCell>
                                     <TableCell>
-                                        <GreyButton>Ban</GreyButton>
+                                        <GreyButton>Disable</GreyButton>
                                     </TableCell>
                                     <TableCell>
                                         <GreyButton>View</GreyButton>
                                     </TableCell>
-                                    <TableCell>{player.authId}</TableCell>
+                                    <TableCell>{admin.authId}</TableCell>
                                 </TableRow>
                             ))
                         )}

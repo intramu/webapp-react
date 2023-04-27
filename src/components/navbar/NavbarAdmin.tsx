@@ -26,7 +26,7 @@ export function NavbarAdmin() {
                         { listStyleType: "none", alignItems: "center", margin: 0, padding: 0 },
                     ]}>
                     <li>
-                        <NavLink to="/admin/portal">Home</NavLink>
+                        <NavLink to="/admin/">Home</NavLink>
                     </li>
                     <li>
                         <NavLink to="/admin/score-reporter">Score Reporter</NavLink>
@@ -35,10 +35,16 @@ export function NavbarAdmin() {
                         <NavLink to="/admin/competition-creator">Competition Creator</NavLink>
                     </li>
                     <li>
+                        <NavLink to="/admin/games">Games</NavLink>
+                    </li>
+                    <li>
                         <NavLink to="/admin/teams">Teams</NavLink>
                     </li>
                     <li>
                         <NavLink to="/admin/players">Players</NavLink>
+                    </li>
+                    <li>
+                        <NavLink to="/admin/admins">Admins</NavLink>
                     </li>
                     <li>
                         <NavLink to="/admin/settings">Settings</NavLink>

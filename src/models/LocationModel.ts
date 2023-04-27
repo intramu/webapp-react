@@ -15,6 +15,8 @@ export class LocationModel {
 
     details = "";
 
+    isMain = false;
+
     constructor() {
         makeAutoObservable(this, {}, { autoBind: true });
     }

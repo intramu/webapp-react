@@ -1,6 +1,6 @@
 import { Form, Formik } from "formik";
 import React, { useState } from "react";
-import { Grid, MenuItem } from "@mui/material";
+import { Button, Grid, MenuItem } from "@mui/material";
 import { Helmet } from "react-helmet";
 import { observer } from "mobx-react-lite";
 import { useNavigate } from "react-router-dom";
@@ -15,10 +15,18 @@ import { TeamVisibility } from "../../utilities/enums/teamEnum";
 import { userRootStore } from "../_routes";
 import { LeagueModel } from "../../models/contests/LeagueModel";
 import { DivisionModel } from "../../models/contests/DivisionModel";
-import { CreateTeamProps } from "../../models/stores/TeamStore";
-import { GreyButton } from "../../components/Buttons";
+import { newTeamSchema } from "../../utilities/formValidation/teamValidation";
 
 /** Form for creating new team  */
+
+interface FormValues {
+    name: string;
+    image: string;
+    contest: number;
+    league: number;
+    divisionId: number;
+    visibility?: TeamVisibility;
+}
 export const NewTeam = observer(() => {
     const {
         contestStore: { contests },
@@ -48,19 +56,13 @@ export const NewTeam = observer(() => {
         );
     };
 
-    // useEffect(() => {
-    //     createTeamState = "pending";
-    // }, []);
-
     // NOTE: maybe when the team is successfully created, play some animation
     // then redirect
-    const handleSubmit = async (team: CreateTeamProps) => {
+    const handleSubmit = async (team: FormValues) => {
         createTeam(team);
-
         setTimeout(() => {
             if (!createTeamError && createTeamState === "success") {
                 const newestTeam = teams.splice(-1).pop();
-
                 // checks to see if team exists before redirecting to team page
                 if (!newestTeam) {
                     navigate(`/dashboard`);
@@ -73,37 +75,40 @@ export const NewTeam = observer(() => {
 
     const form = (
         <Formik
+            enableReinitialize
             initialValues={{
                 name: "",
                 image: "",
-                contest: "",
-                league: "",
-                division: "",
-                visibility: TeamVisibility.PRIVATE,
+                contest: 0,
+                league: 0,
+                divisionId: 0,
+                visibility: undefined,
             }}
-            onSubmit={(values) => {
-                handleSubmit({
-                    name: values.name,
-                    image: "",
-                    contest: Number(values.contest),
-                    league: Number(values.league),
-                    divisionId: Number(values.division),
-                    visibility: values.visibility,
-                });
+            validationSchema={newTeamSchema}
+            onSubmit={(values: FormValues, { setSubmitting }) => {
+                setTimeout(() => {
+                    handleSubmit(values);
+                    setSubmitting(false);
+                }, 1000);
             }}>
             {(formik) => (
                 <Form onSubmit={formik.handleSubmit}>
                     <Grid container spacing={2} columns={6}>
                         <Grid item xs={6}>
-                            <MaterialTextInput name="name" label="Name" />
+                            <MaterialTextInput
+                                name="name"
+                                label="Name"
+                                disabled={formik.isSubmitting}
+                            />
                         </Grid>
                         <Grid item xs={6}>
-                            <TextInput name="image" type="file" />
+                            <TextInput name="image" type="file" disabled={formik.isSubmitting} />
                         </Grid>
                         <Grid item xs={6}>
                             <MaterialSelectInput
                                 name="visibility"
                                 label="Visibility"
+                                disabled={formik.isSubmitting}
                                 enumValue={TeamVisibility}
                             />
                         </Grid>
@@ -111,10 +116,12 @@ export const NewTeam = observer(() => {
                             <MaterialExperimentInput
                                 name="contest"
                                 label="Contest"
+                                disabled={formik.isSubmitting}
                                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                                     formik.handleChange(e);
                                     updateLeagues(Number(e.target.value));
                                 }}>
+                                <MenuItem value={0}>Select Contest</MenuItem>
                                 {/* Gives contest choices if organization offers more than one */}
                                 {contests.map((contest) => {
                                     if (contest.season)
@@ -135,11 +142,12 @@ export const NewTeam = observer(() => {
                             <MaterialExperimentInput
                                 name="league"
                                 label="League"
-                                disabled={!formik.values.contest}
+                                disabled={!formik.values.contest || formik.isSubmitting}
                                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                                     formik.handleChange(e);
                                     updateDivisions(Number(e.target.value));
                                 }}>
+                                <MenuItem value={0}>Select League</MenuItem>
                                 {/* Gives contest choices if organization offers more than one */}
                                 {leagues.map((league, index) => {
                                     return (
@@ -152,9 +160,10 @@ export const NewTeam = observer(() => {
                         </Grid>
                         <Grid item xs={4}>
                             <MaterialExperimentInput
-                                name="division"
+                                name="divisionId"
                                 label="Division"
-                                disabled={!formik.values.league}>
+                                disabled={!formik.values.league || formik.isSubmitting}>
+                                <MenuItem value={0}>Select Division</MenuItem>
                                 {/* Gives contest choices if organization offers more than one */}
                                 {divisions.map((division, index) => {
                                     return (
@@ -166,7 +175,13 @@ export const NewTeam = observer(() => {
                             </MaterialExperimentInput>
                         </Grid>
                         <Grid item xs={3}>
-                            <GreyButton type="submit">Create</GreyButton>
+                            <Button disabled={!(formik.dirty && formik.isValid)} type="submit">
+                                Create
+                            </Button>
+                            {createTeamState === "pending" && formik.isSubmitting && (
+                                <b>Loading...</b>
+                            )}
+                            {createTeamError && <b>Error please try again another time</b>}
                         </Grid>
                     </Grid>
                 </Form>

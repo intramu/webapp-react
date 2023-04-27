@@ -1,6 +1,6 @@
 import React from "react";
-import { MenuItem, TextField } from "@mui/material";
-import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
+import { FormControl, InputLabel, MenuItem, Select, TextField } from "@mui/material";
+import { DatePicker, LocalizationProvider, StaticDateTimePicker } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { useField } from "formik";
 import dayjs from "dayjs";
@@ -43,7 +43,7 @@ export function MaterialTextInput({ name, label, ...props }) {
             id={field.id}
             name={field.name}
             label={label}
-            helperText={meta.touched ? meta.error : ""}
+            helpertext={meta.touched ? meta.error : ""}
             error={meta.touched && Boolean(meta.error)}
             value={field.value ?? ""}
             onChange={field.onChange}
@@ -61,7 +61,7 @@ export function MaterialNumberInput({ name, label, ...props }) {
             id={field.id}
             name={field.name}
             label={label}
-            helperText={meta.touched ? meta.error : ""}
+            helpertext={meta.touched ? meta.error : ""}
             error={meta.touched && Boolean(meta.error)}
             value={field.value ?? ""}
             onChange={field.onChange}
@@ -79,12 +79,30 @@ export function MaterialDatePicker({ name, label, setFieldValue, ...props }) {
     return (
         <LocalizationProvider dateAdapter={AdapterDayjs} dateLibInstance={dayjs.utc}>
             <DatePicker
+                // css={{ width: "100%" }}
                 label={label}
                 value={field.value}
                 onChange={(value) => {
                     setFieldValue(name, value, true);
                 }}
-                fullWidth
+                slotProps={{ textField: { fullWidth: true } }}
+                {...props}
+            />
+        </LocalizationProvider>
+    );
+}
+
+export function MaterialStaticDateTimePicker({ name, setFieldValue, ...props }) {
+    const [field] = useField(name);
+    return (
+        <LocalizationProvider dateAdapter={AdapterDayjs} dateLibInstance={dayjs.utc}>
+            <StaticDateTimePicker
+                value={field.value}
+                onChange={(value) => {
+                    setFieldValue(name, value, true);
+                }}
+                orientation="landscape"
+                slotProps={{ textField: { fullWidth: true } }}
                 {...props}
             />
         </LocalizationProvider>
@@ -98,10 +116,10 @@ export function MaterialSelectInput({ name, label, enumValue, ...props }) {
             id={field.id}
             name={field.name}
             label={label}
-            helperText={meta.touched ? meta.error : ""}
+            helpertext={meta.touched ? meta.error : ""}
             error={meta.touched && Boolean(meta.error)}
             value={field.value ?? ""}
-            onChange={field.onChange}
+            onChange={field.onChange ?? props.handleChange}
             onBlur={field.onBlur}
             fullWidth
             select
@@ -120,32 +138,36 @@ export function MaterialExperimentInput({ name, label, ...props }) {
 
     if (props.enumvalue) {
         return (
-            <TextField
-                id={field.id}
-                name={field.name}
-                label={label}
-                helperText={meta.touched ? meta.error : ""}
-                error={meta.touched && Boolean(meta.error)}
-                value={field.value ?? ""}
-                onChange={field.onChange}
-                onBlur={field.onBlur}
-                fullWidth
-                select
-                {...props}>
-                {Object.keys(props.enumvalue).map((option) => (
-                    <MenuItem key={option} value={option}>
-                        {option}
-                    </MenuItem>
-                ))}
-            </TextField>
+            <>
+                <InputLabel id="demo-multiple-name-label">{label}</InputLabel>
+                <Select
+                    id={field.id}
+                    name={field.name}
+                    label={label}
+                    helpertext={meta.touched ? meta.error : ""}
+                    error={meta.touched && Boolean(meta.error)}
+                    value={field.value ?? ""}
+                    onChange={field.onChange}
+                    onBlur={field.onBlur}
+                    fullWidth
+                    {...props}>
+                    {Object.keys(props.enumvalue).map((option) => (
+                        <MenuItem key={option} value={option}>
+                            {option}
+                        </MenuItem>
+                    ))}
+                </Select>
+            </>
         );
     }
     return (
+        // <FormControl sx={{ m: 1, width: 300 }}>
+        //     <InputLabel id="demo-multiple-name-label">{label}</InputLabel>
         <TextField
             id={field.id}
             name={field.name}
             label={label}
-            helperText={meta.touched ? meta.error : ""}
+            helpertext={meta.touched ? meta.error : ""}
             error={meta.touched && Boolean(meta.error)}
             value={field.value ?? ""}
             onChange={field.onChange}
@@ -155,5 +177,6 @@ export function MaterialExperimentInput({ name, label, ...props }) {
             {...props}>
             {props.children}
         </TextField>
+        // </FormControl>
     );
 }

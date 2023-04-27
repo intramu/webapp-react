@@ -1,3 +1,4 @@
+import { AxiosHeaders } from "axios";
 import { ErrorResponse } from "../../interfaces/ErrorResponse";
 import { instance } from "../../utilities/axiosInstance";
 import { handleError } from "../handleApiError";
@@ -51,11 +52,26 @@ export async function putRequest<Return, Body>(url: string, token: string, body?
 
 export async function newPostRequest<Return, Body>(
     url: string,
+    body?: Body,
+    config?: { headers: string }
+): Promise<Return | ErrorResponse> {
+    return instance
+        .post<Return>(url, body, {
+            headers: config ?? commonAxiosHeaders,
+        })
+        .then((res) => res.data)
+        .catch(handleError);
+}
+
+export async function multiPartPostRequest<Return, Body>(
+    url: string,
     body?: Body
 ): Promise<Return | ErrorResponse> {
     return instance
         .post<Return>(url, body, {
-            headers: commonAxiosHeaders,
+            headers: {
+                "Content-Type": "multipart/form-data",
+            },
         })
         .then((res) => res.data)
         .catch(handleError);

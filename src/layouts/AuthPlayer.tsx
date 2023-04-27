@@ -4,6 +4,7 @@ import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { newGetRequest } from "../common/functions/axiosRequests";
 import { IPlayer } from "../interfaces/IPlayer";
 import { isErrorResponse } from "../interfaces/ErrorResponse";
+import { Loader } from "../components/Loader";
 
 /** Performs authentication on players trying to enter application */
 export function AuthPlayer() {
@@ -13,15 +14,15 @@ export function AuthPlayer() {
     console.log(import.meta.env);
 
     // auth0 variables
-    const { isAuthenticated, loginWithRedirect, isLoading, error, getIdTokenClaims } = useAuth0();
+    const { isAuthenticated, loginWithRedirect, isLoading, error } = useAuth0();
 
     // is current user a player
-    const [isPlayer, setIsPlayer] = useState(false);
-    const [isClaimsLoading, setIsClaimsLoading] = useState(true);
+    // const [isPlayer, setIsPlayer] = useState(true);
+    // const [isClaimsLoading, setIsClaimsLoading] = useState(false);
     const [isStatusLoading, setIsStatusLoading] = useState(false);
 
     // role claims from auth0
-    const roleClaimType = import.meta.env.VITE_ROLE_CLAIMS_URL;
+    // const roleClaimType = import.meta.env.VITE_ROLE_CLAIMS_URL;
 
     /**
      * Redirects user to finish profile if they're not found in database
@@ -47,40 +48,39 @@ export function AuthPlayer() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isAuthenticated, isLoading]);
 
+    /** NEED TO REVISIT */
     /** Checks if current user's role is a player */
-    useEffect(() => {
-        // TODO: remove sudo in production
-        const authorizedRoles = ["Player", "Sudo"];
+    // useEffect(() => {
+    //     // TODO: remove sudo in production
+    //     const authorizedRoles = ["Player", "Sudo"];
 
-        const check = async () => {
-            const claims = await getIdTokenClaims();
-            if (claims) {
-                // checks if user claims contains authorized role
-                const roles: string[] = claims[roleClaimType];
-                const authorize = authorizedRoles.some((role) => roles.includes(role));
+    //     const check = async () => {
+    //         const claims = await getIdTokenClaims();
+    //         if (claims) {
+    //             // checks if user claims contains authorized role
+    //             const roles: string[] = claims[roleClaimType];
+    //             const authorize = authorizedRoles.some((role) => roles.includes(role));
 
-                if (authorize) {
-                    setIsPlayer(true);
-                }
-            }
+    //             if (authorize) {
+    //                 setIsPlayer(true);
+    //             }
+    //         }
 
-            setIsClaimsLoading(false);
-        };
+    //         setIsClaimsLoading(false);
+    //     };
 
-        // only check if user is available from auth0
-        if (!isLoading) {
-            check();
-        }
-    }, [getIdTokenClaims, isLoading, roleClaimType]);
-
-    console.log("here", error);
+    //     // only check if user is available from auth0
+    //     if (!isLoading) {
+    //         check();
+    //     }
+    // }, [getIdTokenClaims, isLoading, roleClaimType]);
 
     if (error) {
         return <div>Well this is a weird error. Not sure what happened</div>;
     }
 
-    if (isLoading || isClaimsLoading || isStatusLoading) {
-        return <div style={{ backgroundColor: "red" }}>Loading...</div>;
+    if (isLoading || isStatusLoading) {
+        return <Loader />;
     }
 
     // if user isn't authenticated with auth0, they're redirected to login page
@@ -90,21 +90,21 @@ export function AuthPlayer() {
                 returnTo: window.location.pathname,
             },
         });
-        return <div style={{ backgroundColor: "red" }}>new loading</div>;
+        return <Loader />;
     }
 
     // if user is admin they cannot access dashboard
-    if (!isPlayer) {
-        return (
-            <div>
-                <b>
-                    Sorry, you cant access this page as an admin. If you wish to particpate please
-                    create another account
-                </b>
-                <button onClick={() => navigate("/admin/portal")}>Back</button>
-            </div>
-        );
-    }
+    // if (!isPlayer) {
+    //     return (
+    //         <div>
+    //             <b>
+    //                 Sorry, you cant access this page as an admin. If you wish to particpate please
+    //                 create another account
+    //             </b>
+    //             <button onClick={() => navigate("/admin/portal")}>Back</button>
+    //         </div>
+    //     );
+    // }
 
-    return isAuthenticated && isPlayer && <Outlet />;
+    return isAuthenticated && <Outlet />;
 }
