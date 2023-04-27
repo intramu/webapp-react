@@ -16,6 +16,7 @@ import { TeamModel } from "../../models/team/TeamModel";
 import { userRootStore } from "../../pages/_routes";
 import { standardFontSizes } from "../../styles/player/common";
 import { RosterRow } from "./roster/Row";
+import InviteMembers from "./InviteMembers";
 
 interface RosterProps {
     team: TeamModel;
@@ -97,6 +98,7 @@ export const Roster = observer(({ team }: RosterProps) => {
                     </TableBody>
                 </Table>
             </TableContainer>
+            <InviteMembers teamId={team.id} />
         </>
     );
 });

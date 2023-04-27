@@ -8,7 +8,7 @@ export class ContestGameModel {
 
     dateCreated = dayjs(null);
 
-    gameDate: dayjs.Dayjs = dayjs(null);
+    gameDate = dayjs(null);
 
     notes = "";
 

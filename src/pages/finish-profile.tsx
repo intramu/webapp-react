@@ -7,7 +7,7 @@ import { observer } from "mobx-react-lite";
 import { colors, flexCenterVertical, flexColumn, flexRow } from "../styles/player/common";
 import { finishProfileSchema } from "../utilities/formValidation/userValidation";
 import { isErrorResponse } from "../interfaces/ErrorResponse";
-import { newPostRequest } from "../common/functions/axiosRequests";
+import { multiPartPostRequest } from "../common/functions/axiosRequests";
 import { IPlayer } from "../interfaces/IPlayer";
 import { FinishProfileForm } from "../components/profile/FinishProfileForm";
 import { Language, PlayerGender, PlayerVisibility } from "../utilities/enums/userEnum";
@@ -27,9 +27,9 @@ interface IFinishProfile {
     dateCreated: string;
 }
 
-interface FormSubmit extends Omit<IFinishProfile, "dob"> {
-    dob: string;
-}
+// interface FormSubmit extends Omit<IFinishProfile, "dob"> {
+//     dob: string;
+// }
 
 interface FormValues {
     player: IFinishProfile;
@@ -91,13 +91,22 @@ export const FinishProfile = observer(() => {
                         }}
                         validationSchema={finishProfileSchema}
                         onSubmit={(values: FormValues, { setSubmitting }) => {
+                            const formData = new FormData();
+                            formData.append("authId", values.player.authId);
+                            formData.append("firstName", values.player.firstName);
+                            formData.append("lastName", values.player.lastName);
+                            formData.append("emailAddress", values.player.emailAddress);
+                            formData.append("dob", values.player.dob?.format("YYYY-MM-DD") ?? "");
+                            formData.append("language", values.player.language ?? "");
+                            formData.append("gender", values.player.gender ?? "");
+                            formData.append("visibility", values.player.visibility ?? "");
+                            formData.append("image", values.player.image);
+                            formData.append("graduationTerm", values.player.graduationTerm);
+
                             setTimeout(async () => {
-                                const response = await newPostRequest<IPlayer, FormSubmit>(
+                                const response = await multiPartPostRequest<IPlayer, FormData>(
                                     `/organizations/${values.organizationId}/players`,
-                                    {
-                                        ...values.player,
-                                        dob: values.player.dob?.format("YYYY-MM-DD") ?? "",
-                                    }
+                                    formData
                                 );
                                 if (isErrorResponse(response)) {
                                     setError(response.errorMessage);
@@ -108,7 +117,7 @@ export const FinishProfile = observer(() => {
                             }, 1000);
                         }}>
                         {(formik) => (
-                            <Form onSubmit={formik.handleSubmit}>
+                            <Form encType="multipart/form-data" onSubmit={formik.handleSubmit}>
                                 <FinishProfileForm formik={formik} />
                                 {formik.isSubmitting && <b>Loading...</b>}
                                 {error && !formik.isSubmitting && (

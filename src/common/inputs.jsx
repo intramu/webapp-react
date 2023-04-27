@@ -1,6 +1,6 @@
 import React from "react";
 import { FormControl, InputLabel, MenuItem, Select, TextField } from "@mui/material";
-import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
+import { DatePicker, LocalizationProvider, StaticDateTimePicker } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { useField } from "formik";
 import dayjs from "dayjs";
@@ -92,6 +92,23 @@ export function MaterialDatePicker({ name, label, setFieldValue, ...props }) {
     );
 }
 
+export function MaterialStaticDateTimePicker({ name, setFieldValue, ...props }) {
+    const [field] = useField(name);
+    return (
+        <LocalizationProvider dateAdapter={AdapterDayjs} dateLibInstance={dayjs.utc}>
+            <StaticDateTimePicker
+                value={field.value}
+                onChange={(value) => {
+                    setFieldValue(name, value, true);
+                }}
+                orientation="landscape"
+                slotProps={{ textField: { fullWidth: true } }}
+                {...props}
+            />
+        </LocalizationProvider>
+    );
+}
+
 export function MaterialSelectInput({ name, label, enumValue, ...props }) {
     const [field, meta] = useField(name);
     return (
@@ -102,7 +119,7 @@ export function MaterialSelectInput({ name, label, enumValue, ...props }) {
             helpertext={meta.touched ? meta.error : ""}
             error={meta.touched && Boolean(meta.error)}
             value={field.value ?? ""}
-            onChange={field.onChange}
+            onChange={field.onChange ?? props.handleChange}
             onBlur={field.onBlur}
             fullWidth
             select

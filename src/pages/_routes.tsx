@@ -10,7 +10,7 @@ import { ProfileSettings } from "./settings";
 import { OnePlayer } from "./players/[userId]";
 import { TeamLayout } from "../layouts/TeamLayout";
 import { OneTeam } from "./teams/[teamId]";
-import { NewTeam } from "./teams/newTeam";
+import { NewTeam } from "./teams/new-team";
 import { FinishProfile } from "./finish-profile";
 import { Fake } from "./Fake";
 import { Term } from "./network/[term]";
@@ -34,6 +34,7 @@ import { ContestGame } from "./network/games/[gameId]";
 import { ScoreReporter } from "./admin/score-reporter";
 import { Games } from "./admin/games";
 import { Admins } from "./admin/admins";
+import { Loader } from "../components/Loader";
 //-------------------------------------------------------------------
 
 /** route list for entire application */
@@ -49,10 +50,8 @@ export const routes = createBrowserRouter(
         <Route element={<AuthProvider />}>
             <Route element={<AuthPlayer />}>
                 <Route element={<Initializer />}>
-                    <Route
-                        path="/redirect"
-                        element={<div style={{ backgroundColor: "red" }}>here loading</div>}
-                    />
+                    <Route path="/redirect" element={<Loader />} />
+
                     <Route element={<PlayerLayout />}>
                         <Route path="/" element={<Dashboard />} />
                         <Route path="/messages" element={<Messages />} />

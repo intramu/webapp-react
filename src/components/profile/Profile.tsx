@@ -29,10 +29,10 @@ export const Profile = observer(() => {
 
     const [isEditing, setIsEditing] = useState(false);
 
-    if (player.state === "pending") {
+    if (testPlayer.state === "pending") {
         return <div>Loading...</div>;
     }
-    if (player.error) {
+    if (testPlayer.error) {
         return <div>Error sorry :(</div>;
     }
 
@@ -78,7 +78,15 @@ export const Profile = observer(() => {
                                 </Grid>
                                 <GridBreak />
                                 <Grid item xs={5} css={flexCenterHorizontal}>
-                                    <AccountCircleOutlinedIcon />
+                                    {formik.values.image ? (
+                                        <img
+                                            src={formik.values.image}
+                                            css={{ height: 100, width: 100, borderRadius: "50%" }}
+                                            alt="Profile Headshot"
+                                        />
+                                    ) : (
+                                        <AccountCircleOutlinedIcon />
+                                    )}
                                 </Grid>
                                 <Grid item xs={5}>
                                     <Button

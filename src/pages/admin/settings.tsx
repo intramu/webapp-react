@@ -126,7 +126,7 @@ export const Settings = observer(() => {
                                 )}
 
                                 <Button type="submit">Update</Button>
-                                <span>{organization.loadingState}</span>
+                                {organization.loadingState === "pending" && <span>Loading</span>}
                             </Form>
                         </>
                     );

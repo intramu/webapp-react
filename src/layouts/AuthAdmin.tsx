@@ -2,6 +2,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import React, { useEffect, useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import Error404 from "../pages/Error404";
+import { Loader } from "../components/Loader";
 
 /** Performs authentication on admins trying to enter application */
 export function AuthAdmin() {
@@ -47,7 +48,7 @@ export function AuthAdmin() {
     }
 
     if (isLoading || isClaimsLoading) {
-        return <b>Loading</b>;
+        return <Loader />;
     }
 
     // if user isn't authenticated with auth0, they're redirected to login page
@@ -57,7 +58,7 @@ export function AuthAdmin() {
                 returnTo: window.location.pathname,
             },
         });
-        return null;
+        return <Loader />;
     }
 
     // possibly show a 404 error if were trying to hide the existence of the admin page

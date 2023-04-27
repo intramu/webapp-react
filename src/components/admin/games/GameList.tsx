@@ -3,9 +3,12 @@ import { ContestGameModel } from "../../../models/contests/ContestGameModel";
 import { flexRow } from "../../../styles/player/common";
 import { newGetRequest } from "../../../common/functions/axiosRequests";
 import { isErrorResponse } from "../../../interfaces/ErrorResponse";
-import { ContestGameStatus } from "../../../utilities/enums/competitionEnum";
 
-export function GameList() {
+interface props {
+    reportingScore?: boolean;
+    setGame?(id: ContestGameModel): void;
+}
+export function GameList({ reportingScore, setGame }: props) {
     const [games, setGames] = useState<ContestGameModel[]>([]);
 
     useEffect(() => {
@@ -26,19 +29,22 @@ export function GameList() {
                 {games.map((game) => (
                     <div key={game.id} css={[flexRow, { borderBottom: "1px solid black" }]}>
                         <b>{game.id}</b>
-                        <div css={{ display: "flex", textAlign: "center", width: "80%" }}>
+                        <div css={{ display: "flex", textAlign: "center", width: "100%" }}>
                             <span css={{ flex: 2 }}>
-                                {game.awayTeam.name} | Status: {ContestGameStatus[game.statusAway]}{" "}
-                                | Score: {game.scoreAway ?? "TBD"}
+                                {game.awayTeam.name} | Status: {game.statusAway} | Score:{" "}
+                                {game.scoreAway ?? "TBD"}
                             </span>
                             <span css={{ flex: 1 }}>VS</span>
                             <span css={{ flex: 2 }}>
-                                {game.homeTeam.name} | Status: {ContestGameStatus[game.statusHome]}{" "}
-                                | Score: {game.scoreHome ?? "TBD"}
+                                {game.homeTeam.name} | Status: {game.statusHome} | Score:{" "}
+                                {game.scoreHome ?? "TBD"}
                             </span>
                             <span css={{ flex: 1 }}>
                                 @{game.gameDate ? game.gameDate.toString() : "TBD"}
                             </span>
+                            {reportingScore && setGame && (
+                                <button onClick={() => setGame(game)}>Report Score</button>
+                            )}
                         </div>
                     </div>
                 ))}
@@ -46,3 +52,7 @@ export function GameList() {
         </>
     );
 }
+GameList.defaultProps = {
+    reportingScore: false,
+    setGame: null,
+};

@@ -21,11 +21,7 @@ export const Schedule = observer(({ team }: ScheduleProps) => {
         if (!date) {
             return "TBD";
         }
-        return (
-            <span>
-                {date.month()} {date.day()}
-            </span>
-        );
+        return <span>{dayjs(date).format("MMMM D")}</span>;
     };
 
     const showScore = (homeScore: number, awayScore: number) => {
@@ -33,12 +29,7 @@ export const Schedule = observer(({ team }: ScheduleProps) => {
             return "TBD";
         }
 
-        return (
-            <>
-                {/* <span>W</span> */}
-                {`${awayScore} - ${homeScore}`}
-            </>
-        );
+        return `${awayScore} - ${homeScore}`;
     };
 
     return (
@@ -59,8 +50,6 @@ export const Schedule = observer(({ team }: ScheduleProps) => {
                     </TableHead>
                     <TableBody>
                         {games.map((game) => {
-                            console.log(game);
-
                             // const homeTeam =
                             //     game.homeTeam.id === team.id ? game.homeTeam : game.awayTeam;
                             const awayTeam =
@@ -76,7 +65,9 @@ export const Schedule = observer(({ team }: ScheduleProps) => {
                                     </StyledTableCell>
                                     <StyledTableCell>VS {awayTeam.name}</StyledTableCell>
                                     <StyledTableCell>
-                                        {game.gameDate?.hour() ?? "TBD"}
+                                        {game.gameDate
+                                            ? dayjs(game.gameDate).format("h:mm A")
+                                            : "TBD"}
                                     </StyledTableCell>
                                     <StyledTableCell>@{game.location.name}</StyledTableCell>
                                 </StyledTableRow>

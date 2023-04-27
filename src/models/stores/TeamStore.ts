@@ -11,7 +11,7 @@ export interface CreateTeamProps {
     contest: number;
     league: number;
     divisionId: number;
-    visibility: TeamVisibility;
+    visibility?: TeamVisibility;
 }
 
 export class TeamStore {

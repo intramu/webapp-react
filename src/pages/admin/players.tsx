@@ -48,7 +48,15 @@ export const Players = observer(() => {
                             playerStore.players.map((player) => (
                                 <TableRow hover key={player.authId}>
                                     <TableCell>
-                                        {player.image || <GroupsIcon css={{ fontSize: 40 }} />}
+                                        {player.image ? (
+                                            <img
+                                                css={{ height: 50, width: 50, borderRadius: "50%" }}
+                                                src={player.image}
+                                                alt="Profile Icon"
+                                            />
+                                        ) : (
+                                            <GroupsIcon css={{ fontSize: 40 }} />
+                                        )}
                                     </TableCell>
                                     <TableCell>
                                         {`${player.firstName} ${player.lastName}`}{" "}
